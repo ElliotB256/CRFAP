@@ -1,0 +1,27 @@
+b = 1.5*resonantEllipsoidWidth(1.4, BGrad, zsf);
+[x,z] = ndgrid(-b:b/100:b, -b:b/100:b);
+%pot = trap(x,zeros(size(x)),z,0)
+y = zeros(size(x));
+%pot = timeAverage(@(t) trap(x,y,z,t), 10);
+
+pot = trap(x,z);
+imagesc(pot');
+
+%%
+trap = @(x,z) ShellTrap( x, zeros(size(x)), z, zsf, BGrad, 1.4, 0.5);
+
+
+%%
+pot = trap(x,z);
+imagesc(pot');
+
+%%
+tris = delaunay(x,z);
+[x,z] = ndgrid(-b:b/100:b, -b:b/100:b);
+pot = timeAverage(@(t) trap(x,sy,z,t), 10);
+p = trisurf(tris, x, z, zeros(size(x)), pot);
+shading interp;
+axis equal;
+xlabel('X ($\mu$m)','Interpreter', 'Latex');
+xlabel('Z ($\mu$m)','Interpreter', 'Latex');
+view(2)
