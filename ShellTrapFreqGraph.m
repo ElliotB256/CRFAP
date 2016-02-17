@@ -45,9 +45,19 @@ set(ax2, 'XLim', xlim(ax1));
 % plot radial trap frequencies in shades of red.
 for i=1:length(BRFs)
     lA = BRFs(i)/max(BRFs(:));
+    % need to mask it so we don't plot antitrapping regions
+    mask = imag(squeeze(freqs(1,i,:))) < eps;
+    ind = find(~mask, 1, 'first');
+    if ~isempty(ind)
+        mask(ind) = 1;
+        freqs(1,i,ind) = 0;
+    end
+    clear ind;
+    
+    radialF = squeeze(freqs(1, i, :));
     palette = [.8 0.2 .2; 1 0.8 0.8];
     color = palette(1,:) .* lA + (1-lA) .* palette(2,:);
-    rh = plot(BGrads, squeeze(freqs(1, i, :)), 'Color', color, 'LineWidth', 1+lA*0.5); 
+    rh = plot(BGrads(mask), radialF(mask), 'Color', color, 'LineWidth', 1+lA*0.5); 
 end
 
 % Label axes
@@ -66,7 +76,8 @@ saveas(gcf, 'ShellTrapFreqs.pdf');
 figure; hold on
 for i=1:length(BRFs)
     lA = BRFs(i)/max(BRFs(:));
-    palette = [.8 0.2 .4; 0.2 0.2 0.8];
+    %palette = [.8 0.2 .4; 0.2 0.2 0.8];
+    palette = [.8 0.2 .2; 1 0.8 0.8];
     color = palette(1,:) .* lA + (1-lA) .* palette(2,:);
     mask = abs(imag(squeeze(freqs(1,i,:)))) < eps;
     ratio = squeeze(freqs(3,i,:))./squeeze(freqs(1,i,:));
