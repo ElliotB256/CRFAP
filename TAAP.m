@@ -2,13 +2,13 @@
 import Constants.*
 
 zsf = 0.7; %Mhz/Gauss
-BGrad = 84; %Gauss/cm
+BGrad = 2.42*200; %Gauss/cm
 mass = 87; %amu
-BRF = 0.5;
+BRF = 0.4;
 
 
 % Numerically integrate shell trap for a variety of different TOP fields
-N = 50;
+N = 150;
 BTouch = 2; %G todo programmatically
 
 tms = [];
@@ -17,7 +17,9 @@ trapFx = zeros(0,3);
 trapFy = zeros(0,3);
 trapFz = zeros(0,3);
 
-BTOPs = fliplr(0:BTouch*1.5/N:BTouch*1.5);
+Bend = 1;%BTouch*1.5;
+
+BTOPs = fliplr(0:Bend/N:Bend);
 for BTOP=BTOPs
     
     % Get top displacement in microns
@@ -26,12 +28,12 @@ for BTOP=BTOPs
     % Define potential
     trap = @(a,b,c,t) ShellTrap(...
         a - xTOP .* cos(2*pi*t), b - xTOP .* sin(2*pi*t),c,...
-        zsf, BGrad, 1.4, BRF) + ...
+        zsf, BGrad, 2, BRF) + ...
         gpe(c, mass);
     
     % Perform time averaging crudely along line x,y=0 to find trap
     % minimum.
-    z = 0:-.1:-500;
+    z = 0:-.01:-500;
     x = zeros(size(z));
     y = x;
     
@@ -46,7 +48,7 @@ for BTOP=BTOPs
     % Time average along x,y,z axis at the minimum spot.
     % Take a small size around the trap center.
     probeLength = 3; %um
-    probeResolution = 20;
+    probeResolution = 100;
     ps = -probeLength:probeLength*2/probeResolution:probeLength;
     zs = zeros(size(ps));
     Nt = 10;
@@ -60,9 +62,9 @@ plot(BTOPs,trapFx(:,2),'r-'); hold on
 plot(BTOPs,trapFy(:,2),'g-');
 plot(BTOPs,trapFz(:,2),'b-'); hold off;
 
-xlim([0 TOP4Touch(1.4, BGrad, zsf)]);
+xlim([0 TOP4Touch(2, BGrad, zsf)]);
 
 %%
  plot(BTOPs,tms); hold on;
- dz = ((resonantEllipsoidWidth(1.4, BGrad, zsf).^2 - (BTOPs/(BGrad*1e-4)).^2).^0.5)/2;
+ dz = ((resonantEllipsoidWidth(2, BGrad, zsf).^2 - (BTOPs/(BGrad*1e-4)).^2).^0.5)/2;
  plot(BTOPs, -dz, ':'); hold off

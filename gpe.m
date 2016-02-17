@@ -1,6 +1,7 @@
 function [ pot ] = gpe( z, mass )
 %GPE Gravitational potential energy in MHz
 % mass: mass of atom in amu
+% z: microns
 
 amu = 1.661e-27; %kg
 g = 9.81;
