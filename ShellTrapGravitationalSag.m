@@ -6,7 +6,7 @@ zsf = Constants.zeemansplit; %Mhz/Gauss
 BGrad = 84; %Gauss/cm
 rb = rubidium87();
 mass = rb.mass; %amu
-BRF = 0.5;
+RFAmp = 0.5;
 RF = 4;
 
 tms = [];
@@ -20,7 +20,7 @@ for BGrad=BGrads
     % Define potential
     trap = @(a,b,c) ShellTrap(...
         a, b, c,...
-        zsf, BGrad, RF, BRF) + ...
+        zsf, BGrad, RF, RFAmp) + ...
         gpe(c, mass);
     
     % first iter: crudely find trap minimum.
@@ -49,7 +49,7 @@ actualH = plot(BGrads, tms, 'LineWidth', 1, 'Color', [0.4 0.4 1]); hold on
 theoryH = plot(BGrads, -1e4 .* RF ./ (2 * BGrads .* Constants.zeemansplit),'--','LineWidth', 1,'Color', [0.4 0.4 0.4]);
 xlabel('Quadrupole gradient (G/cm)', 'Interpreter', 'Latex');
 ylabel('Atom position ($\mu$m)', 'Interpreter', 'Latex', 'FontSize', 14, 'Color', [0.4 0.4 1]);
-title({'Position below quadrupole', ['RF = ' num2str(RF, '%.1f') 'MHz, Amplitude = ' num2str(BRF, '%.1f') 'MHz']});
+title({'Position below quadrupole', ['RF = ' num2str(RF, '%.1f') 'MHz, Amplitude = ' num2str(RFAmp, '%.1f') 'MHz']});
 
 % create second axis object
  ax2 = axes('Position',get(ax1,'Position'),...

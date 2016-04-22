@@ -4,6 +4,9 @@ function [ f ] = shellTrapFrequencies( RF, BRF, BGrad )
 %  BRF: Amplitude of dressing RF in MHz
 %  RF: RF frequency in MHz
 %  BGrad: Qdrp gradient, Gauss/cm
+% 
+% Note: for very shallow BGrad the bottom of the shell will extend beyond
+% the meshing region and we will have erroneous results!
 import Constants.*
 
 zsf = Constants.zeemansplit; %Mhz/Gauss
@@ -17,7 +20,7 @@ trap = @(a,b,c) ShellTrap(...
     gpe(c, mass);
 
 % first iter: crudely find trap minimum.
-z = 0:-1:-1000;
+z = 0:-10:-10000;
 x = zeros(size(z)); y = x;
 pot = trap(x,y,z);
 
@@ -25,7 +28,7 @@ pot = trap(x,y,z);
 trapMinZ = z(ip);
 
 % second iter: refine trap minimum
-z = (-3:0.001:3) + trapMinZ;
+z = (-20:0.001:20) + trapMinZ;
 x = zeros(size(z)); y = x;
 pot = trap(x,y,z);
 [~,ip] = min(pot);

@@ -1,15 +1,18 @@
 % Simulate single frequency shell
 import Constants.*
 
-zsf = 0.7; %Mhz/Gauss
-BGrad = 2.42*200; %Gauss/cm
+zsf = Constants.zeemansplit; %Mhz/Gauss
+BGrad = 2.42*100; %Gauss/cm
 mass = 87; %amu
-BRF = 0.4;
+RFAmp = 0.450 * 1.06 ./ 0.7;
+RF = 4.2;
 
+VITopVoltage = 0.7;
+VI2TOP = @(vi) 5.75 ./ zsf ./ 2.6 .* vi;
 
 % Numerically integrate shell trap for a variety of different TOP fields
 N = 150;
-BTouch = 2; %G todo programmatically
+BTouch = TOP4Touch(RF, BGrad, zsf); %G todo programmatically
 
 tms = [];
 
@@ -17,7 +20,8 @@ trapFx = zeros(0,3);
 trapFy = zeros(0,3);
 trapFz = zeros(0,3);
 
-Bend = 1;%BTouch*1.5;
+%Bend = 1;%BTouch*1.5;
+Bend = 1.5*TOP4Touch(RF, BGrad, zsf);
 
 BTOPs = fliplr(0:Bend/N:Bend);
 for BTOP=BTOPs
@@ -28,12 +32,12 @@ for BTOP=BTOPs
     % Define potential
     trap = @(a,b,c,t) ShellTrap(...
         a - xTOP .* cos(2*pi*t), b - xTOP .* sin(2*pi*t),c,...
-        zsf, BGrad, 2, BRF) + ...
+        zsf, BGrad, RF, RFAmp) + ...
         gpe(c, mass);
     
     % Perform time averaging crudely along line x,y=0 to find trap
     % minimum.
-    z = 0:-.01:-500;
+    z = 0:-.1:-2000;
     x = zeros(size(z));
     y = x;
     
@@ -61,8 +65,16 @@ end
 plot(BTOPs,trapFx(:,2),'r-'); hold on
 plot(BTOPs,trapFy(:,2),'g-');
 plot(BTOPs,trapFz(:,2),'b-'); hold off;
+hold on; plot([1 1] * VI2TOP(0.8), ylim, 'k-'); hold off
 
-xlim([0 TOP4Touch(2, BGrad, zsf)]);
+xlim([0 Bend]);
+
+title({'TAAP trap frequencies', ...
+    sprintf('RF %.2f MHz, Rabi freq %.0f kHz, Quad %.2f G/cm^2', ...
+    RF, ...
+    RFAmp * Constants.zeemansplit * 1000, ...
+    BGrad ...
+    )});
 
 %%
  plot(BTOPs,tms); hold on;
