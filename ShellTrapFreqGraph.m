@@ -4,7 +4,7 @@
 % Calculate shell trap frequencies for a range of quadrupole gradients and
 % dressing RF amplitudes.
 
-RF = 4; %MHz
+RF = 3; %MHz
 BGrads = 10:5:300;
 RFAmps = (0.1:0.1:0.7)./Constants.zeemansplit;
 

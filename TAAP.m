@@ -4,7 +4,7 @@ import Constants.*
 zsf = Constants.zeemansplit; %Mhz/Gauss
 BGrad = 2.42*100; %Gauss/cm
 mass = 87; %amu
-RFAmp = 0.450 * 1.06 ./ 0.7;
+RFAmp = 0.450 * 1.06 ./ zsf * 0.5;
 RF = 4.2;
 
 VITopVoltage = 0.7;
@@ -62,10 +62,15 @@ for BTOP=BTOPs
     trapFz(end+1,:) = getTrapFreq(ps+trapMinZ, timeAverage(@(t) trap(zs,zs,ps+trapMinZ,t),Nt), mass);
 end
 
-plot(BTOPs,trapFx(:,2),'r-'); hold on
-plot(BTOPs,trapFy(:,2),'g-');
-plot(BTOPs,trapFz(:,2),'b-'); hold off;
-hold on; plot([1 1] * VI2TOP(0.8), ylim, 'k-'); hold off
+plot(BTOPs,trapFx(:,2),'-', 'LineWidth', 2, 'Color', [0.8 0.2 0.2]); hold on
+%plot(BTOPs,trapFy(:,2),'g-');
+plot(BTOPs,trapFz(:,2),'-', 'LineWidth', 2, 'Color', [0.2 0.2 0.8]);
+plot([1 1] * VI2TOP(0.8), ylim, 'k-');
+
+%geometric frequency
+plot(BTOPs, (abs(real(trapFx(:,2))) > 0).*(trapFx(:,2) .* trapFy(:,2) .* trapFz(:,2)).^(1/3), '--', 'Color', [0.4 0.4 0.4], 'LineWidth', 2);
+ hold off
+
 
 xlim([0 Bend]);
 
