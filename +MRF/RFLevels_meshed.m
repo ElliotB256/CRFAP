@@ -1,7 +1,7 @@
 %% Meshed RFAPs
 % Calculate MRF potentials using meshing to save time and resolve finer features
 RFs = [3 3.6 4.2 ]';
-Rabi = 0.8 * [ 0.5 0 1.1 ]';
+Rabi = 0.8 * [ 0.5 0.5 1.1 ]';
 qdrpGrad = 100;
 
 Bs=(2.5:0.2:5);
