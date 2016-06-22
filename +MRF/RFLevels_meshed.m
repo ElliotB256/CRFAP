@@ -1,12 +1,12 @@
 %% Meshed RFAPs
 % Calculate MRF potentials using meshing to save time and resolve finer features
 RFs = [3 3.6 4.2 ]';
-BRFs = 0.8 * [ 0.5 0.2 1.1 ]';
+Rabi = 0.8 * [ 0.5 0.8 1.1 ]';
 %RFs = 4.2;
 %BRFs = 0.5 ;
 Bs=(2.5:0.2:5);
 Bs = 3.9:0.05:4.5;
-[ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, BRFs, 'iterations', 5);
+[ F, B ] = MRF.MeshedQuasiEnergies(ZeemanSplit, RFs, Rabi, 'iterations', 5);
 plot(B,F,'.');
 
 %%

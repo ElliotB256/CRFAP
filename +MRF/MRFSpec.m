@@ -5,20 +5,24 @@
 % Important: Check that every minimum is correctly identified!
 
 RFs = [3 3.6 4.2 ]';
-Rabi = 0.4 * [ 0.5 0.5 1.1 ]';
-BarrierRabi = [0:0.01:1];
-ZeemanSplit = [3.7:0.2:4.3];
+Rabi = [ 0.5 0.5 1.1 ]';
+BaseRabi = [ 0.390 0.460 0.410 ]';
+Rabi = Rabi .* BaseRabi;
+BarrierPct  = 0 : 0.05: 0.4;
+BarrierRabi = BarrierPct .* BaseRabi(2);
+ZeemanSplit = 3.9:0.1:4.3;
+%ZeemanSplit = 3:0.2:4;
 
 spectra = [];
 
 for bRabi=BarrierRabi
     Rabi(2) = bRabi;
-    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RF, Rabi, 'ladderN', 20);
+    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RFs, Rabi, 'ladderN', 40);
     spectra(:,end+1) = spec;
     
     plot(debug.B, debug.trapped, '-'); hold on;
 end
-hold off;
+%hold off;
 
 figure(2);
 plot(BarrierRabi * 1e3, spectra', '-', 'Color', [0.8 0.2 0.2]);

@@ -45,12 +45,13 @@ fav = ceil(size(trapped, 1)/2);
 % number for earlier meshing sequence.
 [~,mini] = min(trapped(1,:));
 
-%spec = (flat(:,mini) - trapped(fav, mini));
-spec = lad(:,mini) - trapped(fav,mini);
+spec = (flat(:,mini) - trapped(fav, mini));
+%spec = lad(:,mini) - trapped(fav,mini);
 spec = sort(abs(spec));
 
 debug = struct;
 debug.trapped = trapped(1,:);
 debug.B       = B;
+debug.all = sort(abs(lad(:,mini) - trapped(fav,mini)));
 
 end
