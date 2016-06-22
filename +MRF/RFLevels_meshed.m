@@ -1,39 +1,44 @@
-%%
-% With more general propagator notation
+%% Meshed RFAPs
+% Calculate MRF potentials using meshing to save time and resolve finer features
 RFs = [3 3.6 4.2 ]';
 BRFs = 0.8 * [ 0.5 0.2 1.1 ]';
-periodicity = 10*pi/3;
-deltaB = 0.1;
-Bs=(2.5:deltaB:5);
-
-eigF2 = MRF.GetQuasiEnergies(Bs, RFs, BRFs);
-
-iterations = 2;
-deltaB = Bs(2)-Bs(1);
-
-for i=1:iterations
-deltaB = deltaB / 2;
-% locate interesting points to mesh around. Here we find stationary points.
-d = diff(eigF2, 1, 2)';
-d2 = diff(sign(d), 1, 1);
-j = find(abs(d2(:,1)) > 0.5);
-j2 = min(j+1, length(Bs));
-
-% mesh around the stationary points
-mesh = [deltaB deltaB];
-cB = unique([Bs(j) Bs(j2)]);
-Bs2 = repmat(cB, size(mesh, 2), 1) + repmat(mesh', 1, size(cB, 2));
-Bs2 = Bs2(:)';
-
-% Calculate energies of these new points and add to the list.
-eigF2 = [eigF2 MRF.GetQuasiEnergies(Bs2, RFs, BRFs)];
-Bs = [Bs Bs2];
-
-end
-
-plot(Bs, eigF2', '.')
+%RFs = 4.2;
+%BRFs = 0.5 ;
+Bs=(2.5:0.2:5);
+Bs = 3.9:0.05:4.5;
+[ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, BRFs, 'iterations', 5);
+plot(B,F,'.');
 
 %%
-Bs=(2.5:0.2:5);
-[ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, BRFs, 'iterations', 4);
-plot(B,F,'.');
+% Create energy level ladder structure
+fundamental = MRF.GetFundamental(RFs);
+offsets = fundamental*(-10:1:10)';
+lad = repmat(F, length(offsets), 1) + repmat(offsets, 3, size(F, 2)); 
+plot(B,lad','.')
+
+%% 
+% Locate the minimum of the potential in the stated range
+range = [3.9 4.5];
+mask = logical(B > range(1) & B < range(2));
+
+% pick our favourite manifold:
+fav = 13; 
+%plot(B,lad(fav,:),'.') % for testing to check we have right one!
+
+% locate the minimum:
+temp = lad(fav, :); temp(~mask) = max(temp(:));
+[~,mini] = min(temp); clear temp;
+%plot(B(mask), lad(fav, mask), '.'); hold on; plot(B(mini), lad(fav,mini), 'x'); hold off
+
+% Calculate energy distance to other levels from this minimum. This gives
+% possible RF transitions truncated to a finite number of photon processes.
+spec = abs(lad(:, mini) - lad(fav,mini));
+
+% remove forbidden transitions
+% spec = spec(2:3:end);
+
+spec = unique(spec);
+plot(B, lad','.');
+
+evapTrans = 16;
+spec(evapTrans)

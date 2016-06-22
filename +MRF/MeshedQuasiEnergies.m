@@ -1,4 +1,4 @@
-function [ eigF, Bs ] = MeshedQuasiEnergies( Bs, RFs, BRFs, varargin )
+function [ eigF, Bs ] = MeshedQuasiEnergies( Bs, RFs, Rabi, varargin )
 %MESHEDQUASIENERGIES Calculates the quasi energies, meshing finely over any
 %points of interest (by default: stationary points)
 
@@ -8,9 +8,9 @@ p = inputParser;
    addRequired(p,'BRFs',@isnumeric);
    addParameter(p,'iterations',3,@isnumeric);
    
-parse(p,Bs,RFs, BRFs, varargin{:});
+parse(p,Bs,RFs, Rabi, varargin{:});
 
-eigF = MRF.GetQuasiEnergies(Bs, RFs, BRFs);
+eigF = MRF.GetQuasiEnergies(Bs, RFs, Rabi);
 
 iterations = p.Results.iterations;
 deltaB = Bs(2)-Bs(1);
@@ -37,7 +37,7 @@ cB = Util.Refine(Bs, eigF(1,:));
 
 % Calculate energies of these new points and add to the list.
 Bs2 = cB(:)';
-eigF2 = MRF.GetQuasiEnergies(Bs2, RFs, BRFs);
+eigF2 = MRF.GetQuasiEnergies(Bs2, RFs, Rabi);
 eigF = [eigF eigF2];
 Bs = [Bs Bs2];
 
