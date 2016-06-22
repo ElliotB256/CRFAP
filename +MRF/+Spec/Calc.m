@@ -13,11 +13,12 @@ p = inputParser;
    addRequired(p,'BRFs',@isnumeric);
    addParameter(p,'ladderN',5,@isnumeric);
    addParameter(p,'iterations',6,@isnumeric);
+   addParameter(p,'qdrpGrad',0,@isnumeric);
    
 parse(p,Bs,RFs, Rabi, varargin{:});
 
 % Calculate the dressed energy levels and create ladder structure
-[ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', p.Results.iterations);
+[ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', p.Results.iterations, 'qdrpGrad', p.Results.qdrpGrad);
 lad = MRF.ladder(RFs, p.Results.ladderN, F);
 
 % Select the trapped manifold. To do this, select the manifold which has a
@@ -35,15 +36,13 @@ flat = lad(fli:3:end, :);
 antitrapped = lad(uti:3:end, :);
 fav = ceil(size(trapped, 1)/2);
 
-% Plot the energy level structure. Identify the trapped manifold; important
-% to check that this is the correct one!
-%figure;
-%plot(B, trapped, 'r'); hold on; plot(B, flat, 'Color', [0.5 0.5 0.5]); plot(B, antitrapped, 'Color', [0 0 0]); plot(B, trapped(fav, :), 'r', 'LineWidth', 2); hold off
-%plot(B, F(ti,:), 'r'); hold on; plot(B, F(fli,:), 'Color', [0.5 0.5 0.5]); plot(B, F(uti,:), 'Color', [0 0 0]); hold off;
-
 % Locate the potential minimum. Accuracy can be increased through iteration
 % number for earlier meshing sequence.
-[~,mini] = min(trapped(1,:));
+mT = trapped(1,:);
+if p.Results.qdrpGrad > 0.1
+    mT = mT + MRF.gpe(B, p.Results.qdrpGrad);
+end
+[~,mini] = min(mT);
 
 spec = (flat(:,mini) - trapped(fav, mini));
 %spec = lad(:,mini) - trapped(fav,mini);
@@ -53,5 +52,6 @@ debug = struct;
 debug.trapped = trapped(1,:);
 debug.B       = B;
 debug.all = sort(abs(lad(:,mini) - trapped(fav,mini)));
+debug.min = mini;
 
 end

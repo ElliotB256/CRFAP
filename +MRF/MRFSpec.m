@@ -10,24 +10,28 @@ BaseRabi = [ 0.390 0.460 0.410 ]';
 Rabi = Rabi .* BaseRabi;
 BarrierPct  = 0 : 0.05: 0.4;
 BarrierRabi = BarrierPct .* BaseRabi(2);
-ZeemanSplit = 3.9:0.1:4.3;
+ZeemanSplit = 3.8:0.1:4.5;
 %ZeemanSplit = 3:0.2:4;
+QdrpGrad = 200;
 
 spectra = [];
 
 for bRabi=BarrierRabi
     Rabi(2) = bRabi;
-    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RFs, Rabi, 'ladderN', 40);
+    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RFs, Rabi, 'ladderN', 40, 'qdrpGrad', QdrpGrad);
     spectra(:,end+1) = spec;
     
-    plot(debug.B, debug.trapped, '-'); hold on;
+    plot(debug.B, debug.trapped, '-', 'Color', [0.5 0.5 0.5]); hold on;
+    plot(debug.B(debug.min), debug.trapped(debug.min), '.', 'Color', [0.8 0.2 0.2]); hold on;
 end
-%hold off;
+hold off;
+title('MRF APs used for rf spectroscopy calc');
+xlabel('Bare Zeeman Splitting (MHz)');
+ylabel('Energy (MHz)');
 
 figure(2);
-plot(BarrierRabi * 1e3, spectra', '-', 'Color', [0.8 0.2 0.2]);
+plot(BarrierRabi * 1e3, spectra', '.-', 'Color', [0.8 0.2 0.2]); ylim([3.5 4.5]);
 
 xlabel('Barrier Rabi Frequency (kHz)');
 ylabel('Transition Energy (MHz)');
 title('RF Spec transitions v Rabi Freq');
-ylim([0 10]);
