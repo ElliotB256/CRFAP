@@ -36,15 +36,17 @@ end
 newX = unique(newX);
 
 % no elements of newX should exist in current set
-thresh = min(diff(sort(unique(x))))/10;
-mask = ones(size(newX));
-for i=1:length(newX)
-   d = abs(repmat(newX(i), size(x, 1), size(x, 2)) - x);
-   if any(d < thresh)
-       mask(i) = 0;
-   end
-end
-newX(~mask) = [];
+% thresh = min(diff(sort(unique(x))))/10;
+% mask = ones(size(newX));
+% for i=1:length(newX)
+%    d = abs(repmat(newX(i), size(x, 1), size(x, 2)) - x);
+%    if any(d < thresh)
+%        mask(i) = 0;
+%    end
+% end
+% newX(~mask) = [];
+
+newX = Util.UniquePick(x, newX);
 
 end
 

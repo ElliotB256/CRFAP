@@ -7,6 +7,7 @@ p = inputParser;
    addRequired(p,'RFs',@isnumeric);
    addRequired(p,'BRFs',@isnumeric);
    addParameter(p,'iterations',3,@isnumeric);
+   addParameter(p,'qdrpGrad',0,@isnumeric);
    
 parse(p,Bs,RFs, Rabi, varargin{:});
 
@@ -17,23 +18,25 @@ deltaB = Bs(2)-Bs(1);
 
 for i=1:iterations
 deltaB = deltaB / 2;
-% locate interesting points to mesh around. Here we find stationary points.
-%d = diff(eigF, 1, 2)';
-%d2 = diff(sign(d), 1, 1);
-%j = find(abs(d2(:,1)) > 0.5);
-%j2 = min(j+1, length(Bs));
-
-
-
-% mesh around the stationary points
-% mesh = [-deltaB deltaB];
-%cB = unique([Bs(j) Bs(j2)]);
-% cB = unique(mean([Bs(j);Bs(j2)], 1));
-%Bs2 = repmat(cB, size(mesh, 2), 1) + repmat(mesh', 1, size(cB, 2));
-%Bs2 = Bs2(:)';
-% Bs2 = cB(:)';
 
 cB = Util.Refine(Bs, eigF(1,:));
+
+if p.Results.qdrpGrad > 0.1
+    % if Quadrupole gradient is specified then also mesh according to gravity.
+    % convert Zeeman splitting into microns, then calculate gpe.
+    gp = MRF.gpe(Bs, p.Results.qdrpGrad);
+    
+    % Modify eigen energies to account for energy shift
+    modEig = eigF + repmat(gp, 3, 1);
+    
+    % Now collect unique values suggested from the first and third
+    % eigenvalues
+    gcB = Util.Refine(Bs, modEig(1,:));
+    gcB2 = Util.Refine(Bs, modEig(3,:));
+    
+    % Remove duplicate elements
+    cB = Util.UniquePick( Bs, [cB gcB gcB2 ]);
+end
 
 % Calculate energies of these new points and add to the list.
 Bs2 = cB(:)';
