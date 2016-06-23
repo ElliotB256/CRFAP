@@ -19,11 +19,11 @@ parse(p,Bs,RFs, Rabi, varargin{:});
 
 % Calculate the dressed energy levels and create ladder structure
 [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', p.Results.iterations, 'qdrpGrad', p.Results.qdrpGrad);
+F = MRF.sortEnergies2(B,MRF.ladder(RFs, 10, F));
 lad = MRF.ladder(RFs, p.Results.ladderN, F);
 
 % Select the trapped manifold. To do this, select the manifold which has a
 % predominantly positive second derivative.
-
 d2 = diff(diff([F F(:,end)]'))'./repmat(diff(B).^2, size(F,1), 1);
 [~,ti] = max(mean(d2, 2));                  % trapped
 [~,uti] = min(mean(d2, 2));                 % untrapped
