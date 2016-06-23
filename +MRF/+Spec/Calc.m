@@ -24,7 +24,11 @@ lad = MRF.ladder(RFs, p.Results.ladderN, F);
 
 % Select the trapped manifold. To do this, select the manifold which has a
 % predominantly positive second derivative.
-d2 = diff(diff([F F(:,end)]'))'./repmat(diff(B).^2, size(F,1), 1);
+dB = B(2:end) - B(1:end-1);
+d  = (F(:,2:end) - F(:, 1:end-1))./repmat(dB, size(F,1), 1);
+dB2 = (dB(1:end-1) + dB(2:end))/2;
+d2 = (d(:,2:end) - d(:,1:end-1))./repmat(dB2, size(d,1), 1);
+
 [~,ti] = max(mean(d2, 2));                  % trapped
 [~,uti] = min(mean(d2, 2));                 % untrapped
 ind = 1:3;
