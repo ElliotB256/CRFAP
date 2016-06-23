@@ -6,6 +6,16 @@ function [ spec, debug ] = Calc( Bs, RFs, Rabi, varargin )
 % assumptions falter. For example, it assumes that the minimum where the
 % spec should be taken from is located within the given Zeeman splitting
 % range.
+% Syntax: Calc(Bs, RFs, Rabi, ... )
+%  Bs: energy splitting of the undressed Zeeman states in MHz.
+%  RFs: vector of dressing RFs (MHz)
+%  Rabi: vector of dressing RF Rabi frequencies (MHz)
+%
+% The following parameters may also be described:
+%  ladderN: length of dressed state ladder for calculating transitions.
+%  iterations: number of iterations to perform meshing of eigenstates
+%  qdrpGrad: quadrupole gradient to include gravity by mapping zeeman 
+%            splittings to height
 
 p = inputParser;
    addRequired(p,'Bs',@isnumeric);
@@ -19,7 +29,7 @@ parse(p,Bs,RFs, Rabi, varargin{:});
 
 % Calculate the dressed energy levels and create ladder structure
 [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', p.Results.iterations, 'qdrpGrad', p.Results.qdrpGrad);
-F = MRF.sortEnergies2(B,MRF.ladder(RFs, 10, F));
+F = MRF.sortEnergies(B,MRF.ladder(RFs, 10, F));
 lad = MRF.ladder(RFs, p.Results.ladderN, F);
 
 % Select the trapped manifold. To do this, select the manifold which has a

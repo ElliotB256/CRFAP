@@ -1,6 +1,18 @@
 function [ eigF, Bs ] = MeshedQuasiEnergies( Bs, RFs, Rabi, varargin )
-%MESHEDQUASIENERGIES Calculates the quasi energies, meshing finely over any
-%points of interest (by default: stationary points)
+%MESHEDQUASIENERGIES Calculates quasi-energies for the given multi-RF
+%field over the specified range of zeeman energy splittings. The values Bs
+%specify the points where the potential is evaluated initially. The result
+%is improved over a given number of iterations by meshing over interesting
+%features.
+% Syntax: GetQuasiEnergies( Bs, RFs, Rabi, ...)
+%  Bs: energy splitting of the undressed Zeeman states in MHz.
+%  RFs: vector of dressing RFs (MHz)
+%  Rabi: vector of dressing RF Rabi frequencies (MHz)
+% 
+% The following parameters may also be described:
+%  iterations: number of times to more finely mesh the results.
+%  qdrpGrad: incorporates gravity using the specified qdrpGrad to convert
+%            frequency to space
 
 p = inputParser;
    addRequired(p,'Bs',@isnumeric);

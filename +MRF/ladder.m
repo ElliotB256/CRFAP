@@ -1,8 +1,10 @@
 function [ lad ] = ladder( RFs, n, F )
 %LADDER Arranges given energy states in a ladder.
-% RF: Radio frequencies of the system.
-% n : how many times to ladder
-% F : AP energy levels
+% Syntax: ladder( RFs, n, F )
+%  RFs: Radio frequencies of the system, used to determine system 
+%       periodicity.
+%  n : number of times to ladder
+%  F : AP energy levels
 
 fundamental = MRF.GetFundamental(RFs);
 offsets = fundamental*(1:n)';

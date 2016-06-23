@@ -1,7 +1,11 @@
 function [ U ] = Propagator( H, time )
-%PROPAGATOR Calculates the propagator for the given Hamiltonian after
-%specified time. This method takes longer than the MRF propagator but is
-%more general, allowing any Hamiltonian to be specified.
+%PROPAGATOR Calculates the popagator operator that evolves a wavefunction
+%for the specified time. This method uses Matlab's internal integrator
+%ode45 which has a variable timestep. It is slower than the
+%'MRFPropagator', although it can use any Hamiltonian.
+% Syntax: MRFPropagator(H, time)
+%  H: The Hamiltonian describing the system
+%  time: time the propagator evolves the system for
     
     % We use that U*I = U, so evolve identity matrix for time to determine
     % propagator for that time.

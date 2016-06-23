@@ -1,11 +1,10 @@
 function [ eigF2 ] = GetQuasiEnergies( Bs, RF, Rabi )
-%GETQUASIENERGIES Calculates the quasi-energies for the given multi-RF
+%GETQUASIENERGIES Calculates quasi-energies for the given multi-RF
 %field over the specified range of zeeman energy splittings.
-% Bs: Zeeman splitting 
-
-% Note: At present, the Bs are specified in MHz. This means the factor gF
-% uB has been incoporated into the B specified here. Think of it more as
-% the energy splitting of the bare states.
+% Syntax: GetQuasiEnergies( Bs, RF, Rabi)
+%  Bs: energy splitting of the undressed Zeeman states in MHz.
+%  RF: vector of dressing RFs (MHz)
+%  Rabi: vector of dressing RF Rabi frequencies (MHz)
 
 eigF2 = zeros(3, length(Bs));
 periodicity = 2*pi/MRF.GetFundamental(RF);

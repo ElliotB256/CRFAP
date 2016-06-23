@@ -1,7 +1,8 @@
 function [ freq ] = GetFundamental( RFs )
-%GETFundamental Calculates periodicity of given RF frequencies. Assumes
-%frequencies have common difference. Only works for RFs with a common
-%fundamental.
+%GETFundamental Calculates periodicity of a system composed of RF
+%frequencies. Assumes frequencies have common difference. Only works for
+%RFs with a common fundamental.
+% Syntax: GetFundamental( RFs )
 
 if length(RFs) == 1
     freq = RFs;
@@ -28,7 +29,7 @@ else
     % concern.
     freq = d;
     
-    
+    % For debugging:
     % t = (0:0.01/freq:1/freq) * 2 * pi;
     % plot(t, [cos(t * RFs(1)); cos(t * RFs(2)); cos(t * RFs(3))]);
 end
