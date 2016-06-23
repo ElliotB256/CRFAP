@@ -6,13 +6,14 @@
 
 RFs = [3 3.6 4.2 ]';
 Rabi = [ 0.5 0.5 1.1 ]';
-BaseRabi = [ 0.390 0.460 0.410 ]'*0.9;
+BaseRabi = [ 0.390 0.460 0.410 ]';
+BaseRabi = [ 0.341 0.357 0.357 ]';
 Rabi = Rabi .* BaseRabi;
 BarrierPct  = 0 : 0.05: 0.65;
 BarrierRabi = BarrierPct .* BaseRabi(2);
 ZeemanSplit = 3.8:0.1:4.5;
 %ZeemanSplit = 3:0.2:4;
-QdrpGrad = 57.3;
+QdrpGrad = 62.5;
 
 spectra = [];
 

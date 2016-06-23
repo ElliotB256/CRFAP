@@ -3,7 +3,7 @@
 % this as more of a test that the functions are working correctly.
 
 RF = 4;
-Rabis = [0.1:0.1:3];
+Rabis = [0.1:0.05:1];
 ZeemanSplit = [3.5:0.3:5.5];
 
 figure(1);
@@ -16,6 +16,10 @@ for Rabi=Rabis
     plot(debug.B(debug.min), debug.trapped(debug.min), '.', 'Color', [0.8 0.2 0.2]); hold on;
 end
 hold off;
+
+xlabel('Bare Zeeman splitting (MHz)');
+ylabel('Dressed state energies (MHz)');
+title('Gravitational sag');
 
 figure(2);
 plot(Rabis, spectra', '-', 'Color', [0.8 0.2 0.2]);
