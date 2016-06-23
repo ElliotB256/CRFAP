@@ -1,6 +1,0 @@
-function result = integrate()
-
-
-
-
-end
