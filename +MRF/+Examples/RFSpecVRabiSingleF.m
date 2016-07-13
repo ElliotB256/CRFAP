@@ -3,8 +3,8 @@
 % this as more of a test that the functions are working correctly.
 
 RF = 4;
-Rabis = [0.1:0.05:1];
-ZeemanSplit = [3.5:0.3:5.5];
+Rabis = 0.1:0.05:1;
+ZeemanSplit = 3.5:0.3:5.5;
 
 figure(1);
 spectra = [];

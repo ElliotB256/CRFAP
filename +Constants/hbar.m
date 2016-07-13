@@ -1,5 +1,5 @@
 function [ out ] = hbar
-%HBAR hbar in SI units
-out = 6.63e-34 / (2 * pi);
-end
+%HBAR Reduced Plank Constant in SI units
+out = Constants.h / (2 * pi);
 
+end
