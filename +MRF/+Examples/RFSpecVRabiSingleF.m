@@ -3,8 +3,8 @@
 % this as more of a test that the functions are working correctly.
 
 RF = 4;
-Rabis = [0.1:0.05:1];
-ZeemanSplit = [3.5:0.3:5.5];
+Rabis = 0.1:0.05:1;
+ZeemanSplit = 3.5:0.3:5.5;
 
 figure(1);
 spectra = [];
@@ -31,3 +31,13 @@ title('RF Spec transitions v Rabi Freq (4 MHz)');
 %%
 % Use these results to extract the Rabi freq of the dressing RF (including
 % Bloch Siegert shifts)
+
+ResonantFreq = 0.4;
+
+% find the resonant freq in the spectra
+finer = @(x) interp1(Rabis, spectra(1,:), x, 'pcubic');
+
+trials = 0:0.0001:ResonantFreq;
+result = trials(find(finer(trials) > ResonantFreq, 1, 'first'));
+
+fprintf('Rabi frequency of single RF: %.1f kHz\n', result*1e3)

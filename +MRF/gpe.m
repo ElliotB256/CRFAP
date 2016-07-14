@@ -9,7 +9,9 @@ function [ gp ] = gpe( ZeemanSplit, qdrpGrad )
 
 BGauss = ZeemanSplit / Constants.gF;
 microns = -BGauss / qdrpGrad * 1e4;
+
+% above calculation verified as correct height.
+
 gp = gpe(microns, 87);
 
 end
-
