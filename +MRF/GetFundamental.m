@@ -9,7 +9,7 @@ if length(RFs) == 1
 else
     
     RFs = sort(RFs);
-    if any(diff(diff(RFs)))
+    if abs(diff(diff(RFs))) > 1e-5
         error('RFs must have common difference');
     end
     

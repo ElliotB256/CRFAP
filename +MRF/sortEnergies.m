@@ -52,6 +52,9 @@ for i=(1:3)
         pi = best(i,j-1);
         guess = lad(mi, j) + (B(j+1) - B(j)) ./ (B(j) - B(j-1)) .* (lad(mi, j) - lad(pi,j-1));
         
+        % guess also what DERIVATIVE should be next based on the previous
+        % values
+        
         % find the eigenstate that best matches the guess
         [~,mi] = min(abs(guess - lad(:, j+1)));
         

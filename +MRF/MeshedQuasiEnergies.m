@@ -33,7 +33,7 @@ deltaB = deltaB / 2;
 
 cB = Util.Refine(Bs, eigF(1,:));
 
-if p.Results.qdrpGrad > 0.1
+if p.Results.qdrpGrad > 0.0001
     % if Quadrupole gradient is specified then also mesh according to gravity.
     % convert Zeeman splitting into microns, then calculate gpe.
     gp = MRF.gpe(Bs, p.Results.qdrpGrad);

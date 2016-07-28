@@ -14,11 +14,22 @@ Measured = RF+0.390;
 % ZeemanSplit = [3.0:0.3:4.6];
 % Measured = RF+0.410;
 
+RF = 4.1;
+ZeemanSplit = [3.8:0.2:5.0];
+Measured = RF+0.425; % gives Rabi freq of 0.3696
+
+
+RF = 4.12;
+Measured = RF+0.410;
+
+RF = 4.10;
+Measured = RF + 0.397;
+
 % ti = 2 for -ve probe, 3 for +ve probe. Check rf spec diagram has right
 % transition highlighted in red!
-transitionIndex = 3;
+transitionIndex = 8;
 
-Rabis = [0.1:0.05:1];
+Rabis = [0.1:0.05:0.5];
 %Rabis = R+(-1:0.1:1)*0.05;
 
 % Index of the RF transition we are driving. I will plot this in a

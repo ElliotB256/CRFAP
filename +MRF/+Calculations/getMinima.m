@@ -1,4 +1,4 @@
-function [ minima ] = getMinima( x, y )
+function [ minima, minval ] = getMinima( x, y )
 %GETMINIMA Surveys a given level y and extracts local minima. Returns
 %minima x.
 % SYNTAX: getMinima(x, y)
@@ -18,7 +18,12 @@ isct = [i' i'+1];
 avgQty = @(b,a) (b(a(:,1)) + b(a(:,2)))/2;
 minj = i(avgQty(d2ydx, isct) > 0);
 
-minima = avgQty(x, [minj' minj'+1]);
+if ~isempty(minj);
+    minima = avgQty(x, [minj' minj'+1]);
+    minval = avgQty(y, [minj' minj'+1]);
+else
+    minima = [];
+    minval = [];
 %plot(x,y); hold on; plot(minima*[1 1], ylim,'r-'); hold off;
 
 %TODO: iterative search to find minimum of x using interpolated function or

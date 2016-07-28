@@ -6,9 +6,9 @@
 % Define the experimental setup:
 
 Bs = 2.5:0.1:4.5;
-BaseRabi = [ 0.3410.5 0.357 0.357 ]';
+BaseRabi = [ 338.7 401.2 357.0]' * 1e-3;
 RFs = [3.0 3.6 4.2 ]';
-qdrpGrad = 62.4511; % Gauss/cm at 20 A
+qdrpGrad = 62.4511*0.96; % Gauss/cm at 20 A
 BarrierHeights = 0.1:0.1:1.6;
 
 % Was having an issue with the network drive and Matlab not finding files.
@@ -45,6 +45,8 @@ for i=1:length(minima)
     if length(minima{i}) == 1
         minPos(i, 2) = minima{i};
         minPos(i, 1) = NaN;
+    elseif isempty(minima{i})
+        minPos(i, :) = [NaN NaN];
     else
         minPos(i, :) = minima{i};
     end
@@ -69,10 +71,9 @@ cd(currD);
 %%
 % Convert these minima into actual positions using the quadrupole gradient.
 
-minPosum = -minPos ./ Constants.zeemansplit / qdrpGrad * 1e4;
+minPosum = -minPos ./ qdrpGrad * 1e4 + 250;
 
-hold on; plot(BarrierHeights, minPosum*0.45, 'LineWidth', 3, 'Color', [0.2 0.2 0.2]); hold off;
-
+hold on; plot(BarrierHeights, minPosum, 'LineWidth', 3, 'Color', [0.2 0.2 0.2]); hold off;
 
 
 
