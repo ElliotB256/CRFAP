@@ -1,16 +1,16 @@
 %% mrfSeries
 % Define the rf amplitude sequences used in experiment and generate theory
 % plots
-
+ 
 rabi100 = [0.391 0.459 0.410]';
-
+rabi100 = [ 0.341 , 0.357 , 0.357 ]'; % updated Rabi frequencies
 %% Series 2
 % rabi100 = [0.391 0.459 0.410]';
 
 c1 = 0.5*rabi100(1);
 c2 = [0.20 0.40 0.60 0.80 0.85 0.90 0.95 1.00 1.05 1.10 1.20 1.30 1.40]*rabi100(2); % the final barrier heights
 c3 = 1*rabi100(3);
-
+  
 s2minima = MRF.mrfPositions(c1, c2, c3);
 
 figure(1)
@@ -19,9 +19,9 @@ plot(s2minima(:,1)/rabi100(2), s2minima(:,4),'.')
 %% Series 3
 
 c1 = 0.5*rabi100(1);
-c2 = [1.4 1.3 1.2 1.1 1.0 0.9 0.8 0.5 0.4 0.3 0.2]*rabi100(2);... [1.4 1.3 1.2 1.1 1.0 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2]*rabi100(2);
-% had to omit 0.7 and 0.6 since didn't have a minimum here! Somthing must
-% be wrong with this...
+c2 = [1.4 1.3 1.2 1.1 1.0 0.8 0.7 0.6 0.5 0.4 0.3 0.2]*rabi100(2);... [1.4 1.3 1.2 1.1 1.0 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2]*rabi100(2);
+% had to omit 0.9 since didn't have a minimum here! Somthing must
+% be wrong with this... (though quite telling that it's where the lifetime seems worst!)
 c3 = 1.11*rabi100(3);
 
 s3minima = MRF.mrfPositions(c1, c2, c3);
@@ -37,13 +37,13 @@ c3 = 1*rabi100(3);
 
 s1minima = MRF.mrfPositions(c1, c2, c3);
 
-figure(2)
+figure(3)
 plot(s1minima(:,1)/rabi100(2), s1minima(:,4),'.')
 
 %% Testing
 
 RFs = [3.0 3.6 4.2 ]';
-c2 = [0.2]
+c2 = [0.8]
 % rabi100 = [0.391 0.459 0.410]'; % '100%' reference values measured in single-rf traps (MHz)
 
 % Work with series 2 for now

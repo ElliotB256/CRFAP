@@ -15,13 +15,12 @@ d2 = diff(FworkingI,2);
 Bs1 = (Bs(1:length(Bs)-1)+Bs(2:length(Bs)))/2;
 Bs2 = (Bs1(1:length(Bs1)-1)+Bs1(2:length(Bs1)))/2;
 
-
 % figure(3)
 % % plot(Bs, 0.005*FworkingI, '.'); hold on;
 % plot(Bs,zeros(length(Bs))); hold on;
 % plot(Bs1, d1, '.'); hold on;
 % plot(Bs2, d2, '.'); hold off
-% 
+
 % figure(4)
 % plot(Bs, FworkingI, '.');
 
@@ -58,8 +57,8 @@ tempMin = [Bs(mins)' FworkingI(mins)'];
 % % if size(tempMin,1)~=2
 % %     disp('Caution! Not detecting 2 minima.')
 % % end
-maxs
-mins
+maxs;
+mins;
 
 if size(tempMin, 1) == 2
     minRange = abs(diff(mins))/cutoff % looking at divide between minima
