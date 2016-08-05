@@ -5,8 +5,9 @@
 %%
 % Define the experimental setup:
 
-Bs = 2.5:0.1:4.5;
+Bs = 2.5:0.05:4.5;
 BaseRabi = [ 338.7 401.2 357.0]' * 1e-3;
+Factor = [ 0.5 1 1.1 ]';
 RFs = [3.0 3.6 4.2 ]';
 qdrpGrad = 62.4511*0.96; % Gauss/cm at 20 A
 BarrierHeights = 0.1:0.1:1.6;
@@ -27,7 +28,7 @@ for i=1:length(BarrierHeights)
     Barrier = BarrierHeights(i);
     Rabi = BaseRabi; Rabi(2) = Barrier * BaseRabi(2);
     
-    [ Fs, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', 4, 'qdrpGrad', qdrpGrad);
+    [ Fs, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi .* Factor, 'iterations', 4, 'qdrpGrad', qdrpGrad);
     Fs = MRF.sortEnergies(B, MRF.ladder(RFs, 20, Fs));  
         
     % Extract minima from the MRF Levels
@@ -71,7 +72,7 @@ cd(currD);
 %%
 % Convert these minima into actual positions using the quadrupole gradient.
 
-minPosum = -minPos ./ qdrpGrad * 1e4 + 250;
+minPosum = minPos ./ qdrpGrad * 1e4 - 1000;
 
 hold on; plot(BarrierHeights, minPosum, 'LineWidth', 3, 'Color', [0.2 0.2 0.2]); hold off;
 
