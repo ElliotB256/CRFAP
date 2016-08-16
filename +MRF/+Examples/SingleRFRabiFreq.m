@@ -2,28 +2,32 @@
 % Determines the Rabi frequency for a single RF shell
 
 % 4.2 MHz:
-RF = 4.2;
-ZeemanSplit = [3.8:0.2:5.0];
-Measured = RF+0.390;
+%RF = 4.2;
+%ZeemanSplit = [3.8:0.2:5.0];
+%Measured = RF+0.390;
+% with mag=1.51 gives 0.2617
 
-% RF = 3;
-% ZeemanSplit = [2.8:0.2:3.8];
-% Measured = RF+0.392;
+%RF = 3;
+%ZeemanSplit = [2.8:0.2:3.8];
+%Measured = RF+0.392;
+% with mag=1.51 gives 0.2627;
 
-% RF = 3.6;
-% ZeemanSplit = [3.0:0.3:4.6];
-% Measured = RF+0.410;
-
-RF = 4.1;
-ZeemanSplit = [3.8:0.2:5.0];
-Measured = RF+0.425; % gives Rabi freq of 0.3696
-
-
-RF = 4.12;
+RF = 3.6;
+ZeemanSplit = [3.0:0.3:4.6];
 Measured = RF+0.410;
+% with mag=1.51 gives 0.2745;
 
-RF = 4.10;
-Measured = RF + 0.397;
+%RF = 4.1;
+%ZeemanSplit = [3.8:0.2:5.0];
+%Measured = RF+0.425; % gives Rabi freq of 0.3696
+
+
+%RF = 4.12;
+%Measured = RF+0.410;
+
+%RF = 4.10;
+%Measured = RF + 0.397;
+% with 1.5 mag = 0.2662
 
 % ti = 2 for -ve probe, 3 for +ve probe. Check rf spec diagram has right
 % transition highlighted in red!
@@ -40,7 +44,7 @@ getTrans = @(spectra) spectra(transitionIndex, :);
 figure(1);
 spectra = [];
 for Rabi=Rabis
-    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RF, Rabi, 'qdrpGrad', 62);
+    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RF, Rabi, 'qdrpGrad', 41.2373);
     spectra(:,end+1) = spec;
     
     plot(debug.B, debug.trapped, '.-', 'Color', [0.5 0.5 0.5]); hold on;

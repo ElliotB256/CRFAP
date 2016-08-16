@@ -28,7 +28,7 @@ pot = trap(x,y,z);
 trapMinZ = z(ip);
 
 % second iter: refine trap minimum
-z = (-20:0.001:20) + trapMinZ;
+z = (-30:0.001:20) + trapMinZ;
 x = zeros(size(z)); y = x;
 pot = trap(x,y,z);
 [~,ip] = min(pot);

@@ -6,7 +6,13 @@
 
 RFs = [3 3.6 4.2 ]';
 Rabi = [ 0.5*1.2 0.5 1.0 ]';
+
+
 BaseRabi = [ 338.7 401.2 357.0]' * 1e-3;
+
+% With mag=1.51 (and associated quad):
+%BaseRabi = [ 262.7 274.5 261.7 ]' * 1e-3;
+% QdrpGrad = 41.2373;
 
 % Old, incorrect calibs:
 % BaseRabi = [ 0.390 0.460 0.410 ]';
@@ -19,14 +25,16 @@ Rabi = Rabi .* BaseRabi .* amplifierFactor;
 BarrierPct  = 0 : 0.05: 0.65;
 BarrierRabi = BarrierPct .* BaseRabi(2);
 ZeemanSplit = 3.8:0.1:4.5;
-QdrpGrad = 62.5*1;%*0.96;
+QdrpGrad = 62.5*0.97;
 
 spectra = [];
+
+BarrierRabi = 0.2;
 
 for bRabi=BarrierRabi
     fprintf('Calculating bRabi=%.0f kHz\n', bRabi * 1000)
     Rabi(2) = bRabi * amplifierFactor(2);
-    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RFs, Rabi, 'ladderN', 40, 'qdrpGrad', QdrpGrad, 'iterations', 5);
+    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RFs, Rabi, 'ladderN', 40, 'qdrpGrad', QdrpGrad, 'iterations', 10);
     spectra(:,end+1) = spec;
 
     plot(debug.B, debug.trapped, '.-', 'Color', [0.5 0.5 0.5]); hold on;
