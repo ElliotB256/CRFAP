@@ -2,39 +2,47 @@
 % Calculates the RF spectroscopy versus rabi frequency for a single RF. See
 % this as more of a test that the functions are working correctly.
 
-% Important: Check that every minimum is correctly identified!
+%%
+% Load the most recent quadrupole gradient calibration and rabiFreqs.
 
-RFs = [3 3.6 4.2 ]';
-Rabi = [ 0.5*1.2 0.5 1.0 ]';
+thisLoc = mfilename('fullpath');
 
+quadCalFile = [fileparts(thisLoc) filesep 'quadGradient.mat'];
+if ~exist(quadCalFile, 'file')
+    error('run QuadGradient_top.m first!');
+end
+load(quadCalFile);
 
-BaseRabi = [ 338.7 401.2 357.0]' * 1e-3;
+rabiFreqFile = [fileparts(thisLoc) filesep 'rabiFreqs.mat'];
+if ~exist(rabiFreqFile, 'file')
+    error('run SingleRFRabiFreqs.m first!');
+end
+load(rabiFreqFile);
 
-% With mag=1.51 (and associated quad):
-%BaseRabi = [ 262.7 274.5 261.7 ]' * 1e-3;
-% QdrpGrad = 41.2373;
+clear rabiFreqFile quadCalFile
 
-% Old, incorrect calibs:
-% BaseRabi = [ 0.390 0.460 0.410 ]';
-% BaseRabi = [ 0.341 0.357 0.357 ]';
+Rabi = Rabi';
+%MRFSpecQuad = MRFSpecQuad * 0.65;
+
+%%
+
+RFs = [ 3 3.6 4.2 ]';
+AmplitudeMod = [ 0.5*1.2 0.5 1.0 ]';
 
 % TODO: more exact implementation that scales with barrier height
 amplifierFactor = 0.98*[1 1 1]'; %[ 0.98 0.98 0.98 ]';
 
-Rabi = Rabi .* BaseRabi .* amplifierFactor;
+ActualRabi = AmplitudeMod .* Rabi .* amplifierFactor;
 BarrierPct  = 0 : 0.05: 0.65;
-BarrierRabi = BarrierPct .* BaseRabi(2);
+BarrierRabi = BarrierPct .* Rabi(2);
 ZeemanSplit = 3.8:0.1:4.5;
-QdrpGrad = 62.5*0.97;
 
 spectra = [];
 
-BarrierRabi = 0.2;
-
 for bRabi=BarrierRabi
     fprintf('Calculating bRabi=%.0f kHz\n', bRabi * 1000)
-    Rabi(2) = bRabi * amplifierFactor(2);
-    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RFs, Rabi, 'ladderN', 40, 'qdrpGrad', QdrpGrad, 'iterations', 10);
+    ActualRabi(2) = bRabi * amplifierFactor(2);
+    [spec, debug] = MRF.Spec.Calc(ZeemanSplit, RFs, ActualRabi, 'ladderN', 40, 'qdrpGrad', MRFSpecQuad, 'iterations', 10);
     spectra(:,end+1) = spec;
 
     plot(debug.B, debug.trapped, '.-', 'Color', [0.5 0.5 0.5]); hold on;
