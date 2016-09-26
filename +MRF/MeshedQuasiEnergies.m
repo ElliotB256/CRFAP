@@ -20,6 +20,8 @@ p = inputParser;
    addRequired(p,'BRFs',@isnumeric);
    addParameter(p,'iterations',3,@isnumeric);
    addParameter(p,'qdrpGrad',0,@isnumeric);
+   addParameter(p,'gF',Constants.gF,@isnumeric);
+   addParameter(p,'mass',87,@isnumeric);
    
 parse(p,Bs,RFs, Rabi, varargin{:});
 
@@ -36,7 +38,7 @@ cB = Util.Refine(Bs, eigF(1,:));
 if p.Results.qdrpGrad > 0.0001
     % if Quadrupole gradient is specified then also mesh according to gravity.
     % convert Zeeman splitting into microns, then calculate gpe.
-    gp = MRF.gpe(Bs, p.Results.qdrpGrad);
+    gp = MRF.gpe(Bs, p.Results.qdrpGrad, 'gF', p.Results.gF, 'mass', p.Results.mass);
     
     % Modify eigen energies to account for energy shift
     modEig = eigF + repmat(gp, 3, 1);

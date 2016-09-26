@@ -1,4 +1,4 @@
-function [ gp ] = gpe( ZeemanSplit, Bprime )
+function [ gp ] = gpe( ZeemanSplit, Bprime, varargin )
 %GPE Calculates gravitational potential energy in MHz. Assumes the field
 %points are on the vertical axis. The bare zeeman splitting (ZeemanSplit)
 %is mapped to spatial coordinates using the given quadrupole gradient. Note
@@ -8,10 +8,18 @@ function [ gp ] = gpe( ZeemanSplit, Bprime )
 %               quadrupole
 %  qdrpGrad: quadrupole gradient in G/cm
 
-BGauss = ZeemanSplit / Constants.gF;
+p = inputParser;
+   addRequired(p,'ZeemanSplit',@isnumeric);
+   addRequired(p,'Bprime',@isnumeric);
+   addParameter(p,'gF', Constants.gF, @isnumeric);
+   addParameter(p,'mass', 87, @isnumeric);
+   
+parse(p, ZeemanSplit, Bprime, varargin{:});
+   
+BGauss = ZeemanSplit / p.Results.gF;
 microns = -BGauss / Bprime * 1e4 / 2;
 
 % above calculation verified as correct height.
-gp = gpe(microns, 87);
+gp = gpe(microns, p.Results.mass);
 
 end
