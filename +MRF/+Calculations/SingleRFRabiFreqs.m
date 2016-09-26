@@ -13,10 +13,24 @@ load([thisloc filesep 'quadGradient.mat']);
 % range to calculate the potential over, the rf itself and the resonant
 % frequency.
 
+ runs = [ ...
+     struct('RF', 3, 'ZeemanSplit', 2.8:0.2:3.8, 'resonance', 3+0.392);
+     struct('RF', 3.6, 'ZeemanSplit', 3.0:0.3:4.6, 'resonance', 3.6+0.410);
+     struct('RF', 4.2, 'ZeemanSplit', 3.8:0.2:5.0, 'resonance', 4.2+0.390);
+     ];
+
+% Data from logbook2016_06_08. Fitted 'by eye' for now.
 runs = [ ...
     struct('RF', 3, 'ZeemanSplit', 2.8:0.2:3.8, 'resonance', 3+0.392);
-    struct('RF', 3.6, 'ZeemanSplit', 3.0:0.3:4.6, 'resonance', 3.6+0.410);
-    struct('RF', 4.2, 'ZeemanSplit', 3.8:0.2:5.0, 'resonance', 4.2+0.390);
+    struct('RF', 3.6, 'ZeemanSplit', 3.0:0.3:4.6, 'resonance', 3.6+0.460);
+    struct('RF', 4.2, 'ZeemanSplit', 3.8:0.2:5.0, 'resonance', 4.2+0.410);
+    ];
+
+% Data from 29-31 August 2016
+runs = [ ...
+    struct('RF', 3, 'ZeemanSplit', 2.8:0.2:3.8, 'resonance', 3+0.3760);
+    struct('RF', 3.6, 'ZeemanSplit', 3.0:0.3:4.6, 'resonance', 3.6+0.4431);
+    struct('RF', 4.2, 'ZeemanSplit', 3.8:0.2:5.0, 'resonance', 4.2+0.4043);
     ];
 
 %%
@@ -26,7 +40,7 @@ runs = [ ...
 % Select the RF transition we are driving with the measured experimental
 % resonance. I will plot this in a different color at the end just to
 % highlight it.
-transitionIndex = 8;
+transitionIndex = 3;
 getTrans = @(spectra) spectra(transitionIndex, :);
 
 results = struct('rabi', []);
@@ -43,7 +57,7 @@ for j=1:length(runs)
     
     spectra = [];
     for Rabi=Rabis
-        [spec, debugData] = MRF.Spec.Calc(run.ZeemanSplit, run.RF, Rabi, 'qdrpGrad', RFSpecQuad);
+        [spec, debugData] = MRF.Spec.Calc(run.ZeemanSplit, run.RF, Rabi, 'qdrpGrad', RFSpecQuad, 'ladderN', 8);
         spectra(:,end+1) = spec;
         
         if debug
@@ -82,7 +96,7 @@ for j=1:length(runs)
     if debug
         figure(2);
         hold on; plot([vals(i) vals(i)], ylim, 'b:'); hold off
-        pause(2);
+        pause(0.1);
     end
     
     results(j).rabi = vals(i);

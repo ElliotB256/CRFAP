@@ -78,7 +78,7 @@ switch p.Results.minMethod
 end
 
 spec = (flat(:,mini) - trapped(fav, mini));
-spec = lad(:,mini) - trapped(fav,mini);
+%spec = lad(:,mini) - trapped(fav,mini);
 spec = sort(abs(spec));
 
 debug = struct;

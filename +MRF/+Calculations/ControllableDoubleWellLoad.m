@@ -20,7 +20,12 @@ BaseRabi = [ 338.7 401.2 357.0]' * 1e-3;
 RFs = [3.0 3.6 4.2 ]';
 qdrpGrad = 5*62.4511*0.96; % Gauss/cm at 100 A - check linearity cf 20A?
 
+
 Rabi = BaseRabi .* [ 0.68 0.9 1.0 ]';
+
+% revisited on 01/09/2016
+Rabi = [ 0.2616 0.4512*0.8 0.4426 ]';
+qdrpGrad = 59.5683;
 
 [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', 0, 'qdrpGrad', qdrpGrad);
 F = MRF.sortEnergies(B, MRF.ladder(RFs, 3, F));

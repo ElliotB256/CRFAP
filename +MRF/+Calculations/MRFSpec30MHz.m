@@ -1,6 +1,7 @@
-%% MRF Spectroscopy
+%% MRF Spectroscopy (3 MHz well)
 % Calculates the RF spectroscopy versus rabi frequency for a single RF. See
 % this as more of a test that the functions are working correctly.
+% This version uses a condensate in the 3 MHz well.
 
 %%
 % Load the most recent quadrupole gradient calibration and rabiFreqs.
@@ -23,20 +24,18 @@ clear rabiFreqFile quadCalFile
 
 Rabi = Rabi';
 
-%Rabi(2) = 0.41;
-
 %%
 
 RFs = [ 3 3.6 4.2 ]';
-AmplitudeMod = [ 0.5*1.2 1 1.0 ]';
+AmplitudeMod = [ 0.5 1 1.0 ]';
 
 % TODO: more exact implementation that scales with barrier height
 amplifierFactor = [0.98 0.97 0.98]'; %[ 0.98 0.98 0.98 ]';
 
 ActualRabi = AmplitudeMod .* Rabi .* amplifierFactor;
-BarrierPct  = 0 : 0.05: 0.65;
+BarrierPct  = 0 : 0.05: 0.9;
 BarrierRabi = BarrierPct .* Rabi(2);
-ZeemanSplit = 3.8:0.1:4.5;
+ZeemanSplit = 2.8:0.1:3.6;
 
 spectra = [];
 
@@ -53,10 +52,10 @@ hold off;
 title('MRF APs used for rf spectroscopy calc');
 xlabel('Bare Zeeman Splitting (MHz)');
 ylabel('Energy (MHz)');
-%%
+
 figure(2);
 plot(BarrierRabi * 1e3, spectra', '.-', 'Color', [0.8 0.2 0.2]); ylim([3.5 5.5]);
-ylim([4.5 4.7]);
+ylim([-0.6 0.6]+3);
 
 xlabel('Barrier Rabi Frequency (kHz)');
 ylabel('Transition Energy (MHz)');
