@@ -1,5 +1,8 @@
 %% TOP
-% parameters relating to the TOP trap.
+% Calculates parameters relating to the operation of the TOP trap.
+% This includes trap frequencies in the TOP trap as a function of
+% quadrupole gradient, size of the condensate in the trap, and the chemical
+% potential.
 
 gF = Constants.gF; %MHz/Gauss
 
@@ -18,6 +21,7 @@ plot(trapFreq);
 
 ztrapFreq = trapFreq * sqrt(8);
 
+figure(1)
 plot(BGrad, trapFreq, 'Color', [0.8 0.0 0.0]); hold on;
 plot(BGrad, ztrapFreq, 'Color', [0.0 0.0 0.8]); hold off;
 
@@ -40,10 +44,14 @@ aScatt = 100 * Constants.bohr * 1e6; %approx for Rb87 in microns
 %chemical potential in kHz:
 chemPot = 15^(2/5)/2 * (N * aScatt ./ a).^(2/5) .* 2 * pi .* geomFreq / 1e3;
 
+figure(2);
 size = (2 * ((chemPot / 1e3) * 2 * pi * Constants.hbar) ./ (Constants.amu * 87 * (2*pi*trapFreq).^2)).^0.5;
 size = size * 1e6; %size in microns;
 plot(BGrad, size ./ a);
 
+
 %This size gives reasonable values
 sizeB = 1.719 * ( N * aScatt ./ a).^(1/5).*a;
 plot(sizeB);
+xlabel('quadrupole gradient (G/cm)');
+ylabel('Size of condensate ($\mu$m)', 'Interpreter', 'latex');

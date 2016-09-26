@@ -5,7 +5,7 @@ function [ top ] = TOP4Touch( RF, BGrad, zsf )
 % BGrad: Quadrupole strength (Gauss/cm)
 % zsf: Zeeman splitting in MHz/Gauss
 
-top = resonantEllipsoidWidth(RF, BGrad, zsf) * 1e-4 * BGrad;
+top = SRF.resonantEllipsoidWidth(RF, BGrad, zsf) * 1e-4 * BGrad;
 
 end
 

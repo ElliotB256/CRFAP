@@ -12,7 +12,7 @@ VI2TOP = @(vi) 5.75 ./ zsf ./ 2.6 .* vi;
 
 % Numerically integrate shell trap for a variety of different TOP fields
 N = 150;
-BTouch = TOP4Touch(RF, BGrad, zsf); %G todo programmatically
+BTouch = SRF.TOP4Touch(RF, BGrad, zsf); %G todo programmatically
 
 tms = [];
 
@@ -21,7 +21,7 @@ trapFy = zeros(0,3);
 trapFz = zeros(0,3);
 
 %Bend = 1;%BTouch*1.5;
-Bend = 1.5*TOP4Touch(RF, BGrad, zsf);
+Bend = 1.5*SRF.TOP4Touch(RF, BGrad, zsf);
 
 BTOPs = fliplr(0:Bend/N:Bend);
 for BTOP=BTOPs
@@ -30,7 +30,7 @@ for BTOP=BTOPs
     xTOP = BTOP/BGrad * 1e4;
     
     % Define potential
-    trap = @(a,b,c,t) ShellTrap(...
+    trap = @(a,b,c,t) SRF.ShellTrap(...
         a - xTOP .* cos(2*pi*t), b - xTOP .* sin(2*pi*t),c,...
         zsf, BGrad, RF, RFAmp) + ...
         gpe(c, mass);
@@ -57,9 +57,9 @@ for BTOP=BTOPs
     zs = zeros(size(ps));
     Nt = 10;
     
-    trapFx(end+1,:) = getTrapFreq(ps, timeAverage(@(t) trap(ps,zs,zs+trapMinZ,t),Nt), mass);
-    trapFy(end+1,:) = getTrapFreq(ps, timeAverage(@(t) trap(zs,ps,zs+trapMinZ,t),Nt), mass);
-    trapFz(end+1,:) = getTrapFreq(ps+trapMinZ, timeAverage(@(t) trap(zs,zs,ps+trapMinZ,t),Nt), mass);
+    trapFx(end+1,:) = Util.getTrapFreq(ps, timeAverage(@(t) trap(ps,zs,zs+trapMinZ,t),Nt), mass);
+    trapFy(end+1,:) = Util.getTrapFreq(ps, timeAverage(@(t) trap(zs,ps,zs+trapMinZ,t),Nt), mass);
+    trapFz(end+1,:) = Util.getTrapFreq(ps+trapMinZ, timeAverage(@(t) trap(zs,zs,ps+trapMinZ,t),Nt), mass);
 end
 
 plot(BTOPs,trapFx(:,2),'-', 'LineWidth', 2, 'Color', [0.8 0.2 0.2]); hold on

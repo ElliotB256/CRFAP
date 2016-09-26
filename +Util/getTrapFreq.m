@@ -3,8 +3,10 @@ function [ w ] = getTrapFreq( x, pot, massAmu )
 % x: positions in um
 % pot: potential in MHz
 % massAmu: mass of species in amu
+% Syntax: getTrapFreq( x, pot, massAmu)
 
 import Constants.*
+import Util.*
 
 %convert the trap fit to realistic frequencies.
 factor = ((pi ) *1e6 / (massAmu) * hbar/amu).^0.5 * 1e6 /(pi);

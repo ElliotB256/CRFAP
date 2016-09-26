@@ -8,6 +8,7 @@ function [ f ] = shellTrapFrequencies( RF, BRF, BGrad )
 % Note: for very shallow BGrad the bottom of the shell will extend beyond
 % the meshing region and we will have erroneous results!
 import Constants.*
+import SRF.*
 
 zsf = Constants.zeemansplit; %Mhz/Gauss
 rb = rubidium87();
@@ -45,9 +46,9 @@ zs = zeros(size(ps));
 
 f = zeros(1,3);
 
-fx = getTrapFreq(ps,trap(ps,zs,zs+trapMinZ), mass);
-fy = getTrapFreq(ps,trap(ps,zs,zs+trapMinZ), mass);
-fz = getTrapFreq(ps+trapMinZ,trap(zs,zs,ps+trapMinZ), mass);
+fx = Util.getTrapFreq(ps,trap(ps,zs,zs+trapMinZ), mass);
+fy = Util.getTrapFreq(ps,trap(ps,zs,zs+trapMinZ), mass);
+fz = Util.getTrapFreq(ps+trapMinZ,trap(zs,zs,ps+trapMinZ), mass);
 
 f = [fx(2) fy(2) fz(2)];
 

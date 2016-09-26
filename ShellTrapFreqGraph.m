@@ -14,7 +14,7 @@ freqs = zeros(3,length(RFAmps),length(BGrads));
 for i=1:length(BGrads)
     for j=1:length(RFAmps)
         
-        f = shellTrapFrequencies(RF, RFAmps(j), BGrads(i));
+        f = SRF.shellTrapFrequencies(RF, RFAmps(j), BGrads(i));
         freqs(:,j,i) = f;
         
     end
