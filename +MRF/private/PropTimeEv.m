@@ -10,4 +10,3 @@ delta = -1i * h * ds;
 delta = delta(:);
 
 end
-
