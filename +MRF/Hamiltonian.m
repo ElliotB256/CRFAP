@@ -5,7 +5,8 @@ function [ H ] = Hamiltonian( Zs, RFs, Rabi, varargin )
 %  Zs: energy splitting of the undressed Zeeman states in MHz.
 %  RFs: vector of dressing RFs (MHz)
 %  Rabi: vector of dressing RF Rabi frequencies (MHz)
-%  Optional parameters: the values of alpha, Beta, zeta / Rabi
+%  F: Specify F=1 or F=2 system.
+%  TODO: Optional parameters as the values of alpha, Beta, zeta / Rabi
 
 p = inputParser;
 addRequired(p,'Zs',@isnumeric);
@@ -25,7 +26,7 @@ parse(p,Zs, RFs, Rabi, varargin{:});
 e = exp(1);
 c = Rabi;
 
-switch F
+switch p.Results.F
     case 1
         
         H = @(t) [ ...
@@ -36,7 +37,8 @@ switch F
         
     case 2
         
-        % s = sign of exponent
+        % s = sign of exponent. Note: double anon function may slow
+        % execution, need to benchmark.
         omega = @(t,s) sum( c .* e .^ (s*RFs .* 1i .* t), 1) / 2.^0.5;
         H = @(t) [ ...
                    2*Zs,    omega(t,-1),              0,              0,              0;
