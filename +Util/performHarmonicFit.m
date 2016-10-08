@@ -13,9 +13,9 @@ ci = confint(f);
 k2 = std(y)/std(x).^2 .* [ci(1,1) f.p1 ci(2,1)];
 
 %Quick test, note: Won't remove gradient (~x terms)
-%  [~,i] = min(y);
-%  xt = x - x(i);
-%  yt = k2(2) .* xt.^2;
-%  plot(x-x(i),y-y(i),'x'); hold on; plot(xt,yt); hold off
+%   [~,i] = min(y);
+%   xt = x - x(i);
+%   yt = k2(2) .* xt.^2;
+%   plot(x-x(i),y-y(i),'x'); hold on; plot(xt,yt); hold off
 
 end
