@@ -1,4 +1,4 @@
-function [ F ] = sortEnergies( B, lad )
+function [ F ] = sortEnergies( Zs, lad, varargin )
 %SORTENERGIES Sorts and joins the eigenstates together to remove artificial
 %avoided crossings due to eg the phase folding over or overlap of states.
 % This method uses a trajectory based method, where we travel along each
@@ -6,11 +6,16 @@ function [ F ] = sortEnergies( B, lad )
 % value based on previous curvature of the current state.
 %
 % Syntax: sortEnergies(B, lad)
-%  B: energy splitting of the undressed Zeeman states in MHz.
+%  Zs: energy splitting of the undressed Zeeman states in MHz.
 %  lad: ladder of dressed states. This ladder should be great enough that
 %       truncation does not give erroneous results (try increasing size if 
 %       results look incorrect!).
 
+p = inputParser;
+addRequired(p,'Zs',@isnumeric);
+addRequired(p,'lad',@isnumeric);
+addParameter(p,'F', 1, @(x) any(ismember(x,[1 2])));
+parse(p, Zs, lad, varargin{:});
 
 
 % To be clear:
@@ -27,16 +32,22 @@ function [ F ] = sortEnergies( B, lad )
 
 middle = round(size(lad, 1)/2);
 
-F = lad(middle+(-1:1:1), :);
-%dE = lad(:,2:end) - lad(:, 1:end-1);
-%dB = B(2:end) - B(1:end-1);
+switch p.Results.F
+    case 1
+        spaceSize = 3;
+        md = -1:1:1;
+    case 2
+        spaceSize = 5;
+        md = -2:1:2;
+end
 
+F = lad(middle+md, :);
 guesses = F;
 % store of best matched indices
-best = repmat((1:3)', 1, size(F, 2));
+best = repmat((1:spaceSize)', 1, size(F, 2));
 
 % iterate over three states near the centre of the ladder
-for i=(1:3)
+for i=(1:spaceSize)
     mi = middle+i-2;
     guesses(i, 1:2) = F(i,1:2);
     best(i, 1:2) = mi;
@@ -50,7 +61,7 @@ for i=(1:3)
         
         % guess what next value should be based on previous.        
         pi = best(i,j-1);
-        guess = lad(mi, j) + (B(j+1) - B(j)) ./ (B(j) - B(j-1)) .* (lad(mi, j) - lad(pi,j-1));
+        guess = lad(mi, j) + (Zs(j+1) - Zs(j)) ./ (Zs(j) - Zs(j-1)) .* (lad(mi, j) - lad(pi,j-1));
         
         % guess also what DERIVATIVE should be next based on the previous
         % values
