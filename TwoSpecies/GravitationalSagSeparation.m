@@ -23,7 +23,7 @@ QdrpGrad = 60; % Note: RF1A and RF2A swapped!
 % described here.
 
 RF1 = 4.5;
-QdrpGrad = 2*60;
+QdrpGrad = 60;
 RF1A = 0.4;
 
 w = SRF.shellTrapFrequencies(RF1, RF1A, QdrpGrad);
@@ -53,12 +53,13 @@ fprintf('T-F radius (um)\t\t\t: %.2f\n', TFradius)
 
 RF2  = 3;
 amps = 0.05:0.05:0.4;
+amps = 0.25:0.025:0.4;
 uB   = 2.9:0.2:3.4;
 RFs = [RF1 RF2]';
 
 fz = ones(1, length(amps));
-minPos = ones(1, length(amps));
 zPos85 = ones(1, length(amps));
+zPos85_unshifted = ones(1, length(amps));
 
 for i=1:length(amps)
     RF2A = amps(i);
@@ -66,7 +67,7 @@ for i=1:length(amps)
     gF = 0.7 * 2/3;
     mass = 85;
     
-    [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RFs, [RF1A RF2A]', 'iterations', 7, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass, 'F', 2);
+    [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RFs, [RF1A RF2A]', 'iterations', 9, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass, 'F', 2);
     F2 = MRF.sortEnergies(zsfs, MRF.ladder(RFs, 10, F), 'F', 2);
     lad = MRF.ladder(RFs, 3, F2);
     glad = lad + repmat(MRF.gpe(zsfs, QdrpGrad, 'gF', gF, 'mass', mass), size(lad,1), 1);
@@ -79,7 +80,7 @@ for i=1:length(amps)
     
     % calculate the minimum position
     [~,j] = min(trapped);
-    minPos(i) = z(j);
+    zPos85(i) = z(j);
     
     % Note: only take a small section around the minimum for trap freq fit
     mask = abs(z-z(j)) < 8;
@@ -95,14 +96,14 @@ for i=1:length(amps)
     
     % For comparative purposes - find the trap minimum in absence of the
     % shift caused by the other dressing RF component.
-    [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RF2, RF2A', 'iterations', 6, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass);
-    F2 = MRF.sortEnergies(zsfs, MRF.ladder(RFs, 10, F));
+    [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RF2, RF2A', 'iterations', 8, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass, 'F', 2);
+    F2 = MRF.sortEnergies(zsfs, MRF.ladder(RFs, 10, F), 'F', 2);
     lad = MRF.ladder(RFs, 3, F2);
     glad = lad + repmat(MRF.gpe(zsfs, QdrpGrad, 'gF', gF, 'mass', mass), size(lad,1), 1);
     trapped = glad(2,:);
     [~,j] = min(trapped);
     z = zsfs / gF / QdrpGrad * 1e4;
-    zPos85(i) = z(j);
+    zPos85_unshifted(i) = z(j);
     
 end
 
@@ -122,7 +123,7 @@ for i=1:length(amps)
     gF = 0.7;
     mass = 87;
     
-    [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RFs, [RF1A RF2A]', 'iterations', 7, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass);
+    [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RFs, [RF1A RF2A]', 'iterations', 9, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass);
     F2 = MRF.sortEnergies(zsfs, MRF.ladder(RFs, 10, F));
     lad = MRF.ladder(RFs, 3, F2);
     glad = lad + repmat(MRF.gpe(zsfs, QdrpGrad, 'gF', gF, 'mass', mass), size(lad,1), 1);
@@ -157,9 +158,9 @@ end
 %% Assemble the graph.
 expectedPos = RFs(1) / 0.7 / QdrpGrad * 1e4; 
 plot(amps,  zPos87-expectedPos, 'r-'); hold on;
-plot(amps,  minPos-expectedPos, 'b-'); hold on;
+plot(amps,  zPos85-expectedPos, 'b-'); hold on;
 plot(amps,  zPos87_unshifted-expectedPos, 'r:'); hold on;
-plot(amps,  zPos85-expectedPos, 'b:'); hold off;
+plot(amps,  zPos85_unshifted-expectedPos, 'b:'); hold off;
 legend('87', '85');
 
 title('Gravitational sag in the 2-rf trap');
@@ -174,14 +175,57 @@ figure(2);cla;
 
 % define colors:
 c85 = [ 0.8 0.2 0.2 ];
-c87 = [ 0.2 0.8 0.8 ];
+c87 = [ 0.2 0.2 0.8 ];
 
 % draw filled polygon showing the 85 +- half oscillator length.
 sag85 = zPos85-expectedPos;
-fill([amps fliplr(amps)], [sag85+a85/2 fliplr(sag85-a85/2)], c85, 'LineStyle', 'none', 'FaceAlpha', 0.5);
+fill([amps fliplr(amps)]*1e3, [sag85+a85/2 fliplr(sag85-a85/2)], c85, 'LineStyle', 'none', 'FaceAlpha', 0.5);
 hold on;
 
 % draw a filled polygon representing the 87 position +- TF radius/2
 sag87 = zPos87-expectedPos;
-fill([amps fliplr(amps)], [sag87+TFradius/2 fliplr(sag87-TFradius/2)], c87, 'LineStyle', 'none', 'FaceAlpha', 0.5);
+fill([amps fliplr(amps)]*1e3, [sag87+TFradius/2 fliplr(sag87-TFradius/2)], c87, 'LineStyle', 'none', 'FaceAlpha', 0.5);
 hold off;
+
+% Lines depicting the location of potential minima
+hold on;
+plot(amps*1e3, sag87, 'Color', c87);
+plot(amps*1e3, sag85, 'Color', c85);
+plot(amps*1e3, zPos87_unshifted-expectedPos, '--', 'Color', c87);
+plot(amps*1e3, zPos85_unshifted-expectedPos, '--', 'Color', c85);
+hold off
+
+xlim([250 400]);
+xlabel('RF amplitude $\Omega_1$ (kHz)', 'Interpreter', 'Latex');
+ylabel('Gravitational sag ($\mu$m)', 'Interpreter', 'Latex');
+
+%% Third Graph: Demonstrate the APs for both species on same axis
+% 
+
+B = 1:0.25:7;
+
+% Calculate the potential for 87:
+gF = 0.7;
+mass = 87;
+[ F, zsfs ] = MRF.MeshedQuasiEnergies(B, RFs, [RF1A RF2A]', 'iterations', 7, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass);
+E87 = MRF.sortEnergies(zsfs, MRF.ladder(RFs, 10, F));
+lad87 = MRF.ladder(RFs, 3, E87);
+glad87 = lad87 + repmat(MRF.gpe(zsfs, QdrpGrad, 'gF', gF, 'mass', mass), size(lad87,1), 1);
+z87 = zsfs / (QdrpGrad * gF);
+
+
+% Same for 85
+gF = 0.7 * 2/3;
+mass = 85;
+[ F, zsfs ] = MRF.MeshedQuasiEnergies(B, RFs, [RF1A RF2A]', 'iterations', 7, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass, 'F', 2);
+E85 = MRF.sortEnergies(zsfs, MRF.ladder(RFs, 10, F), 'F', 2);
+lad85 = MRF.ladder(RFs, 3, E85);
+glad85 = lad85 + repmat(MRF.gpe(zsfs, QdrpGrad, 'gF', gF, 'mass', mass), size(lad85,1), 1);
+z85 = zsfs / (QdrpGrad * gF);
+
+plot(z85, glad85, 'Color', c85);
+hold on;
+plot(z87, glad87, 'Color', c87);
+hold off;
+
+% This figure is not particularly useful...
