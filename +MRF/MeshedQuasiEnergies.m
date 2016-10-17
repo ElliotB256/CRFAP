@@ -24,10 +24,11 @@ p = inputParser;
    addParameter(p,'gF',Constants.gF,@isnumeric);
    addParameter(p,'mass',87,@isnumeric);
    addParameter(p,'F',1,@(x) ismember(x, [ 1 2 ]));
+   addParameter(p, 'theta', 0, @(x) x >= 0 && x <= pi);
    
 parse(p,Bs,RFs, Rabi, varargin{:});
 
-eigF = MRF.GetQuasiEnergies(Bs, RFs, Rabi, 'F', p.Results.F);
+eigF = MRF.GetQuasiEnergies(Bs, RFs, Rabi, 'F', p.Results.F, 'theta', p.Results.theta);
 
 iterations = p.Results.iterations;
 deltaB = Bs(2)-Bs(1);
@@ -63,7 +64,7 @@ end
 
 % Calculate energies of these new points and add to the list.
 Bs2 = cB(:)';
-eigF2 = MRF.GetQuasiEnergies(Bs2, RFs, Rabi, 'F', p.Results.F);
+eigF2 = MRF.GetQuasiEnergies(Bs2, RFs, Rabi, 'F', p.Results.F, 'theta', p.Results.theta);
 eigF = [eigF eigF2];
 Bs = [Bs Bs2];
 
