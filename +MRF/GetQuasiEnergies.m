@@ -22,6 +22,10 @@ end
 
 eigF2 = zeros(hs, length(Zs));
 periodicity = 2*pi/MRF.GetFundamental(RF);
+
+%periodicity = 1/MRF.GetFundamental(RF);
+%warning('blah');
+
 for i=1:length(Zs)
     B = Zs(i);
     H = MRF.Hamiltonian(B, RF, Rabi, 'F', p.Results.F);
