@@ -53,7 +53,7 @@ fprintf('T-F radius (um)\t\t\t: %.2f\n', TFradius)
 
 RF2  = 3;
 amps = 0.05:0.05:0.4;
-amps = 0.25:0.025:0.4;
+amps = 0.1:0.025:0.25;
 uB   = 2.9:0.2:3.4;
 RFs = [RF1 RF2]';
 
@@ -67,7 +67,7 @@ for i=1:length(amps)
     gF = 0.7 * 2/3;
     mass = 85;
     
-    [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RFs, [RF1A RF2A]', 'iterations', 9, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass, 'F', 2);
+    [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RFs, 2/3*[RF1A RF2A]', 'iterations', 9, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass, 'F', 2);
     F2 = MRF.sortEnergies(zsfs, MRF.ladder(RFs, 10, F), 'F', 2);
     lad = MRF.ladder(RFs, 3, F2);
     glad = lad + repmat(MRF.gpe(zsfs, QdrpGrad, 'gF', gF, 'mass', mass), size(lad,1), 1);
@@ -195,7 +195,7 @@ plot(amps*1e3, zPos87_unshifted-expectedPos, '--', 'Color', c87);
 plot(amps*1e3, zPos85_unshifted-expectedPos, '--', 'Color', c85);
 hold off
 
-xlim([250 400]);
+%xlim([250 400]);
 xlabel('RF amplitude $\Omega_1$ (kHz)', 'Interpreter', 'Latex');
 ylabel('Gravitational sag ($\mu$m)', 'Interpreter', 'Latex');
 
