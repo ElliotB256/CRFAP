@@ -3,9 +3,9 @@
 
 %%
 % Test 1: The AP on resonance has a splitting given by the Rabi freq
-RFs = 2;
+RF = 2;
 gFuBB = 0.5;
-F = MRF.GetQuasiEnergies(RFs, RFs, gFuBB, 'F', 1, 'theta', 0);
+F = MRF.GetQuasiEnergies(RF, RF, gFuBB, 'F', 2, 'theta', 0);
 
 levelSep = diff(F);
 assert(all(abs(levelSep - gFuBB)/gFuBB < 1e-3), 'Separation of levels on resonance should be Rabi freq for F=1'); 

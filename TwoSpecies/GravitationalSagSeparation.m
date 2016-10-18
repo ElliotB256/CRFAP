@@ -16,14 +16,14 @@
 % described here.
 
 RF1 = 4.5;
-QdrpGrad = 60;
+QdrpGrad = 100;
 RF1A = 0.4;
 
-w = SRF.shellTrapFrequencies(RF1, RF1A, QdrpGrad);
+w = SRF.shellTrapFrequencies(RF1, RF1A / 0.7, QdrpGrad);
 
 a       = 100 * Constants.bohr;
 N       = 1e5;            % 10 thousand atoms
-omega   = mean(w);          % geometric trap frequency, Hz
+omega   = geomean(w);          % geometric trap frequency, Hz
 
 oscLength = @(m, angFreq) (Constants.hbar ./ (Constants.amu * m * angFreq)).^0.5;
 
@@ -33,7 +33,7 @@ chemPot = 1/2* ( 15 * N * a / oscLength(87, omega)) ^ (2/5) * omega;
 TFradius = 1e6 * (2 * (chemPot * Constants.hbar) ./ (87 * Constants.amu) ./ ((2 * pi * w(3)).^2)).^0.5;
 
 fprintf('87 Condensate parameters:\n')
-fprintf('Chemical potential (kHz): %.1f\n', chemPot/(2 * pi * 1000))
+fprintf('Chemical potential (kHz): %.2f\n', chemPot/(2 * pi * 1000))
 fprintf('Atom number\t\t\t\t: %.1e\n', N)
 fprintf('Trap frequencies (Hz)\t: (%.2f, %.2f, %.2f)\n', w)
 fprintf('T-F radius (um)\t\t\t: %.2f\n', TFradius)
@@ -47,6 +47,7 @@ fprintf('T-F radius (um)\t\t\t: %.2f\n', TFradius)
 RF2  = 3;
 amps = 0.05:0.05:0.4;
 amps = 0.2:0.02:0.3;
+amps = 0.1:0.02:0.2;
 uB   = 2.9:0.2:3.4;
 RFs = [RF1 RF2]';
 

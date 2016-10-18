@@ -1,7 +1,7 @@
 function [ f ] = shellTrapFrequencies( RF, BRF, BGrad )
 % SHELLTRAPFREQUENCIES Calculates trap frequencies for a single RF dressed
 % AP.
-%  BRF: Amplitude of dressing RF in MHz
+%  BRF: Amplitude of dressing RF in Gauss
 %  RF: RF frequency in MHz
 %  BGrad: Qdrp gradient, Gauss/cm
 % 
