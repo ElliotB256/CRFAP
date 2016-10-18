@@ -1,4 +1,4 @@
-function [ H ] = F1Hamiltonian( t, Zs, RFs, Rabi, theta )
+function [ H ] = F1Hamiltonian( t, Zs, RFs, gFuBB, theta )
 %F1HAMILTONIAN Evaluates the Hamiltonian for F=1 atoms at the specified
 %time. All MRF components are circularly polarised.
 
@@ -11,7 +11,7 @@ RFs = RFs / 2 / pi; % t is 2*pi*time
 % Don't use input parser - this function must be called frequently. As a
 % result, make it as lean as possible.
 e = exp(1);
-c = Rabi / sqrt(2);
+c = gFuBB;
 
 H0 = [ 
        Zs,      0,      0,       ;
@@ -24,8 +24,8 @@ alpha = (cos(theta) - 1)/2;
 beta  = (cos(theta) + 1)/2;
 
 % Calculate coherence terms
-cp    = (2.^0.5) * sum( c .* ( alpha * e.^(1i .* t .* 2 .* pi .* RFs ) + beta * e.^(-1i .* t .* 2 .* pi .* RFs ) ), 1) / (2.^0.5);
-cn    = (2.^0.5) * sum( c .* ( alpha * e.^(-1i .* t .* 2 .* pi .* RFs ) + beta * e.^(1i .* t .* 2 .* pi .* RFs ) ), 1) / (2.^0.5);
+cp    = (2.^0.5) * sum( c .* ( alpha * e.^(1i .* t .* 2 .* pi .* RFs ) + beta * e.^(-1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
+cn    = (2.^0.5) * sum( c .* ( alpha * e.^(-1i .* t .* 2 .* pi .* RFs ) + beta * e.^(1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
 
 % Note: The Clebsch-Gordon coefficient, here sqrt(2), is incorporated
 % above.

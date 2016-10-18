@@ -3,7 +3,7 @@
 Rabi = 0.5;
 H = MRF.Hamiltonian(RF, RF, Rabi * 2/3, 'F', 2);
 
-t = linspace(0, 2*pi/Rabi, 50); t(1) = [];
+t = linspace(0, 2*pi/(Rabi * 2/3), 50); t(1) = [];
 wavefunc = repmat([ 1 0 0 0 0 ]', 1, length(t));
 for j=1:length(t);
     tempU = MRF.Propagator(H, t(j), 2);

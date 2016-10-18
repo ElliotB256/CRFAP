@@ -1,5 +1,5 @@
-%% Test F=1 Hamiltonian
-% Tests the F=1 Hamiltonian for specific values with known results.
+%% Test F=2 Hamiltonian
+% Tests the F=2 Hamiltonian for specific values with known results.
 
 %%
 % Test 1: Separation between bare states.
@@ -7,12 +7,12 @@
 Rabi   = 0;
 RF     = 1;
 Zeeman = 1;
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 1);
+H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 2);
 
 h = H(0);
 
 % Check we get -Zsf 0 Zsf along diagonal from H0
-assert(all(abs(diag(h) - [ Zeeman 0 -Zeeman ]') < eps), 'H0 should be split by specified Zeeman splitting');
+assert(all(abs(diag(h) - [ 2*Zeeman Zeeman 0 -Zeeman -2*Zeeman ]') < eps), 'H0 should be split by specified Zeeman splitting, with mF basis [ +2 +1 0 -1 -2 ]''');
 fprintf('%s: Test 1 passed.\n', mfilename)
 
 %%
@@ -22,23 +22,26 @@ Rabi   = 1;
 RF     = 1;
 Zeeman = 0;
 
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 1, 'theta', 0);
+H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 2, 'theta', 0);
 h = H(0);
 
-assert(all([ h(1) h(3) h(5) h(7) h(9) ] < eps), 'Coherences should be off-diagonal');
+% get terms we expect to be zero
+eZ = [ h(1,1) h(3,1) h(4,1) h(5,1) h(2,2) h(2,4) h(2,5) h(3,1) h(3,3) h(3,5) h(4,1) h(4,2) h(4,4) h(5,1) h(5,2) h(5,3) h(5,5) ];
+
+assert(all(eZ < eps), 'Coherences should be off-diagonal');
 fprintf('%s: Test 2 passed.\n', mfilename)
 
 %%
 % Test 3: Magnitude of coherence terms
-Rabi   = 1;
-RF     = 1;
-Zeeman = 0;
-
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 1, 'theta', 0);
-h = H(0);
-
-assert(all(abs([ h(2) h(4) h(6) h(8) ] - Rabi / sqrt(2)) < eps), 'Magnitude of coherence should be gF uB Bi / sqrt(2)');
-fprintf('%s: Test 3 passed.\n', mfilename)
+% Rabi   = 1;
+% RF     = 1;
+% Zeeman = 0;
+% 
+% H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 1, 'theta', 0);
+% h = H(0);
+% 
+% assert(all(abs([ h(2) h(4) h(6) h(8) ] - Rabi / sqrt(2)) < eps), 'Magnitude of coherence should be gF uB Bi / sqrt(2)');
+% fprintf('%s: Test 3 passed.\n', mfilename)
 
 %%
 % Test 4: Periodicity of the Hamiltonian
@@ -47,19 +50,19 @@ RF     = 1;
 Zeeman = 0;
 period = 2*pi/RF;
 
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 1, 'theta', 0);
+H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 2, 'theta', 0);
 h1 = H(0);
 h2 = H(period);
 
 % Render for general intruige
 t = linspace(0, period, 100);
-Hs = zeros(9, size(1, 1));
+Hs = zeros(25, size(1, 1));
 for i = 1:length(t);
    h = H(t(i));
    Hs(:, i) = h(:);
 end
-for i=1:9
-    subplot(3,3,i);
+for i=1:25
+    subplot(5,5,i);
     plot(real(Hs(i,:))'); hold on; plot(imag(Hs(i,:))'); hold off;
 end
 
@@ -74,7 +77,7 @@ RF     = 1;
 Zeeman = 0;
 period = 2*pi/RF;
 
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 1, 'theta', 0);
+H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 2, 'theta', 0);
 
 ts = linspace(0, period, 20);
 for t=ts

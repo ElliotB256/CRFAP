@@ -1,4 +1,4 @@
-function [ eigF, Bs ] = MeshedQuasiEnergies( Bs, RFs, Rabi, varargin )
+function [ eigF, Bs ] = MeshedQuasiEnergies( Bs, RFs, gFuBB, varargin )
 %MESHEDQUASIENERGIES Calculates quasi-energies for the given multi-RF
 %field over the specified range of zeeman energy splittings. The values Bs
 %specify the points where the potential is evaluated initially. The result
@@ -7,7 +7,7 @@ function [ eigF, Bs ] = MeshedQuasiEnergies( Bs, RFs, Rabi, varargin )
 % Syntax: GetQuasiEnergies( Bs, RFs, Rabi, ...)
 %  Bs: energy splitting of the undressed Zeeman states in MHz.
 %  RFs: vector of dressing RFs (MHz)
-%  Rabi: vector of dressing RF Rabi frequencies (MHz)
+%  gFuBB: vector of dressing RF Rabi frequencies (MHz)
 % 
 % The following parameters may also be described:
 %  iterations: number of times to more finely mesh the results.
@@ -26,9 +26,9 @@ p = inputParser;
    addParameter(p,'F',1,@(x) ismember(x, [ 1 2 ]));
    addParameter(p, 'theta', 0, @(x) x >= 0 && x <= pi);
    
-parse(p,Bs,RFs, Rabi, varargin{:});
+parse(p,Bs,RFs, gFuBB, varargin{:});
 
-eigF = MRF.GetQuasiEnergies(Bs, RFs, Rabi, 'F', p.Results.F, 'theta', p.Results.theta);
+eigF = MRF.GetQuasiEnergies(Bs, RFs, gFuBB, 'F', p.Results.F, 'theta', p.Results.theta);
 
 iterations = p.Results.iterations;
 deltaB = Bs(2)-Bs(1);
@@ -64,7 +64,7 @@ end
 
 % Calculate energies of these new points and add to the list.
 Bs2 = cB(:)';
-eigF2 = MRF.GetQuasiEnergies(Bs2, RFs, Rabi, 'F', p.Results.F, 'theta', p.Results.theta);
+eigF2 = MRF.GetQuasiEnergies(Bs2, RFs, gFuBB, 'F', p.Results.F, 'theta', p.Results.theta);
 eigF = [eigF eigF2];
 Bs = [Bs Bs2];
 
