@@ -4,12 +4,12 @@
 %%
 % Test 1: Examine accuracy of collapse and revival mechanics.
 
-Rabi = 0.1;
+gFuBB = 0.1;
 RF = 2;
-periodicTime = 2*pi/Rabi;
+periodicTime = 2*pi/gFuBB;
 
-H = MRF.Hamiltonian(RF, RF, Rabi, 'F', 1);
-P = MRF.Propagator(H, 2*pi/Rabi);
+H = MRF.Hamiltonian(RF, RF, gFuBB, 'F', 1);
+P = MRF.Propagator(H, 2*pi/gFuBB);
 
 % consider action on pure mF states one by one.
 a = [ 1 0 0 ]';
@@ -45,7 +45,7 @@ fprintf('%s: Test 2 passed.\n', mfilename)
 %%
 % General intruige: Plot the collapse and revival
 % Calculate the wavefunction
-t = linspace(0, 2*pi/Rabi, 30); t(1) = [];
+t = linspace(0, 2*pi/gFuBB, 30); t(1) = [];
 wavefunc = repmat([ 1 0 0 ]', 1, length(t));
 for j=1:length(t);
     tempU = MRF.Propagator(H, t(j));
@@ -67,10 +67,10 @@ for i=1:3;
     end
     fs = repmat(fs, 1, length(t));
     subplot(4, 1, i);
-    plot(t*Rabi/2/pi,abs(sum(fs .* wavefunc, 1)).^2);
+    plot(t*gFuBB/2/pi,abs(sum(fs .* wavefunc, 1)).^2);
     title(str);
 end
 
 subplot(4, 1, 4);
-plot(t*Rabi/2/pi, sum(wavefunc .* conj(wavefunc), 1));
+plot(t*gFuBB/2/pi, sum(wavefunc .* conj(wavefunc), 1));
 title('Normalisation of wavefunction'); ylim([0 1]);

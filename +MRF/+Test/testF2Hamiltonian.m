@@ -4,10 +4,10 @@
 %%
 % Test 1: Separation between bare states.
 
-Rabi   = 0;
+gFuBB   = 0;
 RF     = 1;
 Zeeman = 1;
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 2);
+H = MRF.Hamiltonian(Zeeman, RF, gFuBB, 'F', 2);
 
 h = H(0);
 
@@ -18,11 +18,11 @@ fprintf('%s: Test 1 passed.\n', mfilename)
 %%
 % Test 2: Form of matrix for coherence terms.
 
-Rabi   = 1;
+gFuBB   = 1;
 RF     = 1;
 Zeeman = 0;
 
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 2, 'theta', 0);
+H = MRF.Hamiltonian(Zeeman, RF, gFuBB, 'F', 2, 'theta', 0);
 h = H(0);
 
 % get terms we expect to be zero
@@ -33,24 +33,25 @@ fprintf('%s: Test 2 passed.\n', mfilename)
 
 %%
 % Test 3: Magnitude of coherence terms
-% Rabi   = 1;
-% RF     = 1;
-% Zeeman = 0;
-% 
-% H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 1, 'theta', 0);
-% h = H(0);
-% 
-% assert(all(abs([ h(2) h(4) h(6) h(8) ] - Rabi / sqrt(2)) < eps), 'Magnitude of coherence should be gF uB Bi / sqrt(2)');
-% fprintf('%s: Test 3 passed.\n', mfilename)
+gFuBB  = 1;
+RF     = 1;
+Zeeman = 0;
+
+H = MRF.Hamiltonian(Zeeman, RF, gFuBB, 'F', 2, 'theta', 0);
+h = H(0);
+
+assert(all(abs(abs([ h(1,2) h(2,3) h(3,4) h(4,5) ]) - gFuBB * [ 2 sqrt(6) sqrt(6) 2 ] / 2) < eps), 'Magnitude of coherence terms, Clebsch-Gordan coefficients');
+assert(all(abs(abs([ h(2,1) h(3,2) h(4,3) h(5,4) ]) - gFuBB * [ 2 sqrt(6) sqrt(6) 2 ] / 2) < eps), 'Magnitude of coherence terms, Clebsch-Gordan coefficients');
+fprintf('%s: Test 3 passed.\n', mfilename)
 
 %%
 % Test 4: Periodicity of the Hamiltonian
-Rabi   = 1;
+gFuBB   = 1;
 RF     = 1;
 Zeeman = 0;
 period = 2*pi/RF;
 
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 2, 'theta', 0);
+H = MRF.Hamiltonian(Zeeman, RF, gFuBB, 'F', 2, 'theta', 0);
 h1 = H(0);
 h2 = H(period);
 
@@ -72,12 +73,12 @@ fprintf('%s: Test 4 passed.\n', mfilename)
 %% 
 % Test 5: Hamiltonian is Hermitian
 
-Rabi   = 1;
+gFuBB   = 1;
 RF     = 1;
 Zeeman = 0;
 period = 2*pi/RF;
 
-H = MRF.Hamiltonian(Zeeman, RF, Rabi, 'F', 2, 'theta', 0);
+H = MRF.Hamiltonian(Zeeman, RF, gFuBB, 'F', 2, 'theta', 0);
 
 ts = linspace(0, period, 20);
 for t=ts
