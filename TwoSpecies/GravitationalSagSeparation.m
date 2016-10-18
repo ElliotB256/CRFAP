@@ -8,13 +8,6 @@
 % raise and lower one of the species through the well formed of the other
 % species.
 
-%%
-% Some working parameters:
-% NOTE: without F=2 for 85, so not quite right!
-RF1 = 4.5; RF1A = 0.05;
-RF2 = 3;   amps = 0.05:0.05:0.4;
-QdrpGrad = 60; % Note: RF1A and RF2A swapped!
-
 %% Section 1: Calculate trap paramters for Rb87 single condensate well.
 % I want to calculate the Thomas-Fermi radius of an 87 condensate in a well
 % so that we can show we can move the impurity from one side of it to the
@@ -53,7 +46,7 @@ fprintf('T-F radius (um)\t\t\t: %.2f\n', TFradius)
 
 RF2  = 3;
 amps = 0.05:0.05:0.4;
-amps = 0.1:0.025:0.25;
+amps = 0.2:0.02:0.3;
 uB   = 2.9:0.2:3.4;
 RFs = [RF1 RF2]';
 
@@ -67,6 +60,8 @@ for i=1:length(amps)
     gF = 0.7 * 2/3;
     mass = 85;
     
+    % NOTE: the factor of 2/3 on the rf amplitudes is the ratio of gF
+    % factors.
     [ F, zsfs ] = MRF.MeshedQuasiEnergies(uB, RFs, 2/3*[RF1A RF2A]', 'iterations', 9, 'qdrpGrad', QdrpGrad, 'gF', gF, 'mass', mass, 'F', 2);
     F2 = MRF.sortEnergies(zsfs, MRF.ladder(RFs, 10, F), 'F', 2);
     lad = MRF.ladder(RFs, 3, F2);
@@ -189,15 +184,17 @@ hold off;
 
 % Lines depicting the location of potential minima
 hold on;
-plot(amps*1e3, sag87, 'Color', c87);
-plot(amps*1e3, sag85, 'Color', c85);
+h1 = plot(amps*1e3, sag87, 'Color', c87);
+h2 = plot(amps*1e3, sag85, 'Color', c85);
 plot(amps*1e3, zPos87_unshifted-expectedPos, '--', 'Color', c87);
 plot(amps*1e3, zPos85_unshifted-expectedPos, '--', 'Color', c85);
 hold off
 
 %xlim([250 400]);
-xlabel('RF amplitude $\Omega_1$ (kHz)', 'Interpreter', 'Latex');
+xlabel('4.5 MHz RF amplitude $\Omega_1$ (kHz)', 'Interpreter', 'Latex');
 ylabel('Gravitational sag ($\mu$m)', 'Interpreter', 'Latex');
+
+legend([h1 h2], {'87', '85'}, 'Location', 'SouthEast')
 
 %% Third Graph: Demonstrate the APs for both species on same axis
 % 
