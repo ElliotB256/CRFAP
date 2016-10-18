@@ -45,10 +45,10 @@ fprintf('%s: Test 2 passed.\n', mfilename)
 %%
 % General intruige: Plot the collapse and revival
 % Calculate the wavefunction
-Rabi = 0.5;
-H = MRF.Hamiltonian(RF, RF, Rabi * 2/3, 'F', 2);
+gFuBB = 0.5;
+H = MRF.Hamiltonian(RF, RF, gFuBB, 'F', 2);
 
-t = linspace(0, 2*pi/(Rabi * 2/3), 50); t(1) = [];
+t = linspace(0, 2*pi/gFuBB, 50); t(1) = [];
 wavefunc = repmat([ 1 0 0 0 0 ]', 1, length(t));
 for j=1:length(t);
     tempU = MRF.Propagator(H, t(j), 2);
@@ -76,13 +76,13 @@ for i=1:5;
     end
     fs = repmat(fs, 1, length(t));
     subplot(6, 1, i);
-    plot(t*Rabi/2/pi,abs(sum(fs .* wavefunc, 1)).^2);
+    plot(t*gFuBB/2/pi,abs(sum(fs .* wavefunc, 1)).^2);
     title(str);
     ylim([0 1]);
 end
 
 subplot(6, 1, 6);
-plot(t*Rabi/2/pi, sum(wavefunc .* conj(wavefunc), 1));
+plot(t*gFuBB/2/pi, sum(wavefunc .* conj(wavefunc), 1));
 title('Normalisation of wavefunction'); ylim([0 1]);
 
 pos = get(gcf, 'Position');
