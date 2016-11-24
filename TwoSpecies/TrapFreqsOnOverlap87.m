@@ -5,10 +5,10 @@
 %%
 % Define trap parameters
 
-QdrpGrad = 60;
+QdrpGrad = 90;
 zeemanSplit   = 2.9:0.2:3.4;
 zeemanSplit   = 2.5:0.2:3.8;
-gFuBB2_87 = 0.250; % 250 kHz \Omega_1
+gFuBB2_87 = 0.175; % 250 kHz \Omega_1
 gFuBB1_87 = 0.4;   % 400 kHz \Omega_1
 RFs = [ 4.5 3 ]';
 

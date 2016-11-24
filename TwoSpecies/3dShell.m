@@ -3,7 +3,7 @@
 % single RF, and sample the lower hemisphere.
 
 RF = 3;
-Rabi = 0.530;
+Rabi = 0.430;
 qdrpGrad = 150;
 Bs=(2.5:0.2:3.5);
 
@@ -17,8 +17,8 @@ vals = cell(1, length(thetas));
 for i=1:length(thetas)
     theta = thetas(i);
     
-     [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RF, Rabi, 'iterations', 3, 'qdrpGrad', qdrpGrad, 'F', 1, 'theta', theta);
-     F2 = MRF.sortEnergies(B, MRF.ladder(RFs, 30, F));
+     [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RF, Rabi, 'iterations', 3, 'qdrpGrad', 0, 'F', 1, 'theta', theta);
+     F2 = MRF.sortEnergies(B, MRF.ladder(RF, 30, F));
     
     % select a level; add these values to array
     trapped = 2;
