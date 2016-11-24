@@ -5,7 +5,7 @@ function [ theta, x, z, v, sim ] = loadSRFCircPol( filename )
 % describing the parameters of the trap.
 
 warning('deprecated: use loadCircPol');
-[ theta, x, z, v, sim ] = SRFCircPol( filename );
+[ theta, x, z, v, sim ] = Render.loadCircPol( filename );
 
 end
 

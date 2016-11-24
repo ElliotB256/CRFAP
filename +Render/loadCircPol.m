@@ -32,13 +32,13 @@ sim.rf = rf; sim.rabi = rabi; sim.qdrpGrad = qdrpGrad;
         th = repmat(th, size(x));
     end
 
-theta = []; x = []; z = []; v = [];
+theta = {}; x = {}; z = {}; v = {};
 while ~feof(fH)
     [tth, tx, tz, tv] = readStrip(fH);
     theta = [ theta tth ];
     x = [ x tx ];
     z = [ z tz ];
-    v = cat(3, v, tv);
+    v = [ v tv];
 end
 
 % remove non singleton dimensions for ease of use when only one level is required.

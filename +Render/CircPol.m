@@ -37,11 +37,11 @@ for i=1:length(thetas)
     theta = thetas(i);
     
     [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RF, Rabi, 'iterations', p.Results.iterations, 'qdrpGrad', 0, 'F', p.Results.F, 'theta', theta);
-    F2 = MRF.sortEnergies(B, MRF.ladder(RF, 30, F));
+    F2 = MRF.sortEnergies(B, MRF.ladder(RF, 30, F), 'F', p.Results.F);
     
     % select a level; add these values to array
-    trapped = p.Results.levels;
-    vals{i} = F2(trapped, :);
+    levels = p.Results.levels;
+    vals{i} = F2(levels, :);
     
     % calculate x and z:
     % convert B from MHz to Gauss
@@ -53,7 +53,7 @@ for i=1:length(thetas)
     zs{i} = z;
     
     if p.Results.showGraphs
-        hold on; plot3(x,-z,F2(trapped, :), 'k.'); hold on; pause(0.01);
+        hold on; plot3(x,-z,F2(levels, :), 'k.'); hold on; pause(0.01);
         view([-45 50]); %axis equal
         xlabel('X (\mum)');
         ylabel('Z (\mum)');
