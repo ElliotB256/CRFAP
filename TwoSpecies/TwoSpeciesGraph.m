@@ -105,7 +105,7 @@ set(gca,'ActivePositionProperty','outerposition');
 
 % Final figure adjustments
 set(gcf, 'Color', [ 1 1 1 ]);
-set(gcf, 'Units', 'pixels', 'Position', [ 200 200 1000 300 ]);
+set(gcf, 'Units', 'pixels', 'Position', [ 200 200 800 300 ]);
 set(ax1, 'Units', 'pixels');
 set(ax2, 'Units', 'pixels');
 pos1 = get(ax1, 'Position');
@@ -116,3 +116,14 @@ set(ax1, 'Position', pos1);
 set(ax2, 'Position', pos2);
 set(ax1, 'Units', 'Normalized');
 set(ax2, 'Units', 'Normalized');
+
+set(gcf, 'Units', 'centimeters');
+pos = get(gcf, 'Position');
+
+w = pos(3);
+h = pos(4);
+p = 0.01;
+set(gcf,...
+  'PaperUnits','centimeters',...
+  'PaperPosition',[p*w p*h w h],...
+  'PaperSize',[w*(1+2*p) h*(1+2*p)]);

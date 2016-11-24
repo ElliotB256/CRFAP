@@ -1,8 +1,8 @@
 %% Trap frequency comparison
 % For a given rf trap, which has a higher trap freq, F=1 or F=2 of 87/85?
 
-qdrpGrad = 100.0;
-Rabi87  = [ 0.14 0.4 ]'; 
+qdrpGrad = 90.0;
+Rabi87  = [ 0.175 0.4 ]'; 
 RFs     = [ 3   4.5  ]';
 Bs87=(4.2:0.05:4.7);
 Bs85=(2.9:0.05:3.2);

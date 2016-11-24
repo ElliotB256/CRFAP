@@ -16,10 +16,16 @@
 % described here.
 
 RF1 = 4.5;
-QdrpGrad = 100;
+QdrpGrad = 90; %QdrpGrad = 100;
 RF1A = 0.4;
 
-w = SRF.shellTrapFrequencies(RF1, RF1A / 0.7, QdrpGrad);
+f = SRF.shellTrapFrequencies(RF1, RF1A / 0.7, QdrpGrad);
+
+% Investigating new scheme: Radial trap frequency is determined by the
+% dipole trap and is the same for both species.
+fprintf('<strong>The dipole trap is in use.</strong>\n')
+f(1:2) = 1000;
+w = 2*pi*f;
 
 a       = 100 * Constants.bohr;
 N       = 1e5;            % 10 thousand atoms
@@ -27,16 +33,17 @@ omega   = geomean(w);          % geometric trap frequency, Hz
 
 oscLength = @(m, angFreq) (Constants.hbar ./ (Constants.amu * m * angFreq)).^0.5;
 
-chemPot = 1/2* ( 15 * N * a / oscLength(87, omega)) ^ (2/5) * omega;
+chemPot = 1/2* ( 15 * N * a / oscLength(87, omega)) ^ (2/5) * (omega / 2 / pi); % chemical potential in Hz
 
 % Pethick p155
-TFradius = 1e6 * (2 * (chemPot * Constants.hbar) ./ (87 * Constants.amu) ./ ((2 * pi * w(3)).^2)).^0.5;
-
+TFradius =  1e6 * (2 * (chemPot * Constants.h) ./ (87 * Constants.amu) ./ ((2 * pi * w(3)).^2)).^0.5;
+TFradiusr = 1e6 * (2 * (chemPot * Constants.h) ./ (87 * Constants.amu) ./ ((2 * pi * w(1)).^2)).^0.5;
 fprintf('87 Condensate parameters:\n')
-fprintf('Chemical potential (kHz): %.2f\n', chemPot/(2 * pi * 1000))
+fprintf('Chemical potential (Hz)\t: %.0f\n', chemPot)
 fprintf('Atom number\t\t\t\t: %.1e\n', N)
-fprintf('Trap frequencies (Hz)\t: (%.2f, %.2f, %.2f)\n', w)
-fprintf('T-F radius (um)\t\t\t: %.2f\n', TFradius)
+fprintf('Trap frequencies (Hz)\t: (%.2f, %.2f, %.2f)\n', f)
+fprintf('T-F radius r (um)\t\t: %.2f\n', TFradiusr)
+fprintf('T-F radius z (um)\t\t: %.2f\n', TFradius)
 
 %% Section 2: Calculate trap frequencies for 85
 % Calculate the trap frequencies for Rb85 over a range of omega. Use the
@@ -45,9 +52,8 @@ fprintf('T-F radius (um)\t\t\t: %.2f\n', TFradius)
 % the values of oscillator lengths
 
 RF2  = 3;
-amps = 0.05:0.05:0.4;
 amps = 0.2:0.02:0.3;
-amps = 0.1:0.02:0.2;
+amps = 0.150:0.01:0.200;
 uB   = 2.9:0.2:3.4;
 RFs = [RF1 RF2]';
 
@@ -197,9 +203,27 @@ ylabel('Gravitational sag ($\mu$m)', 'Interpreter', 'Latex');
 
 legend([h1 h2], {'87', '85'}, 'Location', 'SouthEast')
 
+% Determine the value of Rabi frequency where the clouds are closest to
+% overlap
+diff = zPos85-zPos87;
+highResAmps = linspace(min(amps), max(amps), 1000);
+diff = interp1(amps, diff, highResAmps, 'linear');
+[~,best] = min(abs(diff));
+
+RF2A = highResAmps(best);
+
+clear diff highResAmps best
+
+% Illustrate this choice of parameters on the graph
+xl = ylim;
+hold on; plot([RF2A RF2A]*1e3, ylim, ':', 'Color', [0.6 0.6 0.6]); hold off; ylim(xl);
+clear x1;
+
+save('GravitationalSagOverlap.mat', 'RF1A', 'RF2A', 'QdrpGrad', 'RF1', 'RF2');
+
 %% Third Graph: Demonstrate the APs for both species on same axis
 % 
-
+figure(3);
 B = 1:0.25:7;
 
 % Calculate the potential for 87:
