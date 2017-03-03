@@ -3,7 +3,7 @@ function [ f ] = shellTrapFrequencies( RF, BRF, BGrad )
 % AP.
 %  BRF: Amplitude of dressing RF in Gauss
 %  RF: RF frequency in MHz
-%  BGrad: Qdrp gradient, Gauss/cm
+%  BGrad: Qdrp gradient, Gauss/cm. Defined such that B_z = 2 B' z
 % 
 % Note: for very shallow BGrad the bottom of the shell will extend beyond
 % the meshing region and we will have erroneous results!

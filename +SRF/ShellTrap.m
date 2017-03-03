@@ -5,7 +5,7 @@ function [ pot ] = ShellTrap( x,y,z, zsf, BGrad, RF, RFAmp, BRF )
 %  
 % zsf   : Zeeman split factor, g_f \mu_B / hbar, in units of MHz/Gauss.
 % 
-% BGrad : Quadrupole gradient, Gauss/cm
+% BGrad : Quadrupole gradient, Gauss/cm. Defined such that B_z = 2 B' z
 % 
 % BRF   : a function handle that returns the polarisation of the applied RF.
 %         Defaults to circ polarisation along z, with node at the top.

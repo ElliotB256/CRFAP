@@ -27,7 +27,7 @@ periodicity = 2*pi/MRF.GetFundamental(RF);
 %periodicity = 1/MRF.GetFundamental(RF);
 %warning('blah');
 
-for i=1:length(Zs)
+parfor i=1:length(Zs)
     B = Zs(i);
     H = MRF.Hamiltonian(B, RF, gFuBB, 'F', p.Results.F, 'theta', p.Results.theta);
     U = MRF.Propagator(H, periodicity, p.Results.F);

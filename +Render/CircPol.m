@@ -11,7 +11,7 @@ addParameter(p, 'showGraphs', 1, @isnumeric);
 addParameter(p, 'iterations', 3, @isnumeric);
 addParameter(p, 'levels', 2, @isnumeric);
 addParameter(p, 'gF', 0.7, @isnumeric);
-addParameter(p, 'mass', 0.7, @isnumeric);
+addParameter(p, 'mass', 87, @isnumeric);
 addParameter(p, 'F', 1, @isnumeric);
 addParameter(p, 'thetas', 0:0.05:(pi/2), @isnumeric); % angles we integrate
 addParameter(p, 'Bs', nan, @isnumeric); % B fields to evaluate potential at before finer meshing occurs.
@@ -38,7 +38,7 @@ vals = cell(1, length(thetas));
 for i=1:length(thetas)
     theta = thetas(i);
     
-    [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RF, Rabi, 'iterations', p.Results.iterations, 'qdrpGrad', 0, 'F', p.Results.F, 'theta', theta, 'gF', p.Results.gF, 'mass', p.Results.mass);
+    [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RF, Rabi, 'iterations', p.Results.iterations, 'qdrpGrad', p.Results.quadGrad, 'F', p.Results.F, 'theta', theta, 'gF', p.Results.gF, 'mass', p.Results.mass);
     F2 = MRF.sortEnergies(B, MRF.ladder(RF, 30, F), 'F', p.Results.F);
     
     % select a level; add these values to array
@@ -50,6 +50,12 @@ for i=1:length(thetas)
     B = B / p.Results.gF; % gF uB in MHz/G
     x = ((1-cos(theta)) * (B / qdrpGrad).^2).^0.5 * 1e4;
     z = (cos(theta) * (B / qdrpGrad).^2 / 4).^0.5 * 1e4;
+    
+    % upper hemisphere (to check properly)
+    if ~isreal(z) 
+        z = -abs(z);
+        x = ((1+cos(theta)) * (B / qdrpGrad).^2).^0.5 * 1e4;
+    end
     
     xs{i} = x;
     zs{i} = z;

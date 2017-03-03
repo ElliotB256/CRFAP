@@ -14,13 +14,13 @@ end
 % propagator for that time.
 if F == 1
     U = eye(3);
-    [~,U] = ode45(@(t,ds) PropTimeEv(t, ds, H), [0 time], U(:), odeset('RelTol', 1e-4));
+    [~,U] = ode45(@(t,ds) PropTimeEv(t, ds, H), [0 time], U(:), odeset('RelTol', 1e-6));
     %recast U to sq matrix
     U = U(end,:);
     U = U([ 1 2 3; 4 5 6; 7 8 9;]');
 elseif F == 2
     U = eye(5);
-    [~,U] = ode45(@(t,ds) PropTimeEvF2(t, ds, H), [0 time], U(:), odeset('RelTol', 1e-4));
+    [~,U] = ode45(@(t,ds) PropTimeEvF2(t, ds, H), [0 time], U(:), odeset('RelTol', 1e-6));
     %recast U to sq matrix
     U = U(end,:);
     U = U([1:5; 6:10; 11:15; 16:20; 21:25]');
