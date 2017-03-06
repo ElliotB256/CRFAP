@@ -2,12 +2,12 @@
 import Constants.*
 
 zsf = Constants.zeemansplit; %Mhz/Gauss
-BGrad = 2.42*100; %Gauss/cm
+BGrad = 1.1731 * 100; %2.42*100; %Gauss/cm
 mass = 87; %amu
-RFAmp = 0.450 * 1.06 ./ zsf * 0.5;
+RFAmp = 0.400 ./ zsf;
 RF = 4.2;
 
-VITopVoltage = 0.7;
+VITopVoltage = 0.6;
 VI2TOP = @(vi) 5.75 ./ zsf ./ 2.6 .* vi;
 
 % Numerically integrate shell trap for a variety of different TOP fields
@@ -63,9 +63,8 @@ for BTOP=BTOPs
 end
 
 plot(BTOPs,trapFx(:,2),'-', 'LineWidth', 2, 'Color', [0.8 0.2 0.2]); hold on
-%plot(BTOPs,trapFy(:,2),'g-');
 plot(BTOPs,trapFz(:,2),'-', 'LineWidth', 2, 'Color', [0.2 0.2 0.8]);
-plot([1 1] * VI2TOP(0.8), ylim, 'k-');
+plot([1 1] * VI2TOP(0.6), ylim, 'k-');
 
 %geometric frequency
 plot(BTOPs, (abs(real(trapFx(:,2))) > 0).*(trapFx(:,2) .* trapFy(:,2) .* trapFz(:,2)).^(1/3), '--', 'Color', [0.4 0.4 0.4], 'LineWidth', 2);
@@ -82,6 +81,6 @@ title({'TAAP trap frequencies', ...
     )});
 
 %%
- plot(BTOPs,tms); hold on;
- dz = ((resonantEllipsoidWidth(2, BGrad, zsf).^2 - (BTOPs/(BGrad*1e-4)).^2).^0.5)/2;
- plot(BTOPs, -dz, ':'); hold off
+%  plot(BTOPs,tms); hold on;
+%  dz = ((resonantEllipsoidWidth(2, BGrad, zsf).^2 - (BTOPs/(BGrad*1e-4)).^2).^0.5)/2;
+%  plot(BTOPs, -dz, ':'); hold off
