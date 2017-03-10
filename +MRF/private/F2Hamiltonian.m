@@ -24,8 +24,8 @@ alpha = (cos(theta) - 1)/2;
 beta  = (cos(theta) + 1)/2;
 
 % Calculate coherence terms
-cp    = sum( c .* ( alpha * e.^( 1i .* t .* 2 .* pi .* RFs ) + beta * e.^(-1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
-cn    = sum( c .* ( alpha * e.^(-1i .* t .* 2 .* pi .* RFs ) + beta * e.^( 1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
+cp    = sum( c .* ( alpha .* e.^( 1i .* t .* 2 .* pi .* RFs ) + beta .* e.^(-1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
+cn    = sum( c .* ( alpha .* e.^(-1i .* t .* 2 .* pi .* RFs ) + beta .* e.^( 1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
 
 Hc = [     ...
            0,           2*cp,           0,              0,      0       ;

@@ -9,11 +9,11 @@ function [ H ] = Hamiltonian( Zs, RFs, gFuBB, varargin )
 %  theta: used to calculate circ polarised AP at arbitrary position.
 
 p = inputParser;
-addRequired(p,'Zs',@isnumeric);
-addRequired(p,'RFs',@isnumeric);
-addRequired(p,'Rabi',@isnumeric);
+addRequired(p,'Zs',@(x) isnumeric(x) && size(x,2) == 1);
+addRequired(p,'RFs',@(x) isnumeric(x) && size(x, 2) == 1);
+addRequired(p,'Rabi',@(x) isnumeric(x) && size(x, 2) == 1);
 addParameter(p,'F', 1, @(x) any(ismember(x,[1 2])));
-addParameter(p, 'theta', 0, @(x) x >= 0 && x <= pi);
+addParameter(p, 'theta', 0, @(x) all(x >= 0 & x <= pi) && size(x, 2) == 1);
 
 parse(p,Zs, RFs, gFuBB, varargin{:});
 

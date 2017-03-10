@@ -24,8 +24,8 @@ alpha = (cos(theta) - 1)/2;
 beta  = (cos(theta) + 1)/2;
 
 % Calculate coherence terms
-cp    = (2.^0.5) * sum( c .* ( alpha * e.^(1i .* t .* 2 .* pi .* RFs ) + beta * e.^(-1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
-cn    = (2.^0.5) * sum( c .* ( alpha * e.^(-1i .* t .* 2 .* pi .* RFs ) + beta * e.^(1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
+cp    = (2.^0.5) * sum( c .* ( alpha .* e.^(1i .* t .* 2 .* pi .* RFs ) + beta .* e.^(-1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
+cn    = (2.^0.5) * sum( c .* ( alpha .* e.^(-1i .* t .* 2 .* pi .* RFs ) + beta .* e.^(1i .* t .* 2 .* pi .* RFs ) ), 1) / 2;
 
 % Note: The Clebsch-Gordon coefficient, here sqrt(2), is incorporated
 % above.
