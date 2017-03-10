@@ -24,7 +24,7 @@ p = inputParser;
    addParameter(p,'gF',Constants.gF,@isnumeric);
    addParameter(p,'mass',87,@isnumeric);
    addParameter(p,'F',1,@(x) ismember(x, [ 1 2 ]));
-   addParameter(p, 'theta', 0, @(x) x >= 0 && x <= pi);
+   addParameter(p, 'theta', 0, @(x) all(x >= 0 & x <= pi) && size(x, 2) == 1);
    
 parse(p,Bs,RFs, gFuBB, varargin{:});
 

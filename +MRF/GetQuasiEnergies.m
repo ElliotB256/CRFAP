@@ -11,7 +11,7 @@ addRequired(p,'Zs',@isnumeric);
 addRequired(p,'RF',@isnumeric);
 addRequired(p,'Rabi',@isnumeric);
 addParameter(p,'F', 1, @(x) any(ismember(x,[1 2])));
-addParameter(p, 'theta', 0, @(x) x >= 0 && x <= pi);
+addParameter(p, 'theta', 0, @(x) all(x >= 0 & x <= pi) && size(x, 2) == 1);
 parse(p,Zs, RF, gFuBB, varargin{:});
 
 switch p.Results.F

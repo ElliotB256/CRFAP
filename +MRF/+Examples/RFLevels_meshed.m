@@ -6,7 +6,7 @@ qdrpGrad = 100;
 
 Bs=(2.5:0.2:5);
 %Bs=(0:0.2:7);
-[ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', 3, 'qdrpGrad', qdrpGrad, 'F', 1);
+[ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', 3, 'qdrpGrad', qdrpGrad, 'F', 1, 'theta', [ 0.8 0.2 0.8 ]');
 
 %%
 % Make a ladder, sort energies, then re-ladder to get correct states. Add

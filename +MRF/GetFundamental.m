@@ -8,7 +8,7 @@ if length(RFs) == 1
     freq = RFs;
 else
     
-    RFs = sort(RFs);
+    RFs = sort(abs(RFs));
     if abs(diff(diff(RFs))) > 1e-5
         error('RFs must have common difference');
     end
