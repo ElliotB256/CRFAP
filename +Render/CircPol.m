@@ -15,6 +15,7 @@ addParameter(p, 'mass', 87, @isnumeric);
 addParameter(p, 'F', 1, @isnumeric);
 addParameter(p, 'thetas', 0:0.05:(pi/2), @isnumeric); % angles we integrate
 addParameter(p, 'Bs', nan, @isnumeric); % B fields to evaluate potential at before finer meshing occurs.
+addParameter(p, 'handedness', []);
 
 p.parse(filename, varargin{:});
 
@@ -35,10 +36,21 @@ xs = cell(1, length(thetas));
 zs = cell(1, length(thetas));
 vals = cell(1, length(thetas));
 
+% Determine handedness (use +1 for maximum coupling at bottom of shell, -1
+% for maximum coupling at the top).
+handedness = p.Results.handedness;
+if isempty(handedness)
+   handedness = ones(size(RF)); 
+end
+transformThetas = @(theta) theta * handedness + (1-handedness) * pi/2;
+
+
 for i=1:length(thetas)
     theta = thetas(i);
     
-    [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RF, Rabi, 'iterations', p.Results.iterations, 'qdrpGrad', p.Results.quadGrad, 'F', p.Results.F, 'theta', theta, 'gF', p.Results.gF, 'mass', p.Results.mass);
+    thetaByRF = transformThetas(theta);
+    
+    [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RF, Rabi, 'iterations', p.Results.iterations, 'qdrpGrad', p.Results.quadGrad, 'F', p.Results.F, 'theta', thetaByRF, 'gF', p.Results.gF, 'mass', p.Results.mass);
     F2 = MRF.sortEnergies(B, MRF.ladder(RF, 30, F), 'F', p.Results.F);
     
     % select a level; add these values to array
