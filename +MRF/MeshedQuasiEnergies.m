@@ -26,10 +26,15 @@ p = inputParser;
    addParameter(p,'mass',87,@isnumeric);
    addParameter(p,'F',1,@(x) ismember(x, [ 1 2 ]));
    addParameter(p, 'theta', 0, @(x) all(x >= 0 & x <= pi) && size(x, 2) == 1);
+   addParameter(p, 'polarisation', 'circ', @(x) ismember(x, {'circ', 'lin'}));
    
 parse(p,Bs,RFs, gFuBB, varargin{:});
 
-eigF = MRF.GetQuasiEnergies(Bs, RFs, gFuBB, 'F', p.Results.F, 'theta', p.Results.theta, 'phase', p.Results.phase);
+eigF = MRF.GetQuasiEnergies(Bs, RFs, gFuBB, ...
+    'F', p.Results.F, ...
+    'theta', p.Results.theta, ...
+    'phase', p.Results.phase, ...
+    'polarisation', p.Results.polarisation);
 
 iterations = p.Results.iterations;
 deltaB = Bs(2)-Bs(1);

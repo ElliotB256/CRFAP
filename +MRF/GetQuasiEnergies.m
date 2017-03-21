@@ -13,6 +13,7 @@ addRequired(p,'Rabi',@isnumeric);
 addParameter(p,'phase',0,@isnumeric);
 addParameter(p,'F', 1, @(x) any(ismember(x,[1 2])));
 addParameter(p, 'theta', 0, @(x) all(x >= 0 & x <= pi) && size(x, 2) == 1);
+addParameter(p, 'polarisation', 'circ', @(x) ismember(x, {'circ', 'lin'}));
 parse(p,Zs, RF, gFuBB, varargin{:});
 
 switch p.Results.F
@@ -30,7 +31,11 @@ periodicity = 2*pi/MRF.GetFundamental(RF);
 
 parfor i=1:length(Zs)
     B = Zs(i);
-    H = MRF.Hamiltonian(B, RF, gFuBB, 'F', p.Results.F, 'theta', p.Results.theta, 'phase', p.Results.phase);
+    H = MRF.Hamiltonian(B, RF, gFuBB, ...
+        'F', p.Results.F, ...
+        'theta', p.Results.theta, ...
+        'phase', p.Results.phase, ...
+        'polarisation', p.Results.polarisation);
     U = MRF.Propagator(H, periodicity, p.Results.F);
     eigF2(:,i) = sort(angle(eig(U)))/periodicity;
 end
