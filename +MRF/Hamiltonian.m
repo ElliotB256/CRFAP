@@ -44,6 +44,11 @@ switch p.Results.polarisation
             error('Unsupported value of F specified for linear polarisation');
         end
         
+        if theta ~= 0
+            error('theta ~= 0 not yet supported for Linear Hamiltonian.');
+        end
+        
+        H = @(t) F1LinearHamiltonian( t, Zs, RFs, gFuBB, p.Results.phase );
         
 end
 
