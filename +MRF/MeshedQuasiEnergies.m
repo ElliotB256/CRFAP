@@ -7,7 +7,7 @@ function [ eigF, Bs ] = MeshedQuasiEnergies( Bs, RFs, gFuBB, varargin )
 % Syntax: GetQuasiEnergies( Bs, RFs, Rabi, ...)
 %  Bs: energy splitting of the undressed Zeeman states in MHz.
 %  RFs: vector of dressing RFs (MHz)
-%  gFuBB: vector of dressing RF Rabi frequencies (MHz)
+%  gFuBB: vector of dressing RF Amplitudes (MHz) equivalent to gF uB * B
 % 
 % The following parameters may also be described:
 %  iterations: number of times to more finely mesh the results.
@@ -70,7 +70,11 @@ end
 
 % Calculate energies of these new points and add to the list.
 Bs2 = cB(:)';
-eigF2 = MRF.GetQuasiEnergies(Bs2, RFs, gFuBB, 'F', p.Results.F, 'theta', p.Results.theta, 'phase', p.Results.phase);
+eigF2 = MRF.GetQuasiEnergies(Bs2, RFs, gFuBB, ...
+    'F', p.Results.F, ...
+    'theta', p.Results.theta, ...
+    'phase', p.Results.phase, ...
+    'polarisation', p.Results.polarisation);
 eigF = [eigF eigF2];
 Bs = [Bs Bs2];
 

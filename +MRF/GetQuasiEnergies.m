@@ -28,16 +28,21 @@ periodicity = 2*pi/MRF.GetFundamental(RF);
 
 %periodicity = 1/MRF.GetFundamental(RF);
 %warning('blah');
-
-parfor i=1:length(Zs)
-    B = Zs(i);
-    H = MRF.Hamiltonian(B, RF, gFuBB, ...
-        'F', p.Results.F, ...
-        'theta', p.Results.theta, ...
-        'phase', p.Results.phase, ...
-        'polarisation', p.Results.polarisation);
-    U = MRF.Propagator(H, periodicity, p.Results.F);
-    eigF2(:,i) = sort(angle(eig(U)))/periodicity;
+try
+    parfor i=1:length(Zs)
+        B = Zs(i);
+        eigF2(:,i) = compute(B, RF, gFuBB, p, periodicity);
+    end
+catch e
+    
+    if strcmp(e.identifier, 'parallel:lang:pool:UnexpectedParforFailure')
+        fprintf('Unable to checkout parallel toolbox license\n')
+        for i=1:length(Zs)
+            B = Zs(i);
+            eigF2(:,i) = compute(B, RF, gFuBB, p, periodicity);
+        end
+    end
+    
 end
 
 end
