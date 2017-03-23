@@ -9,7 +9,7 @@ function [ eigF2 ] = GetQuasiEnergies( Zs, RF, gFuBB, varargin )
 p = inputParser;
 addRequired(p,'Zs',@isnumeric);
 addRequired(p,'RF',@isnumeric);
-addRequired(p,'Rabi',@isnumeric);
+addRequired(p,'gFuBB',@isnumeric);
 addParameter(p,'phase',0,@isnumeric);
 addParameter(p,'F', 1, @(x) any(ismember(x,[1 2])));
 addParameter(p, 'theta', 0, @(x) all(x >= 0 & x <= pi) && size(x, 2) == 1);
