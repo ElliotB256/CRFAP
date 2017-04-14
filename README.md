@@ -3,7 +3,7 @@
 ### What is this repository for? ###
 
 * A number of useful Matlab functions for evaluating adiabatic potentials.
-* Supports F=1 and F=1.
+* Supports F=1 and F=2.
 * Currently supports 3d evaluation of circular polarized rf and multiple rf components (MRF).
 * In future it will support arbitrary combinations of polarization of the rf components.
 
