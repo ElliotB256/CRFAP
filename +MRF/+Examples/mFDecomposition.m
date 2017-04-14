@@ -3,8 +3,8 @@
 % application of which evolves the wavefunction for one period of time. As
 % this operator T commutes with the Hamiltonian, these eigenvectors are
 % also the eigenvectors of the dressed Hamiltonian.
-RF = 3.6;% [ 3 3.6 4.2 ]';
-Rabi = 0.3;% [ 0.2 0.2 0.2 ]';
+RF = 3;
+Rabi = 0.3;
 qdrpGrad = 100;
 
 Bs=linspace(2.7, 4.5, 40);
