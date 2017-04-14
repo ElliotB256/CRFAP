@@ -33,7 +33,7 @@ switch p.Results.polarisation
                 H = @(t) F1Hamiltonian(t, Zs, RFs, gFuBB, theta, p.Results.phase);
             case 2
                 % Circ pol with arb rotation:
-                H = @(t) F2Hamiltonian(t, Zs, RFs, gFuBB, theta, p.Results.phase);
+                H = @(t) F2Hamiltonian(t, Zs, RFs, gFuBB, theta);
             otherwise
                 error('Unsupported value of F specified.');
                 
