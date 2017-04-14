@@ -1,4 +1,4 @@
-function eigF = compute(B, RF, gFuBB, p, periodicity)
+function [ eigF, eigV ] = compute(B, RF, gFuBB, p, periodicity)
 %COMPUTE Computes MRF eigenenergies. Used in GetQuasiEnergies.
 % B: zeeman splitting, MHz
 % RF: dressing frequencies, MHz
@@ -13,5 +13,14 @@ cH = MRF.Hamiltonian(B, RF, gFuBB, ...
     'phase', p.Results.phase, ...
     'polarisation', p.Results.polarisation);
 cU = MRF.Propagator(cH, periodicity, p.Results.F);
-eigF = sort(angle(eig(cU)))/periodicity;
+
+% Return eigenvectors of propagator if they are requested.
+if nargout > 1
+    [ eigV, vals ] = eig(cU);
+    [ eigF, j] = sort(angle(diag(vals))/periodicity);
+    eigV = eigV(:,j);
+else
+    eigF = sort(angle(eig(cU)))/periodicity;
+end
+
 end
