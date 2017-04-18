@@ -4,7 +4,7 @@
 % this operator T commutes with the Hamiltonian, these eigenvectors are
 % also the eigenvectors of the dressed Hamiltonian.
 RF = [ 3 3.6 4.2 ]';
-Rabi = [ 0.1 0.1 0.1 ]';
+Rabi = [ 0.3 0.45 0.3 ]';
 qdrpGrad = 100;
 
 Bs=linspace(2.5, 4.7, 50);
@@ -15,7 +15,7 @@ Bs=linspace(2.5, 4.7, 50);
 % together, let's take an approach based on the eigenvectors. We choose the
 % next value of a given eigenstate by choosing the eigenvector that is most
 % similar to the previous value of it's eigenvector.
-difference = @(a,b) sum((a-b).*conj(a-b), 1);
+difference = @(a,b) sum(conj(a).*b, 1);
 
 eigF2 = zeros(size(eigF));
 eigF2(:,1) = eigF(:,1);
@@ -33,7 +33,7 @@ for i=2:length(Bs)
         prevState = squeeze(eigV(:,currIndices(j),i-1));
         candidates = eigV(:,:,i);
         scores = [ difference(repmat(prevState, 1, 3), candidates) difference(repmat(-prevState, 1, 3), candidates)];
-        [~,next] = min(scores);
+        [~,next] = max(scores);
         if next > 3
             next = next-3;
         end
@@ -60,6 +60,7 @@ end
 
 % Plot the colored line in Matlab. We have to use a patch object as a
 % straight plot won't support per-vertex color data.
+subplot(2,1,1);
 for i=1:3
     x = [ Bs NaN ]; %NaN are used to prevent the patch looping back
     y = [eigF2(i,:) NaN ];
@@ -71,6 +72,13 @@ hold off;
 
 xlabel('Zeeman splitting (MHz)', 'FontSize', 14);
 ylabel('V/h (MHz)', 'FontSize', 14);
-
+title(sprintf('Rabi = [ %.2f %.2f %.2f ]', Rabi));
 set(gcf, 'Color', 'w');
 box on;
+
+subplot(2,1,2);
+h = plot(Bs, abs(squeeze(eigV2(:,3,:))));
+h(1).Color = 'b';
+h(2).Color = 'g';
+h(3).Color = 'r';
+ylabel('$|a(m_F)|$, double well state', 'Interpreter', 'Latex');

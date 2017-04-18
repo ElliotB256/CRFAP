@@ -5,7 +5,7 @@ Rabi = 0.3 * [ 1 0.7 1 ]';
 qdrpGrad = 100;
 
 Bs=(2.5:0.2:5);
-Bs = 2.8:0.1:3.2;
+% Bs = 2.8:0.1:3.2;
 %Bs=(0:0.2:7);
 [ F, B ] = MRF.MeshedQuasiEnergies(Bs, RFs, Rabi, 'iterations', 3, 'qdrpGrad', qdrpGrad, 'F', 1, 'polarisation', 'lin');
 
