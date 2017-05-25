@@ -1,4 +1,4 @@
-function [ F ] = sortByCurvature( x, F )
+function [ F, j ] = sortByCurvature( x, F )
 %SORTBYCURVATURE Sorts the given energy levels by their curvature.
 % Sorts energy levels by taking the second derivative. 'x' is used as a
 % generalised x coordinate, which can be spatial, zeeman splitting etc.
