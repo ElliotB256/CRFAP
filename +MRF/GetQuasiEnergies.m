@@ -51,6 +51,8 @@ if p.Results.parallel
         if strcmp(e.identifier, 'parallel:lang:pool:UnexpectedParforFailure')
             fprintf('Unable to checkout parallel toolbox license. Falling back to non-parallel computation.\n')
             parfailed = 1;
+        else
+            throw(e);
         end
         
     end
