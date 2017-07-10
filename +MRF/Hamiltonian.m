@@ -14,7 +14,7 @@ p = inputParser;
 addRequired(p,'Zs',@(x) isnumeric(x) && size(x,2) == 1);
 addRequired(p,'RFs',@(x) isnumeric(x) && size(x, 2) == 1);
 addRequired(p,'Rabi',@(x) isnumeric(x) && size(x, 2) == 1);
-addParameter(p, 'phase', 0, @(x) all(x >= 0 & x <= 2*pi) && size(x, 2) == 1);
+addParameter(p, 'phase', 0, @(x) size(x, 2) == 1);
 addParameter(p,'F', 1, @(x) any(ismember(x,[1 2])));
 addParameter(p, 'theta', 0, @(x) all(x >= 0 & x <= pi) && size(x, 2) == 1);
 addParameter(p, 'polarisation', 'circ', @(x) ismember(x, {'circ', 'lin'}));
