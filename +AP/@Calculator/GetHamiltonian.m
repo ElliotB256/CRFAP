@@ -1,4 +1,4 @@
-function [ H ] = GetHamiltonian( context, omega0, theta, phi )
+function [ H ] = GetHamiltonian( context, omega0, theta, gamma )
 %GETHAMILTONIAN Gets the rf-dressed Hamiltonian for calculations.
 %  Creates a function handle H(t) that returns the Hamiltonian of the
 %  rf-dressed system at a time t.
@@ -40,7 +40,7 @@ switch context.F
                 H = @(t) F1LinPolBottomOfShell(t, omega0, RF, gFuBB, phase );
                 return;
             else
-                H = @(t)  F1LinPol( t, omega0, RF, theta, phi, gFuBB, phase );
+                H = @(t) F1LinPol( t, omega0, RF, theta, gamma, gFuBB, phase );
                 return;
             end
         end

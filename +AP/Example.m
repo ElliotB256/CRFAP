@@ -31,5 +31,18 @@ ap = AP.Calculator().LinearPolarised(RF, amp);
 disp(ap);
 
 x = 2:0.1:4;
+
+%% Tests
+% Check local quantisation axis parallel to x (and therefore to B):
+y = ap.GetDressedEnergies(x, pi/2, 0);
+plot(x, y);
+
+%%
+% Check local quantisation axis parallel to y (perpendicular to B):
 y = ap.GetDressedEnergies(x, pi/2, pi/2);
+plot(x, y);
+
+%%
+% Check local quantisation axis parallel to z (perpendicular to B):
+y = ap.GetDressedEnergies(x, 0.001, 0);
 plot(x, y);

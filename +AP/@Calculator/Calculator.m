@@ -10,7 +10,7 @@ classdef Calculator
     %  where all field quantities are column vectors for multiple dressing
     %  fields. The quantisation axis is rotated from \hat{z} with respect
     %  to this field by an angle theta around the y axis, and then an angle
-    %  phi around the z axis.
+    %  gamma around the x' axis.
     
     properties (SetAccess=private)
         
@@ -171,7 +171,7 @@ classdef Calculator
     methods
        
         %GETHAMILTONIAN Gets the rf-dressed Hamiltonian for calculations.
-        H = GetHamiltonian(context, theta, phi, omega0);
+        H = GetHamiltonian(context, theta, gamma, omega0);
         
     end
     
