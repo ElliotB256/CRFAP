@@ -131,8 +131,9 @@ classdef Calculator
             context.PZ = 0;
             context.PY = 0;
             context.BY = 0;
-            context.BY = B;
+            context.BX = B;
             context.RF = RF;
+            context.Phase = phase;
             
         end
         

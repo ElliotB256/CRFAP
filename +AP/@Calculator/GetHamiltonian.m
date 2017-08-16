@@ -35,7 +35,14 @@ switch context.F
             end
             
         elseif context.IsLinearPolarised()
-            
+            gFuBB = gFuB * BX;
+            if (bottomOfShell)
+                H = @(t) F1LinPolBottomOfShell(t, omega0, RF, gFuBB, phase );
+                return;
+            else
+                H = @(t)  F1LinPol( t, omega0, RF, theta, phi, gFuBB, phase );
+                return;
+            end
         end
         
         error('Not implemented for this system.');
