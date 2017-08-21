@@ -5,6 +5,8 @@ function [ H ] = GetHamiltonian( context, omega0, theta, gamma )
 %  
 %  Automatically attempts to apply approximations to simplify the terms
 %  required for the Hamiltonian.
+% 
+%  Syntax: ap.GetHamiltonian(omega0, theta, gamma)
 
 % special case for atoms along the z-axis.
 bottomOfShell = theta == 0;
