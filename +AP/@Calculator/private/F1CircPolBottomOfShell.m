@@ -9,9 +9,9 @@ e = exp(1);
 c = gFuBB;
 
 H0 = [ 
-   omega0,          0,      0,  ;
+  -omega0,          0,      0,  ;
         0,          0,      0,  ;
-        0,          0,-omega0,  ;
+        0,          0, omega0,  ;
      ];
 
 % Calculate coherence terms

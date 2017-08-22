@@ -13,9 +13,9 @@ sGa = sin(gamma);
 cGa = cos(gamma);
 
 H0 = [ 
-       omega0,      0,      0,       ;
+      -omega0,      0,      0,       ;
             0,      0,      0,       ;
-            0,      0,-omega0,       ;
+            0,      0, omega0,       ;
      ];
 
 % Coherence terms:

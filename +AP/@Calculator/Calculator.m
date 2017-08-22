@@ -1,4 +1,4 @@
-classdef Calculator
+classdef Calculator < handle
     %CALCULATOR Calculates dressed eigenstates and energies.
     %  The AP.Calculator class is used to calculate the eigenenergies and
     %  eigenstates of RF-dressed atoms in static magnetic fields. It is
@@ -35,19 +35,19 @@ classdef Calculator
         %PHASE Phase between different MRF components (radians)
         Phase;
         
-        %F Hyperfine-spin of the atom.
-        F = 1;
-        
-        %gFuB Magnetic dipole moment of atoms.
-        gFuB = 0.7;
+        %ATOM Atomic species used for dressed energy calculation
+        Atom;
         
         %PARALLEL Should the calculation occur using parallel loops?
         Parallel = 1;
         
-        
     end
     
     methods
+        
+        function c = Calculator()
+           c.OfSpecies('F', 1, 'OfSpecies', 87);
+        end
         
         function context = CircularPolarised(context, RF, B, phase)
             %CIRCULARPOLARISED Configure for circular polarised dressing RF.
@@ -148,14 +148,29 @@ classdef Calculator
             
         end
         
-        function context = Atoms(context, vargargin)
-            %ATOMS Configure properties of the atomic Hamiltonian.
-            warning('Not implemented');
+        function context = OfSpecies(context, varargin)
+            %OFSPECIES Configure properties of the atomic Hamiltonian.
+            
+            ip = inputParser();
+            ip.addParameter('OfSpecies', 87);
+            ip.addParameter('F', 1);
+            ip.parse(varargin{:});
+            
+            switch ip.Results.OfSpecies
+                case 87
+                    switch ip.Results.F
+                        case 1
+                            context.Atom = AP.Atom(1, -0.7);
+                            return;
+                    end
+            end
+            
+            error('Unsupported atom species.');
         end
         
         function s = HilbertSpaceSize(context)
            %HILBERTSPACESIZE Gets the size of the Hilbert space.
-            switch context.F
+            switch context.Atom.F
                 case 1
                     s = 3;
                 case 2

@@ -7,9 +7,9 @@ function [ H ] = F1LinPolBottomOfShell( t, omega0, RFs, gFuBB, phase )
 c = gFuBB;
 
 H0 = [ 
-       omega0,      0,      0,       ;
+      -omega0,      0,      0,       ;
             0,      0,      0,       ;
-            0,      0,-omega0,       ;
+            0,      0, omega0,       ;
      ];
 
 % Calculate coherence terms
