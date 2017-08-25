@@ -66,6 +66,25 @@ classdef TestCircularPolarisationBottom < matlab.unittest.TestCase
             end
         end
         
+        function TestAgreesWithGeneral(testCase)
+            %TESTAGREESWITHGENERAL
+            %
+            %   Tests that the circular bottom Hamiltonian agrees with the
+            %   general Hamiltonian in the limits required for this
+            %   approximation.
+            
+            omega0 = 1; RFs = 2; phase = 0.1
+            
+            for gFuBB = [ 0.5 1 ]
+                approxH = @(t) AP.Hamiltonian.F1CircPolBottomOfShell( t, omega0, RFs, gFuBB, phase );
+                H = @(t) AP.Hamiltonian.F1General( t, omega0, RFs, 0, 0, gFuBB, gFuBB, 0, pi/2, 0, phase );
+                
+                for t=[ 1 2 3 ]
+                    testCase.verifyEqual(H(t), approxH(t), 'AbsTol', 1e-5);
+                end
+            end
+        end
+        
     end
     
 end

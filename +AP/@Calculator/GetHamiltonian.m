@@ -41,25 +41,29 @@ switch context.Atom.F
         if context.IsCircularPolarised()
             gFuBB = gFuB * BX;
             if (bottomOfShell)
-                H = @(t) F1CircPolBottomOfShell(t, omega0, RF, gFuBB, phase); 
+                H = @(t) AP.Hamiltonian.F1CircPolBottomOfShell(t, omega0, RF, gFuBB, phase); 
                 return;
             else
-                H = @(t) F1CircPol(t, omega0, RF, gFuBB, theta, phase); 
+                H = @(t) AP.Hamiltonian.F1CircPol(t, omega0, RF, gFuBB, theta, phase); 
                 return;
             end
             
         elseif context.IsLinearPolarised()
             gFuBB = gFuB * BX;
             if (bottomOfShell)
-                H = @(t) F1LinPolBottomOfShell(t, omega0, RF, gFuBB, phase );
+                H = @(t) AP.Hamiltonian.F1LinPolBottomOfShell(t, omega0, RF, gFuBB, phase );
                 return;
             else
-                H = @(t) F1LinPol( t, omega0, RF, theta, gamma, gFuBB, phase );
+                H = @(t) AP.Hamiltonian.F1LinPol( t, omega0, RF, theta, gamma, gFuBB, phase );
                 return;
             end
         end
         
-        error('Not implemented for this system.');
+        % Fallback - use general Hamiltonian
+        gFuBBx = gFuB * BX;
+        gFuBBy = gFuB * BY;
+        gFuBBz = gFuB * BZ;
+        H = @(t) AP.Hamiltonian.F1General( t, omega0, RF, theta, gamma, gFuBBx, gFuBBy, gFuBBz, PY, PZ, phase );
     case 2
     
         error('Not implemented for this system.');

@@ -8,7 +8,7 @@ function [ eigF, eigV ] = compute(context, omega0, theta, phi)
 
 cH = context.GetHamiltonian(omega0, theta, phi);
 periodicity = 2*pi/MRF.GetFundamental(context.RF);
-cU = MRF.Propagator(cH, periodicity, context.F);
+cU = MRF.Propagator(cH, periodicity, context.Atom.F);
 
 % Return eigenvectors of propagator if they are requested.
 if nargout > 1

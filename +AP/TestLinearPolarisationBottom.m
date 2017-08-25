@@ -19,7 +19,7 @@ classdef TestLinearPolarisationBottom < matlab.unittest.TestCase
             % Test that coherences terms are equal
             testCase.verifyEqual(h(1,2), h(2,1), 'AbsTol', 1e-6);
             testCase.verifyEqual(h(1,2), h(3,2), 'AbsTol', 1e-6);
-            testCase.verifyEqual(h(1,2), h(2,3), 'AbsTol', 1e-6);            
+            testCase.verifyEqual(h(1,2), h(2,3), 'AbsTol', 1e-6);
             
         end
         
@@ -58,6 +58,25 @@ classdef TestLinearPolarisationBottom < matlab.unittest.TestCase
                 testCase.verifyEqual(h(2,3), 0, 'RelTol', 1e-5);
                 testCase.verifyEqual(h(3,1), 0, 'RelTol', 1e-5);
                 testCase.verifyEqual(h(3,2), 0, 'RelTol', 1e-5);
+            end
+        end
+        
+        function TestAgreesWithGeneral(testCase)
+            %TESTAGREESWITHGENERAL
+            %
+            %   Tests that the linear bottom Hamiltonian agrees with the
+            %   general Hamiltonian in the limits required for this
+            %   approximation.
+            
+            omega0 = 1; RFs = 2;
+            
+            for gFuBB = [ 0.5 1 ]
+                approxH = @(t) AP.Hamiltonian.F1LinPolBottomOfShell( t, omega0, RFs, gFuBB, 0 );
+                H = @(t) AP.Hamiltonian.F1General( t, omega0, RFs, 0, 0, gFuBB, 0, 0, 0, 0 );
+                
+                for t=[ 1 2 3 ]
+                    testCase.verifyEqual(H(t), approxH(t), 'AbsTol', 1e-5);
+                end
             end
         end
         

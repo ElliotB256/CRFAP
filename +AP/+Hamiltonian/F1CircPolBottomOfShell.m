@@ -15,8 +15,8 @@ H0 = [
      ];
 
 % Calculate coherence terms
-cp    = (2.^0.5) * sum( c .* ( e.^(-1i .* (t .* RFs + phase)) ), 1) / 2;
-cn    = (2.^0.5) * sum( c .* ( e.^(1i .* (t .* RFs + phase)) ), 1) / 2;
+cp    = (2.^-0.5) * sum( 1i .* c .* ( e.^(-1i .* (t .* RFs + phase)) ), 1);
+cn    = (2.^-0.5) * sum(-1i .* c .* ( e.^( 1i .* (t .* RFs + phase)) ), 1);
 
 % Note: The Clebsch-Gordon coefficient, here sqrt(2), is incorporated
 % above.

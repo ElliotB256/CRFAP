@@ -52,6 +52,26 @@ classdef TestLinearPolarisation < matlab.unittest.TestCase
         % And all from TestLinearPolarisationBottom? Check per-Hamiltonian?
         % Check that each set of approximations agrees with the general
         % Hamiltonian in the desired limit.
+        function TestAgreesWithGeneral(testCase)
+            %TESTAGREESWITHGENERAL
+            %
+            %   Tests that the linear Hamiltonian agrees with the general
+            %   Hamiltonian in the limits required for this approximation.
+            
+            omega0 = 1; RFs = 2;
+            
+            for theta = [ 0 0.3 1 ]
+                for gamma = [ 0 0.3 1 ]
+                    for gFuBB = [ 0.5 1 ]
+                        approxH = @(t) AP.Hamiltonian.F1LinPol( t, omega0, RFs, theta, gamma, gFuBB, 0 );
+                        H = @(t) AP.Hamiltonian.F1General( t, omega0, RFs, theta, gamma, gFuBB, 0, 0, 0, 0 );
+                        
+                        for t=[ 1 2 3 ]
+                            testCase.verifyEqual(H(t), approxH(t), 'AbsTol', 1e-5);
+                        end
+                    end
+                end
+            end
+        end
     end
 end
-
