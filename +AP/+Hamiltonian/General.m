@@ -1,5 +1,5 @@
 function [ H ] = General( t, F, omega0, RFs, theta, gamma, gFuBBx, gFuBBy, gFuBBz, py, pz, phase )
-%F1GENERAL Get H(t) for RF of general polarisation.
+%GENERAL Get H(t) for RF of general polarisation.
 %  Evaluates the Hamiltonian for atoms at the specified time. The
 %  classical field is of the form:
 %   [ Bx sin(wt+phase_i); By sin(wt+py+phase_i); Bz sin(wt+pz+phase_i) ]
