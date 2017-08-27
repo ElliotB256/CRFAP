@@ -64,9 +64,13 @@ switch context.Atom.F
         gFuBBy = gFuB * BY;
         gFuBBz = gFuB * BZ;
         H = @(t) AP.Hamiltonian.F1General( t, omega0, RF, theta, gamma, gFuBBx, gFuBBy, gFuBBz, PY, PZ, phase );
-    case 2
     
-        error('Not implemented for this system.');
+    otherwise    
+        if (bottomOfShell)
+            H = @(t) AP.Hamiltonian.BottomOfShell( t, F, omega0, RFs, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
+        else
+            H = @(t) AP.Hamiltonian.General( t, F, omega0, RFs, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
+        end
 end
 
 end
