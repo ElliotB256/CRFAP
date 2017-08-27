@@ -66,7 +66,7 @@ classdef ZAxisSampler < AP.Sampler.AbstractSampler & matlab.mixin.SetGet
         Sample(instance);
         
         function zs = Z(instance)
-            %Z Get the z-axis coordinates of this z-axis sampler.
+            %Z Get the z-axis coordinates of this z-axis sampler (microns).
             %   Requires a quadrupole gradient to be specified.
             
             if (instance.Dirty)
@@ -77,7 +77,7 @@ classdef ZAxisSampler < AP.Sampler.AbstractSampler & matlab.mixin.SetGet
                 error('Quadrupole gradient must be > 0 for ZAxisSampler to map Zeeman splittings to spatial locations.');
             end
             
-            zs = instance.mB / (2 * instance.QuadGrad);
+            zs = instance.mB / (2 * instance.QuadGrad) * 1e4;
         end
         
         function Bs = B(instance)
