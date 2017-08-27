@@ -76,6 +76,8 @@ classdef ZAxisSampler < AP.Sampler.AbstractSampler & matlab.mixin.SetGet
             if (instance.QuadGrad <= 0)
                 error('Quadrupole gradient must be > 0 for ZAxisSampler to map Zeeman splittings to spatial locations.');
             end
+            
+            zs = instance.mB / (2 * instance.QuadGrad);
         end
         
         function Bs = B(instance)

@@ -56,6 +56,6 @@ disp(ap);
 
 sampler = AP.Sampler.ZAxisSampler(ap);
 sampler.StartB = 2:0.2:4;
-sampler.Verbose = 1;
+sampler.Verbose = 1; sampler.QuadGrad = 100;
 sampler.Sample();
-plot(sampler.B, sampler.E);
+plot(sampler.B, sampler.E, '.-');

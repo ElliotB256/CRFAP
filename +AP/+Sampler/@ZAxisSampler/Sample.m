@@ -23,14 +23,14 @@ if instance.QuadGrad > 0.0001
     gp = MRF.gpe(B, instance.QuadGrad, 'gF', abs(instance.APCalculator.Atom.gFuB), 'mass', instance.APCalculator.Atom.Mass);
     
     % Modify eigen energies to account for energy shift
-    modEig = eigE + repmat(gp, spaceSize, 1);
+    modEig = eigE + repmat(gp, instance.APCalculator.HilbertSpaceSize, 1);
     
     % Collect unique values suggested from eigenvalues
     gcB = [];
-    for j=1:size(eigE(j,:))
+    for j=1:size(eigE, 1)
         gcB = [gcB Util.Refine(B, modEig(j,:))];
     end
-    gcB = uniquetol(gcb, deltaB/20);
+    gcB = uniquetol(gcB, deltaB/20);
     
     % Remove duplicate elements
     cB = Util.UniquePick( B, [ cB gcB ]);
