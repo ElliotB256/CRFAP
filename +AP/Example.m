@@ -46,3 +46,16 @@ plot(x, y);
 % Check local quantisation axis parallel to z (perpendicular to B):
 y = ap.GetDressedEnergies(x, 0.001, 0);
 plot(x, y);
+
+%%
+% WIP, ZAxis sampler
+RF = 3; % MHz
+amp = 0.5 / 0.7; % Gauss
+ap = AP.Calculator().CircularPolarised(RF, amp);
+disp(ap);
+
+sampler = AP.Sampler.ZAxisSampler(ap);
+sampler.StartB = 2:0.2:4;
+sampler.Verbose = 1;
+sampler.Sample();
+plot(sampler.B, sampler.E);

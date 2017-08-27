@@ -59,11 +59,7 @@ switch context.Atom.F
             end
         end
         
-        % Fallback - use general Hamiltonian
-        gFuBBx = gFuB * BX;
-        gFuBBy = gFuB * BY;
-        gFuBBz = gFuB * BZ;
-        H = @(t) AP.Hamiltonian.F1General( t, omega0, RF, theta, gamma, gFuBBx, gFuBBy, gFuBBz, PY, PZ, phase );
+        H = @(t) AP.Hamiltonian.F1General( t, omega0, RF, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
     
     otherwise    
         if (bottomOfShell)
