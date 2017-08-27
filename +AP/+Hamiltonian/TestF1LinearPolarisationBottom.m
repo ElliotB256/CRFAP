@@ -1,5 +1,5 @@
-classdef TestLinearPolarisationBottom < matlab.unittest.TestCase
-    %TESTLINEARPOLARISATION Unit tests for linear polarised dressing RF.
+classdef TestF1LinearPolarisationBottom < matlab.unittest.TestCase
+    %TESTF1LINEARPOLARISATION Unit tests for linear polarised dressing RF.
     %   These tests exploit symmetries of the Hamiltonian to test that the
     %   implementation is correct.
     
@@ -72,7 +72,7 @@ classdef TestLinearPolarisationBottom < matlab.unittest.TestCase
             
             for gFuBB = [ 0.5 1 ]
                 approxH = @(t) AP.Hamiltonian.F1LinPolBottomOfShell( t, omega0, RFs, gFuBB, 0 );
-                H = @(t) AP.Hamiltonian.F1General( t, omega0, RFs, 0, 0, gFuBB, 0, 0, 0, 0 );
+                H = @(t) AP.Hamiltonian.F1General( t, omega0, RFs, 0, 0, gFuBB, 0, 0, 0, 0, 0 )
                 
                 for t=[ 1 2 3 ]
                     testCase.verifyEqual(H(t), approxH(t), 'AbsTol', 1e-5);

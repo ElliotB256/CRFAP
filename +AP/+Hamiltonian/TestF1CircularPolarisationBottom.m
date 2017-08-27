@@ -1,5 +1,5 @@
-classdef TestCircularPolarisationBottom < matlab.unittest.TestCase
-    %TESTCIRCULARPOLARISATION Unit tests for circular polarised dressing RF
+classdef TestF1CircularPolarisationBottom < matlab.unittest.TestCase
+    %TESTF1CIRCULARPOLARISATION Unit tests for circular polarised dressing RF
     
     methods (Test)
         
