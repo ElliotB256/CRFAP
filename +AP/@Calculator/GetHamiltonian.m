@@ -33,8 +33,9 @@ RF = context.RF;
 phase = context.Phase;
 gFuB = context.Atom.gFuB;
 omega0 = abs(omega0)*sign(gFuB);
+F = context.Atom.F;
 
-switch context.Atom.F
+switch F
    
     case 1
         
@@ -63,9 +64,9 @@ switch context.Atom.F
     
     otherwise    
         if (bottomOfShell)
-            H = @(t) AP.Hamiltonian.BottomOfShell( t, F, omega0, RFs, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
+            H = @(t) AP.Hamiltonian.BottomOfShell( t, F, omega0, RF, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
         else
-            H = @(t) AP.Hamiltonian.General( t, F, omega0, RFs, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
+            H = @(t) AP.Hamiltonian.General( t, F, omega0, RF, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
         end
 end
 

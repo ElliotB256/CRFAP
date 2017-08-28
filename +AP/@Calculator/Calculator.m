@@ -168,6 +168,11 @@ classdef Calculator < handle
             error('Unsupported atom species.');
         end
         
+        function context = DontUseParallel(context)
+            %DONTUSEPARALLEL Don't compute in parallel.
+           context.Parallel = 0; 
+        end
+        
         function s = HilbertSpaceSize(context)
            %HILBERTSPACESIZE Gets the size of the Hilbert space.
             switch context.Atom.F
