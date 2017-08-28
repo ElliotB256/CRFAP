@@ -48,7 +48,7 @@ y = ap.GetDressedEnergies(x, 0.001, 0);
 plot(x, y);
 
 %%
-% WIP, ZAxis sampler
+% Use of ZAxis sampler
 RF = 3; % MHz
 amp = 0.5 / 0.7; % Gauss
 ap = AP.Calculator().CircularPolarised(RF, amp).DontUseParallel();
@@ -61,3 +61,25 @@ sampler.MeshIterations = 8;
 sampler.Verbose = 1; sampler.QuadGrad = 100;
 sampler.Sample();
 plot(sampler.Z, sampler.E, '.-');
+
+%%
+% More complicated example - linear for F=1, F=2 of Rb87
+RF = 3; % MHz
+amp = 0.5 / 0.7; % Gauss
+% 
+ap = AP.Calculator().LinearPolarised(RF, amp).DontUseParallel().OfSpecies('species', 87, 'F', 1);
+ap.PY = pi/2; ap.BY = ap.BX * 0.2;
+sampler = AP.Sampler.ZAxisSampler(ap);
+sampler.StartB = 2:0.2:4; sampler.Sort = 1;
+sampler.MeshIterations = 8; sampler.Verbose = 1;
+sampler.Sample();
+clf; plot(sampler.B, sampler.E, '.-r'); hold on;
+
+ap = AP.Calculator().LinearPolarised(RF, amp).DontUseParallel().OfSpecies('species', 87, 'F', 2);
+ap.PY = pi/2; ap.BY = ap.BX * 0.2;
+sampler = AP.Sampler.ZAxisSampler(ap);
+sampler.StartB = 2:0.2:4; sampler.Sort = 1;
+sampler.MeshIterations = 8; sampler.Verbose = 1;
+sampler.Sample();
+plot(sampler.B, sampler.E, '.-k'); hold off;
+pause(1);

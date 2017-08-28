@@ -12,7 +12,7 @@ classdef Calculator < handle
     %  to this field by an angle theta around the y axis, and then an angle
     %  gamma around the x' axis.
     
-    properties (SetAccess=private)
+    properties %(SetAccess=private)
         
         %RF Vector of dressing RFs in MHz
         RF;
@@ -46,7 +46,7 @@ classdef Calculator < handle
     methods
         
         function c = Calculator()
-           c.OfSpecies('F', 1, 'OfSpecies', 87);
+           c.OfSpecies('F', 1, 'Species', 87);
         end
         
         function context = CircularPolarised(context, RF, B, phase)
@@ -152,15 +152,18 @@ classdef Calculator < handle
             %OFSPECIES Configure properties of the atomic Hamiltonian.
             
             ip = inputParser();
-            ip.addParameter('OfSpecies', 87);
+            ip.addParameter('Species', 87);
             ip.addParameter('F', 1);
             ip.parse(varargin{:});
             
-            switch ip.Results.OfSpecies
+            switch ip.Results.Species
                 case 87
                     switch ip.Results.F
                         case 1
-                            context.Atom = AP.Atom(1, -0.7);
+                            context.Atom = AP.Atom(1, -0.7, 87);
+                            return;
+                        case 2
+                            context.Atom = AP.Atom(2, 0.7, 87);
                             return;
                     end
             end

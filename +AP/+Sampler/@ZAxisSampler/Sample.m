@@ -99,8 +99,8 @@ if (instance.Sort)
             prevE = eigE2(j, i-1);
             nextE = eigE(next, i);
             
-            periodicity = 0.6;
-            candidates = nextE + (-100:100)*periodicity;
+            fundamental = MRF.GetFundamental(instance.APCalculator.RF);
+            candidates = nextE + (-100:100)*fundamental;
             [~,k] = min(abs(candidates - prevE));
             nextE = candidates(k);
             
