@@ -51,11 +51,13 @@ plot(x, y);
 % WIP, ZAxis sampler
 RF = 3; % MHz
 amp = 0.5 / 0.7; % Gauss
-ap = AP.Calculator().CircularPolarised(RF, amp);
+ap = AP.Calculator().CircularPolarised(RF, amp).DontUseParallel();
+ap.Atom.F = 2;
 disp(ap);
 
 sampler = AP.Sampler.ZAxisSampler(ap);
-sampler.StartB = 2:0.2:4;
+sampler.StartB = 2:0.2:4; sampler.Sort = 1;
+sampler.MeshIterations = 8;
 sampler.Verbose = 1; sampler.QuadGrad = 100;
 sampler.Sample();
 plot(sampler.Z, sampler.E, '.-');
