@@ -27,11 +27,7 @@ b = (gFuBBx .* cTh .* swx + gFuBBz .* sTh .* swz);
 c21 = sum((2^-0.5)*(-1i * a + b),1);
 c12 = sum((2^-0.5)*(1i * a + b),1);
 
-Hc = [     ...
-         0,     c12,      0,       ;
-        c21,      0,     c12,       ;
-         0,     c21,      0,       ;
-     ];
+Hc = diag([1 1], 1) * c12 + diag([ 1 1 ], -1) * c21;
  
  % Terms parallel to the Hamiltonian
 pt = sum(gFuBBx .* cGa .* sTh .* sin(RFs .* t) - gFuBBy .* sGa .* sin(RFs.*t+py) - gFuBBz .* cGa .* cTh .* sin(RFs.*t+pz),1);

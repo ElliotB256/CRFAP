@@ -40,7 +40,7 @@ classdef ZAxisSampler < AP.Sampler.AbstractSampler & matlab.mixin.SetGet
         MeshIterations = 3;
         
         %SORT Sort the eigenenergies by eigenvector similarity.
-        Sort = 0;
+        Sort = 1;
         
         %QUADGRAD Quad gradient, B_Z = -2 * B' z. B' is in Gauss/cm.
         QuadGrad = 0;

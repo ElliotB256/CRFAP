@@ -24,13 +24,13 @@ bottomOfShell = theta == 0;
 
 % Unpack class properties into local variables. This will improve execution
 % speed of the anonymous functions.
-BX = context.BX; 
-BY = context.BY;
-BZ = context.BZ;
-PY = context.PY;
-PZ = context.PZ;
-RF = context.RF;
-phase = context.Phase;
+BX = context.BX(:); 
+BY = context.BY(:);
+BZ = context.BZ(:);
+PY = context.PY(:);
+PZ = context.PZ(:);
+RF = context.RF(:);
+phase = context.Phase(:);
 gFuB = context.Atom.gFuB;
 omega0 = abs(omega0)*sign(gFuB);
 F = context.Atom.F;
