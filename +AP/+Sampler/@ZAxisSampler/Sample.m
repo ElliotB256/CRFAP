@@ -39,7 +39,7 @@ for i=1:instance.MeshIterations
     % Calculate energies of these new points and add to the list.
     Bs2 = cB(:)';
     if (instance.Verbose)
-        fprintf('Calculating meshed energies at %d field points.\n', length(Bs2))
+        fprintf('Iteration %d of %d: Calculating meshed energies at %d field points.\n', i, instance.MeshIterations, length(Bs2))
     end
     [eigE2,eigV2] = instance.APCalculator.GetDressedEnergies(Bs2, 0, 0);
     eigE = [eigE eigE2];
