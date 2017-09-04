@@ -9,6 +9,9 @@ function [ H ] = GetHamiltonian( context, omega0, theta, gamma )
 %  |m_F=-1>, the vector [0,1,0] represents |m_F=0> and the vector [0,0,1]
 %  represents |m_F=1>.
 %  
+%  The rotation of the quantisation axis by angles theta, gamma is
+%  described in the description for AP.Calculator.
+%  
 %  Note that omega0 is equal to gFuBB0, where B0 is the static field. For
 %  atoms with sign(gF)<0 this quantity is negative. For this function,
 %  omega0 should always be specified as positive, and sign(gF)abs(omega0)

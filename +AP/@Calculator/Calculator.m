@@ -9,8 +9,8 @@ classdef Calculator < handle
     %   Brf = [ Bx sin(2pi RF t), By sin(2pi RF t + py), Bz sin(2pi RF t + pz)]
     %  where all field quantities are column vectors for multiple dressing
     %  fields. The quantisation axis is rotated from \hat{z} with respect
-    %  to this field by an angle theta around the y axis, and then an angle
-    %  gamma around the x' axis.
+    %  to this field by an angle -theta around the y axis, and then an
+    %  angle gamma around the x axis.
     
     properties %(SetAccess=private)
         
