@@ -1,5 +1,5 @@
 classdef TestF1CircularPolarisationBottom < matlab.unittest.TestCase
-    %TESTF1CIRCULARPOLARISATION Unit tests for circular polarised dressing RF
+    %TESTF1CIRCULARPOLARISATIONBOTTOM Unit tests for circular polarised dressing RF
     
     methods (Test)
         
@@ -73,11 +73,11 @@ classdef TestF1CircularPolarisationBottom < matlab.unittest.TestCase
             %   general Hamiltonian in the limits required for this
             %   approximation.
             
-            omega0 = 1; RFs = 2; phase = 0.1
+            omega0 = 1; RFs = 2;
             
             for gFuBB = [ 0.5 1 ]
-                approxH = @(t) AP.Hamiltonian.F1CircPolBottomOfShell( t, omega0, RFs, gFuBB, phase );
-                H = @(t) AP.Hamiltonian.F1General( t, omega0, RFs, 0, 0, gFuBB, gFuBB, 0, pi/2, 0, phase );
+                approxH = @(t) AP.Hamiltonian.F1CircPolBottomOfShell( t, omega0, RFs, gFuBB, 0 );
+                H = @(t) AP.Hamiltonian.F1General( t, omega0, RFs, 0, 0, gFuBB, gFuBB, 0, pi/2, 0, 0 );
                 
                 for t=[ 1 2 3 ]
                     testCase.verifyEqual(H(t), approxH(t), 'AbsTol', 1e-5);

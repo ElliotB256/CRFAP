@@ -45,3 +45,22 @@ sampler.Sample();
 
 plot(sampler.Y, sampler.E, '.-');
 xlabel('Y (\mum)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
+
+%%
+% Check for circ polarised RF, top should be 0 coupling strength.
+
+RF = 3; % MHz
+amp = 0.5 / 0.7; % Gauss
+ap = AP.Calculator().CircularPolarised(RF, amp).DontUseParallel();
+ap.Atom.F = 1;
+disp(ap);
+
+sampler = AP.Sampler.LineSampler(ap, pi/1, 0);
+sampler.StartB = 2:0.2:4;
+sampler.MeshIterations = 3;
+sampler.Verbose = 1; sampler.QuadGrad = 100;
+sampler.Sort = 0;
+sampler.Sample();
+
+plot(sampler.Z, sampler.E, '.-');
+xlabel('Z (\mum)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');

@@ -44,9 +44,9 @@ switch F
             if (bottomOfShell)
                 H = @(t) AP.Hamiltonian.F1CircPolBottomOfShell(t, omega0, RF, gFuBB, phase); 
                 return;
-            else
-                H = @(t) AP.Hamiltonian.F1CircPol(t, omega0, RF, gFuBB, theta, phase); 
-                return;
+%             else
+%                 H = @(t) AP.Hamiltonian.F1CircPol(t, omega0, RF, gFuBB, theta, phase); 
+%                 return;
             end
             
         elseif context.IsLinearPolarised()
