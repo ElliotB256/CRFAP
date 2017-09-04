@@ -46,23 +46,23 @@ ap = AP.Calculator().CircularPolarised(RF, amp).DontUseParallel();
 ap.Atom.F = 1;
 disp(ap);
 
-sampler = AP.Sampler.ZAxisSampler(ap);
+sampler = AP.Sampler.LineSampler(ap);
 sampler.StartB = 2:0.2:4;
-sampler.MeshIterations = 8;
+sampler.MeshIterations = 5;
 sampler.Verbose = 1; sampler.QuadGrad = 100;
 sampler.Sample();
 
 plot(sampler.Z, sampler.E, '.-');
-xlabel('Zeeman splitting (MHz)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
+xlabel('Z (\mum)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
 
 %% MRF: Simple example
 % An example of how to implement multiple RF fields.
 RF  = [ 3.6 3.8 4.0 ]; % MHz
-amp = [ 0.11 0.15 0.11 ] / 0.7; % Gauss
+amp = [ 0.16 0.2 0.16 ] / 0.7; % Gauss
 % 
 ap = AP.Calculator().LinearPolarised(RF, amp).DontUseParallel().OfSpecies('species', 87, 'F', 1);
 ap.PY = pi/2; ap.BY = ap.BX * 0.2;
-sampler = AP.Sampler.ZAxisSampler(ap);
+sampler = AP.Sampler.LineSampler(ap);
 sampler.StartB = linspace(3.5, 4.1, 10);
 sampler.MeshIterations = 3;
 sampler.Verbose = 1;
@@ -77,13 +77,13 @@ xlabel('Zeeman splitting (MHz)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color',
 % dressed field, pushing the barrier down for F=1 atoms and up for F=2 atoms.
 
 RF  = [ 3.6 3.8 4.0 ]; % MHz
-amp = [ 0.13 0.2 0.13 ] / 0.7; % Gauss
+amp = [ 0.16 0.2 0.16 ] / 0.7; % Gauss
  
-factor = 0.7;
+factor = 0.4;
 ap = AP.Calculator().LinearPolarised(RF, amp).DontUseParallel().OfSpecies('species', 87, 'F', 1);
 ap.PY = [ 0 pi/2 0 ]; ap.BY = ap.BX .* factor .* [ 0 1 0 ]';
 
-sampler = AP.Sampler.ZAxisSampler(ap);
+sampler = AP.Sampler.LineSampler(ap);
 sampler.StartB = linspace(3.4, 4.2, 15);
 sampler.MeshIterations = 3;
 sampler.Verbose = 1;
@@ -95,7 +95,7 @@ clf; h1 = plot(sampler.B, sampler.E, '.-r'); hold on;
 ap = AP.Calculator().LinearPolarised(RF, amp).DontUseParallel().OfSpecies('species', 87, 'F', 2);
 ap.PY = [ 0 pi/2 0 ]; ap.BY = ap.BX * factor .* [ 0 1 0 ]';
 
-sampler = AP.Sampler.ZAxisSampler(ap);
+sampler = AP.Sampler.LineSampler(ap);
 sampler.StartB = linspace(3.4, 4.2, 15);
 sampler.MeshIterations = 3;
 sampler.Verbose = 1;
