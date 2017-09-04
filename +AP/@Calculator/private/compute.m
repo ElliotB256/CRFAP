@@ -1,4 +1,4 @@
-function [ eigF, eigV ] = compute(context, omega0, theta, phi)
+function [ eigF, eigV ] = compute(context, omega0, theta, gamma)
 %COMPUTE Computes dressed eigenenergies, see GetDressedEnergies.
 %  The arguments are as follows:
 %   context: AP.Calculator to use for the evaluation.
@@ -6,7 +6,7 @@ function [ eigF, eigV ] = compute(context, omega0, theta, phi)
 %   theta  : angle, see AP.Calculator
 %   phi    : angle, see AP.Calculator
 
-cH = context.GetHamiltonian(omega0, theta, phi);
+cH = context.GetHamiltonian(omega0, theta, gamma);
 periodicity = 2*pi/MRF.GetFundamental(context.RF);
 cU = MRF.Propagator(cH, periodicity, context.Atom.F);
 

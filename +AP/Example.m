@@ -34,8 +34,8 @@ E = ap.GetDressedEnergies(zeemanSplitting);
 plot(zeemanSplitting, E, '.-');
 xlabel('Zeeman splitting (MHz)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
 
-%% Use of the ZAxis sampler
-% In this example we use a ZAxisSampler to calculate dressed eigenenergies
+%% Use of the LineSampler
+% In this example we use a LineSampler to calculate dressed eigenenergies
 % along the z-axis, rather than specify the points to calculate manually.
 % This allows us to take advantage of support for meshing and sorting the
 % eigenenergies.

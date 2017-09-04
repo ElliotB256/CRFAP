@@ -7,7 +7,7 @@ if (instance.Verbose)
     fprintf('Calculating initial energies at %d field points.\n', length(B))
 end
 % Calculate first set of eigenvalues at initial points
-[eigE,eigV] = instance.APCalculator.GetDressedEnergies(B, 0, 0);
+[eigE,eigV] = instance.APCalculator.GetDressedEnergies(B, instance.Theta, instance.Gamma);
 
 % Assume: B is uniformly spaced.
 deltaB = instance.StartB(2)-instance.StartB(1);
@@ -17,7 +17,7 @@ for i=1:instance.MeshIterations
     
     cB = Util.Refine(B, eigE(1,:));
     
-    if instance.QuadGrad > 0.0001
+    if instance.QuadGrad > 0.0001 && instance.Theta == 0 && instance.Gamma == 0
         % if Quadrupole gradient is specified then also mesh according to gravity.
         % convert Zeeman splitting into microns, then calculate gpe.
         gp = MRF.gpe(B, instance.QuadGrad, 'gF', abs(instance.APCalculator.Atom.gFuB), 'mass', instance.APCalculator.Atom.Mass);
@@ -41,7 +41,7 @@ for i=1:instance.MeshIterations
     if (instance.Verbose)
         fprintf('Iteration %d of %d: Calculating meshed energies at %d field points.\n', i, instance.MeshIterations, length(Bs2))
     end
-    [eigE2,eigV2] = instance.APCalculator.GetDressedEnergies(Bs2, 0, 0);
+    [eigE2,eigV2] = instance.APCalculator.GetDressedEnergies(Bs2, instance.Theta, instance.Gamma);
     eigE = [eigE eigE2];
     eigV = cat(3, eigV, eigV2);
     B = [B Bs2];
