@@ -166,6 +166,17 @@ classdef Calculator < handle
                             context.Atom = AP.Atom(2, 0.7, 87);
                             return;
                     end
+                                    case 85
+                    switch ip.Results.F
+                        case 2
+                            context.Atom = AP.Atom(2, -0.7*2/3, 85);
+                            return;
+                        case 3
+                            context.Atom = AP.Atom(3, 0.7*2/3, 85);
+                            return;
+                        otherwise
+                            error('Invalid F=%.0f for Rb85', ip.Results.F);
+                    end
             end
             
             error('Unsupported atom species.');
