@@ -17,11 +17,14 @@ for i=1:instance.MeshIterations
     
     cB = Util.Refine(B, eigE(1,:));
     
-    if instance.QuadGrad > 0.0001 && instance.Theta == 0 && instance.Gamma == 0
+    if instance.QuadGrad > 0.0001
         % if Quadrupole gradient is specified then also mesh according to gravity.
         % convert Zeeman splitting into microns, then calculate gpe.
-        gp = MRF.gpe(B, instance.QuadGrad, 'gF', abs(instance.APCalculator.Atom.gFuB), 'mass', instance.APCalculator.Atom.Mass);
+        % gp = MRF.gpe(B, instance.QuadGrad, 'gF', abs(instance.APCalculator.Atom.gFuB), 'mass', instance.APCalculator.Atom.Mass);
         
+        % Get z of each point and apply GPE
+        coords = instance.TransformThetaGamma2XYZ(B, instance.Theta, instance.Gamma);            
+        gp = gpe(coords.z, instance.APCalculator.Atom.Mass);
         % Modify eigen energies to account for energy shift
         modEig = eigE + repmat(gp, instance.APCalculator.HilbertSpaceSize, 1);
         
