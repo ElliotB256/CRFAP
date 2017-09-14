@@ -23,6 +23,11 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
         
     end
     
+    properties (Dependent)
+        %EIGENVECTORS Rank 1,2 are eigenvectors, size(EV,3) == length(B)
+        Eigenvectors
+    end
+    
     properties
         
         %STARTB List of field point coordinates, Zeeman splitting in MHz.
@@ -68,8 +73,8 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
         Sample(instance);
         
         function coords = GetCoords(instance)
-            %GETCOORDS Returns the coordinates at each field point.            
-            coords = instance.TransformThetaGamma2XYZ(instance.mB, instance.Theta, instance.Gamma);            
+            %GETCOORDS Returns the coordinates at each field point.
+            coords = instance.TransformThetaGamma2XYZ(instance.mB, instance.Theta, instance.Gamma);
         end
         
         function xs = X(instance)
@@ -114,6 +119,26 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
             Es = instance.mE;
         end
         
+        function Es = Eigenstates(instance)
+            %EIGENSTATES Get eigenstates of the dressed rf calculation.
+            
+            if (instance.Dirty)
+                instance.dirtyError()
+            end
+            
+            Es = instance.mE;
+        end
+        
+        function vectors = get.Eigenvectors(instance)
+            %EIGENVECTORS Get eigenvectors from this linesampler.
+            
+            if (instance.Dirty)
+                instance.dirtyError()
+            end
+            
+            vectors = instance.mEV;
+        end
+        
         function set.StartB(instance, val)
             instance.StartB = val;
             instance.Dirty = 1;
@@ -138,7 +163,7 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
             instance.Gamma = val;
             instance.Dirty = 1;
         end
-       
+        
     end
     
 end
