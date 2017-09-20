@@ -2,8 +2,8 @@
 import Constants.*
 
 % Calculate trap frequencies in the TAAP
-BGrad = 1.17 * 100; % Gauss/cm/A * A
-RFAmp = 0.2 ./ (0.7 * 2/3); % Gauss
+BGrad = 1.17 * 200; % Gauss/cm/A * A
+RFAmp = 0.6 ./ (0.7 * 2/3); % Gauss
 RF = 3.6;
 species = 85;
 

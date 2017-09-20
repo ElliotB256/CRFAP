@@ -17,7 +17,7 @@ for i=1:instance.MeshIterations
     
     cB = Util.Refine(B, eigE(1,:));
     
-    if instance.QuadGrad > 0.0001
+    if instance.QuadGrad > 0.0001 && instance.Theta ~= pi/2
         % if Quadrupole gradient is specified then also mesh according to gravity.
         % convert Zeeman splitting into microns, then calculate gpe.
         % gp = MRF.gpe(B, instance.QuadGrad, 'gF', abs(instance.APCalculator.Atom.gFuB), 'mass', instance.APCalculator.Atom.Mass);
