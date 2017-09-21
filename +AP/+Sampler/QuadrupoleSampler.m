@@ -4,7 +4,7 @@ classdef (Abstract) QuadrupoleSampler < AP.Sampler.AbstractSampler & matlab.mixi
     %   x,y,z to rotation angles theta, gamma for the local quantisation
     %   axis.
     
-    properties (Transient)
+    properties (Transient,SetAccess=protected)
         
         %DIRTY The instance is dirty if properties are changed/before calc.
         Dirty = 1;

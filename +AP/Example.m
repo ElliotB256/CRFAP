@@ -106,3 +106,34 @@ h2 = plot(sampler.B, sampler.E, '.-k'); hold off;
 axis tight;
 xlabel('Zeeman splitting (MHz)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
 legend([h1(1) h2(1)], 'F = 1', 'F = 2');
+
+%% Plane Sampler
+% Use the Plane Sampler to sample field points in a vertical plane. We use
+% this here to visualise the adiabatic energy levels + gravity in a slice
+% plane through the potential.
+
+RF = 3; % MHz
+amp = 0.5 / 0.7; % Gauss
+ap = AP.Calculator().CircularPolarised(RF, amp).DontUseParallel();
+ap.Atom.F = 1;
+disp(ap);
+
+sampler = AP.Sampler.QuadrupolePlaneSampler(ap);
+sampler.StartB = 2:0.2:4;
+sampler.MeshIterations = 6;
+sampler.ThetaRange = [ 0 pi*0.95 ];
+sampler.RayNumber = 20;
+sampler.Verbose = 1; sampler.QuadGrad = 100;
+sampler.Sample();
+
+E = sampler.E + gpe(sampler.Z, 87);
+tris = delaunay(sampler.X, sampler.Z);
+t = trisurf(tris, sampler.X, sampler.Z, zeros(size(sampler.Y)), E(3,:));
+xlabel('X (\mum)'); ylabel('Z (zmum)'); set(gcf, 'Color', 'w');
+view([0,90]);
+shading interp;
+
+% We emphasise the field points and meshing by drawing faint edges on the
+% triangles and black dots at the location of field points.
+set(t, 'EdgeColor', 'k', 'EdgeAlpha', 0.1)
+hold on; plot3(sampler.X, sampler.Z, ones(size(sampler.X)), '.k'); hold off;
