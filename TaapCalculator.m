@@ -2,8 +2,8 @@
 import Constants.*
 
 % Calculate trap frequencies in the TAAP
-BGrad = 1.17 * 200; % Gauss/cm/A * A
-RFAmp = 0.6 ./ (0.7 * 2/3); % Gauss
+BGrad = 1.17 * 60; % Gauss/cm/A * A
+RFAmp = 0.4 ./ (0.7 * 2/3); % Gauss
 RF = 3.6;
 species = 85;
 
@@ -11,8 +11,8 @@ species = 85;
 % of 2.6V. Converts TOP control voltage to Gauss.
 ControlVoltage2TOP = @(voltage) (5.75 ./ 0.7) .* (voltage ./ 2.6);
 
-controlVoltages = linspace(0, 2.6, 100);
-results = struct('fx', {}, 'fy', {}, 'fz', {});
+controlVoltages = linspace(0, 3.0, 100);
+results = struct('fx', {}, 'fy', {}, 'fz', {}, 'sag', {});
 
 for i=1:length(controlVoltages)
     results(i) = getTAAPFrequencies(RF, ControlVoltage2TOP(controlVoltages(i)), RFAmp, BGrad, 'Species', species);
@@ -48,4 +48,10 @@ title({sprintf('Rb%d: TAAP trap frequencies', species), ...
     RFAmp, ...
     BGrad ...
     )});
+set(gcf, 'Color', 'w'); box on;
+
+figure(3); clf
+plot(controlVoltages,[results.sag],':', 'LineWidth', 1, 'Color', [0.2 0.2 0.2]); hold on
+
+xlabel('TOP Control Voltage (V)'); ylabel('Sag (\mum)');
 set(gcf, 'Color', 'w'); box on;

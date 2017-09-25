@@ -71,7 +71,7 @@ trapFy = Util.getTrapFreq(ps, timeAverage(@(t) trap(zs,ps,zs+trapMinZ,t),Nt), ma
 trapFz = Util.getTrapFreq(ps+trapMinZ, timeAverage(@(t) trap(zs,zs,ps+trapMinZ,t),Nt), mass);
 
 
-result = struct('fx', trapFx(2), 'fy', trapFy(2), 'fz', trapFz(2));
+result = struct('fx', trapFx(2), 'fy', trapFy(2), 'fz', trapFz(2), 'sag', trapMinZ);
 
 end
 
