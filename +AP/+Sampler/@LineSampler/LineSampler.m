@@ -26,6 +26,9 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
     properties (Dependent)
         %EIGENVECTORS Rank 1,2 are eigenvectors, size(EV,3) == length(B)
         Eigenvectors
+        
+        %ENERGIES Get the energies of this z-axis sampler at field points.
+        Eigenenergies;
     end
     
     properties
@@ -117,6 +120,11 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
             end
             
             Es = instance.mE;
+        end
+        
+        function Es = get.Eigenenergies(instance)
+            %EIGENENERGIES Get the energies of this z-axis sampler at field points.
+            Es = instance.E;
         end
         
         function Es = Eigenstates(instance)
