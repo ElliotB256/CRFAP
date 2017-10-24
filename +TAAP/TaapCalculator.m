@@ -15,7 +15,7 @@ controlVoltages = linspace(0, 3.0, 100);
 results = struct('fx', {}, 'fy', {}, 'fz', {}, 'sag', {});
 
 for i=1:length(controlVoltages)
-    results(i) = getTAAPFrequencies(RF, ControlVoltage2TOP(controlVoltages(i)), RFAmp, BGrad, 'Species', species);
+    results(i) = TAAP.getTAAPFrequencies(RF, ControlVoltage2TOP(controlVoltages(i)), RFAmp, BGrad, 'Species', species);
 end
 
 f = [[results.fx];[results.fy];[results.fz]]; f(~isreal(f) & f <= 0) = NaN; 

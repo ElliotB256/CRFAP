@@ -45,7 +45,7 @@ xTOP = BTOP/QuadGrad * 1e4;
 trap = @(a,b,c,t) SRF.ShellTrap(...
     a - xTOP .* cos(2*pi*t), b - ip.Results.Anisotropy * xTOP .* sin(2*pi*t),c,...
     zsf, QuadGrad, RF, RFAmp, mFtilde) + ...
-    gpe(c, mass);
+    Util.gpe(c, mass);
 
 % Perform time averaging crudely along line x,y=0 to find trap
 % minimum.
@@ -53,7 +53,7 @@ z = 0:-.1:-2000;
 x = zeros(size(z));
 y = x;
 
-pot = timeAverage(@(t) trap(x,y,z,t), ip.Results.TimeAverageSteps);
+pot = Util.timeAverage(@(t) trap(x,y,z,t), ip.Results.TimeAverageSteps);
 
 [~,ip] = min(pot);
 trapMinZ = z(ip);
@@ -68,9 +68,9 @@ ps = linspace(-probeLength, probeLength, probeResolution);
 zs = zeros(size(ps));
 Nt = 10;
 
-trapFx = Util.getTrapFreq(ps, timeAverage(@(t) trap(ps,zs,zs+trapMinZ,t),Nt), mass);
-trapFy = Util.getTrapFreq(ps, timeAverage(@(t) trap(zs,ps,zs+trapMinZ,t),Nt), mass);
-trapFz = Util.getTrapFreq(ps+trapMinZ, timeAverage(@(t) trap(zs,zs,ps+trapMinZ,t),Nt), mass);
+trapFx = Util.getTrapFreq(ps, Util.timeAverage(@(t) trap(ps,zs,zs+trapMinZ,t),Nt), mass);
+trapFy = Util.getTrapFreq(ps, Util.timeAverage(@(t) trap(zs,ps,zs+trapMinZ,t),Nt), mass);
+trapFz = Util.getTrapFreq(ps+trapMinZ, Util.timeAverage(@(t) trap(zs,zs,ps+trapMinZ,t),Nt), mass);
 
 
 result = struct('fx', trapFx(2), 'fy', trapFy(2), 'fz', trapFz(2), 'sag', trapMinZ);
