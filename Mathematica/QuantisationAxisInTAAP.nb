@@ -1,0 +1,181 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5379,        172]
+NotebookOptionsPosition[      4734,        147]
+NotebookOutlinePosition[      5079,        162]
+CellTagsIndexPosition[      5036,        159]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Angle of quantisation axis in the TAAP", "Section",
+ CellChangeTimes->{{3.7168932684824953`*^9, 3.7168932830417943`*^9}, 
+   3.71689435268747*^9}],
+
+Cell["\<\
+We derive an approximate theoretical result for the angle of rotation of the \
+quantisation axis when the TAAP field is applied. We assume circular \
+polarised rf fields, and take a fixed point in time.\
+\>", "Text",
+ CellChangeTimes->{{3.7168932867668705`*^9, 3.7168933418729362`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"staticField", " ", "=", " ", 
+   RowBox[{"B", " ", "\[Rule]", "  ", 
+    RowBox[{"Bgrad", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "y", ",", " ", 
+       RowBox[{
+        RowBox[{"-", "2"}], " ", "z"}]}], "}"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7168933471930304`*^9, 3.7168933924009013`*^9}, 
+   3.716893539594969*^9}],
+
+Cell["\<\
+At a fixed point in time the TOP field just corresponds to a shift in the \
+origin.\
+\>", "Text",
+ CellChangeTimes->{{3.7168933959139743`*^9, 3.7168934119783063`*^9}, {
+  3.7168934837577925`*^9, 3.716893485341821*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TOPShift", " ", "=", " ", 
+   RowBox[{"x", " ", "\[Rule]", " ", 
+    RowBox[{"x", "-", 
+     RowBox[{"Btop", " ", "/", " ", "Bgrad"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.716893490317921*^9, 3.716893503305232*^9}}],
+
+Cell["\<\
+Giving a new expression for the static field in lab coordinates:\
+\>", "Text",
+ CellChangeTimes->{{3.7168935093413544`*^9, 3.7168935179315205`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"B", " ", "/.", "staticField"}], " ", "/.", " ", 
+  "TOPShift"}]], "Input",
+ CellChangeTimes->{{3.7168935211735897`*^9, 3.71689353030678*^9}, {
+  3.7168935887329783`*^9, 3.7168936178056164`*^9}}],
+
+Cell[TextData[{
+ "We now determine the approximate z-position of the TAAP minimum, which \
+occurs when x=y=0 and ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["B", "2"], "="}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " (hbar ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"\[Omega]", ")"}], "2"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ". We take the negative solution."
+}], "Text",
+ CellChangeTimes->{{3.716893636040004*^9, 3.7168937134795685`*^9}, {
+  3.71689385509746*^9, 3.7168938583185205`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"s", " ", "=", " ", 
+   RowBox[{"Solve", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"B", ".", "B"}], "\[Equal]", 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"\[HBar]", " ", 
+             RowBox[{"\[Omega]", "/", 
+              RowBox[{"(", 
+               RowBox[{"gF", " ", "uB"}], ")"}]}]}], ")"}], "2"]}], ")"}], 
+        " ", "/.", "staticField"}], " ", "/.", " ", "TOPShift"}], "/.", 
+      RowBox[{"{", 
+       RowBox[{"y", "\[Rule]", " ", "0"}], "}"}]}], ",", " ", 
+     RowBox[{"{", "z", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"s", " ", "=", " ", 
+  RowBox[{"s", "[", 
+   RowBox[{"[", "1", "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.716893725964833*^9, 3.7168938519454045`*^9}, {
+  3.716894549515772*^9, 3.7168945532798185`*^9}}],
+
+Cell["\<\
+Now determine the static field at this location. From this we can determine \
+the angle of the local quantisation axis with respect to z.\
+\>", "Text",
+ CellChangeTimes->{{3.7168937998773403`*^9, 3.716893819556749*^9}, {
+  3.7168938729548187`*^9, 3.716893907943551*^9}, {3.7168942921157646`*^9, 
+  3.716894295945808*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"Bs", " ", "=", " ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"B", "/.", "staticField"}], "/.", "TOPShift"}], "//.", 
+   RowBox[{"Join", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"x", "\[Rule]", " ", "0"}], ",", " ", 
+       RowBox[{"y", "\[Rule]", " ", "0"}]}], "}"}], ",", "s"}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"ArcTan", "[", 
+  RowBox[{
+   RowBox[{"Bs", "[", 
+    RowBox[{"[", "1", "]"}], "]"}], ",", " ", 
+   RowBox[{"Bs", "[", 
+    RowBox[{"[", "3", "]"}], "]"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7168939404712496`*^9, 3.71689403299329*^9}}]
+}, Open  ]]
+},
+WindowSize->{1068, 966},
+WindowMargins->{{377, Automatic}, {-106, Automatic}},
+FrontEndVersion->"10.2 for Microsoft Windows (64-bit) (July 7, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 152, 2, 70, "Section"],
+Cell[735, 26, 296, 5, 49, "Text"],
+Cell[1034, 33, 378, 10, 31, "Input"],
+Cell[1415, 45, 228, 5, 30, "Text"],
+Cell[1646, 52, 258, 6, 31, "Input"],
+Cell[1907, 60, 158, 3, 30, "Text"],
+Cell[2068, 65, 229, 5, 31, "Input"],
+Cell[2300, 72, 556, 17, 32, "Text"],
+Cell[2859, 91, 904, 25, 54, "Input"],
+Cell[3766, 118, 331, 6, 30, "Text"],
+Cell[4100, 126, 618, 18, 52, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
