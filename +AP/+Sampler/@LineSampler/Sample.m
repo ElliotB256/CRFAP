@@ -24,7 +24,7 @@ for i=1:instance.MeshIterations
         
         % Get z of each point and apply GPE
         coords = instance.TransformThetaGamma2XYZ(B, instance.Theta, instance.Gamma);            
-        gp = gpe(coords.z, instance.APCalculator.Atom.Mass);
+        gp = Util.gpe(coords.z, instance.APCalculator.Atom.Mass);
         % Modify eigen energies to account for energy shift
         modEig = eigE + repmat(gp, instance.APCalculator.HilbertSpaceSize, 1);
         
