@@ -126,7 +126,7 @@ sampler.RayNumber = 20;
 sampler.Verbose = 1; sampler.QuadGrad = 100;
 sampler.Sample();
 
-E = sampler.E + gpe(sampler.Z, 87);
+E = sampler.E + Util.gpe(sampler.Z, 87);
 tris = delaunay(sampler.X, sampler.Z);
 t = trisurf(tris, sampler.X, sampler.Z, zeros(size(sampler.Y)), E(3,:));
 xlabel('X (\mum)'); ylabel('Z (zmum)'); set(gcf, 'Color', 'w');

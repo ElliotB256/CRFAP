@@ -7,8 +7,8 @@ function [ eigF, eigV ] = compute(context, omega0, theta, gamma)
 %   phi    : angle, see AP.Calculator
 
 cH = context.GetHamiltonian(omega0, theta, gamma);
-periodicity = 2*pi/MRF.GetFundamental(context.RF);
-cU = MRF.Propagator(cH, periodicity, context.Atom.F);
+periodicity = 2*pi/Floquet.GetFundamental(context.RF);
+cU = Floquet.Propagator(cH, periodicity, context.Atom.F);
 
 % Return eigenvectors of propagator if they are requested.
 if nargout > 1
