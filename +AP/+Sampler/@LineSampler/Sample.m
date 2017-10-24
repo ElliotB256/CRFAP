@@ -102,7 +102,7 @@ if (instance.Sort)
             prevE = eigE2(j, i-1);
             nextE = eigE(next, i);
             
-            fundamental = MRF.GetFundamental(instance.APCalculator.RF);
+            fundamental = Floquet.GetFundamental(instance.APCalculator.RF);
             candidates = nextE + (-100:100)*fundamental;
             [~,k] = min(abs(candidates - prevE));
             nextE = candidates(k);
