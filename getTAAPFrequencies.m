@@ -20,6 +20,8 @@ import Constants.*
 
 ip = inputParser();
 ip.addParameter('Species', 87);
+ip.addParameter('TimeAverageSteps', 20);
+ip.addParameter('Anisotropy', 1); % B_TOP y = anisotropy * B_TOP x
 ip.parse(varargin{:});
 
 % Species: 85 or 87
@@ -41,7 +43,7 @@ xTOP = BTOP/QuadGrad * 1e4;
 
 % Define potential
 trap = @(a,b,c,t) SRF.ShellTrap(...
-    a - xTOP .* cos(2*pi*t), b - xTOP .* sin(2*pi*t),c,...
+    a - xTOP .* cos(2*pi*t), b - ip.Results.Anisotropy * xTOP .* sin(2*pi*t),c,...
     zsf, QuadGrad, RF, RFAmp, mFtilde) + ...
     gpe(c, mass);
 
@@ -51,7 +53,7 @@ z = 0:-.1:-2000;
 x = zeros(size(z));
 y = x;
 
-pot = timeAverage(@(t) trap(x,y,z,t), 10);
+pot = timeAverage(@(t) trap(x,y,z,t), ip.Results.TimeAverageSteps);
 
 [~,ip] = min(pot);
 trapMinZ = z(ip);
@@ -62,7 +64,7 @@ clear ip pot;
 % Take a small size around the trap center.
 probeLength = 2; %um
 probeResolution = 100;
-ps = -probeLength:probeLength*2/probeResolution:probeLength;
+ps = linspace(-probeLength, probeLength, probeResolution);
 zs = zeros(size(ps));
 Nt = 10;
 
