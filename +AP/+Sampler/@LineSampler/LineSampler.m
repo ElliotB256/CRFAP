@@ -29,6 +29,19 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
         
         %ENERGIES Get the energies of this z-axis sampler at field points.
         Eigenenergies;
+        
+        %X Get the y-axis coordinates of this line sampler (microns).
+        X;
+        
+        %Y Get the y-axis coordinates of this line sampler (microns).
+        Y;
+        
+        %Z Get the y-axis coordinates of this line sampler (microns).
+        Z;
+        
+        %B Get the field coordinates of this z-axis sampler (MHz).
+        B;
+        
     end
     
     properties
@@ -80,28 +93,28 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
             coords = instance.TransformThetaGamma2XYZ(instance.mB, instance.Theta, instance.Gamma);
         end
         
-        function xs = X(instance)
+        function xs = get.X(instance)
             %X Get the x-axis coordinates of this line sampler (microns).
             %   Requires a quadrupole gradient to be specified.
             coords = instance.GetCoords();
             xs = coords.x;
         end
         
-        function ys = Y(instance)
+        function ys = get.Y(instance)
             %Y Get the y-axis coordinates of this line sampler (microns).
             %   Requires a quadrupole gradient to be specified.
             coords = instance.GetCoords();
             ys = coords.y;
         end
         
-        function zs = Z(instance)
+        function zs = get.Z(instance)
             %Z Get the z-axis coordinates of this z-axis sampler (microns).
             %   Requires a quadrupole gradient to be specified.
             coords = instance.GetCoords();
             zs = coords.z;
         end
         
-        function Bs = B(instance)
+        function Bs = get.B(instance)
             %B Get the field coordinates of this z-axis sampler.
             %   Returns zeeman splitting in MHz.
             
