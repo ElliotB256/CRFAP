@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     93265,       2168]
-NotebookOptionsPosition[     90229,       2066]
-NotebookOutlinePosition[     90606,       2082]
-CellTagsIndexPosition[     90563,       2079]
+NotebookDataLength[     93617,       2174]
+NotebookOptionsPosition[     90578,       2072]
+NotebookOutlinePosition[     90955,       2088]
+CellTagsIndexPosition[     90912,       2085]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -84,16 +84,21 @@ Cell[CellGroupData[{
 Cell["Defining the transformation between frames", "Section",
  CellChangeTimes->{{3.713185607216979*^9, 3.7131856264819055`*^9}}],
 
-Cell["\<\
-Now transform the field in the lab frame to the local coordinate system.We \
+Cell[TextData[{
+ "Now transform the field in the lab frame to the local coordinate system.We \
 first rotate through the y-axis by an angle \[Theta], then rotate through the \
-x\[CloseCurlyQuote]-axis by angle \[Gamma].\
-\>", "Text",
+x-axis by angle \[Phi]. ",
+ StyleBox["Note that this is different to what was in the original text of \
+the Appendix, but the rotation matrix I get is the same as yours, so I think \
+the text must have been wrong there? This text is not present in the current \
+version of the paper.",
+  FontWeight->"Bold"]
+}], "Text",
  CellChangeTimes->{{3.711867778771132*^9, 3.711867787612383*^9}, {
   3.7118735021868796`*^9, 3.711873506441*^9}, {3.711873553225787*^9, 
   3.711873554169812*^9}, {3.712664731687151*^9, 3.7126647327432566`*^9}, {
   3.712666380799046*^9, 3.7126663814551115`*^9}, {3.7131721027026625`*^9, 
-  3.713172105206913*^9}}],
+  3.713172105206913*^9}, {3.7162665160826807`*^9, 3.7162665797183475`*^9}}],
 
 Cell[CellGroupData[{
 
@@ -426,7 +431,7 @@ Check the quantisation axis is correct\
  CellChangeTimes->{{3.7131853283570957`*^9, 3.713185342406501*^9}}],
 
 Cell[TextData[{
- "Let' s check that the transformation uses the same definition of \[Theta] \
+ "Let's check that the transformation uses the same definition of \[Theta] \
 and \[Phi] as in the paper. It should follow that applying the inverse \
 transformation to ",
  Cell[BoxData[
@@ -440,8 +445,9 @@ frame. This vector should be the same as the quantisation axis vector in the \
 lab frame."
 }], "Text",
  CellChangeTimes->{{3.7131843536266327`*^9, 3.7131843542346935`*^9}, {
-  3.7131846132705946`*^9, 3.713184709555222*^9}, {3.7131848216644316`*^9, 
-  3.713184842233488*^9}, {3.713185231058367*^9, 3.7131852693481956`*^9}}],
+   3.7131846132705946`*^9, 3.713184709555222*^9}, {3.7131848216644316`*^9, 
+   3.713184842233488*^9}, {3.713185231058367*^9, 3.7131852693481956`*^9}, 
+   3.7162666817684097`*^9}],
 
 Cell[CellGroupData[{
 
@@ -2090,82 +2096,82 @@ Cell[2494, 67, 389, 11, 28, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[2920, 83, 129, 1, 61, "Section"],
-Cell[3052, 86, 537, 9, 28, "Text"],
+Cell[3052, 86, 857, 14, 66, "Text"],
 Cell[CellGroupData[{
-Cell[3614, 99, 5056, 105, 230, "Input"],
-Cell[8673, 206, 571, 15, 28, "Output"],
-Cell[9247, 223, 1204, 26, 55, "Output"],
-Cell[10454, 251, 1248, 29, 55, "Output"],
-Cell[11705, 282, 1614, 36, 55, "Output"],
-Cell[13322, 320, 1930, 47, 55, "Output"],
-Cell[15255, 369, 1934, 47, 55, "Output"]
+Cell[3934, 104, 5056, 105, 230, "Input"],
+Cell[8993, 211, 571, 15, 28, "Output"],
+Cell[9567, 228, 1204, 26, 55, "Output"],
+Cell[10774, 256, 1248, 29, 55, "Output"],
+Cell[12025, 287, 1614, 36, 55, "Output"],
+Cell[13642, 325, 1930, 47, 55, "Output"],
+Cell[15575, 374, 1934, 47, 55, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[17226, 421, 137, 4, 73, "Subsection"],
-Cell[17366, 427, 888, 16, 103, "Text"],
+Cell[17546, 426, 137, 4, 73, "Subsection"],
+Cell[17686, 432, 917, 17, 103, "Text"],
 Cell[CellGroupData[{
-Cell[18279, 447, 3181, 81, 117, "Input"],
-Cell[21463, 530, 802, 27, 56, "Output"],
-Cell[22268, 559, 802, 27, 56, "Output"]
+Cell[18628, 453, 3181, 81, 117, "Input"],
+Cell[21812, 536, 802, 27, 56, "Output"],
+Cell[22617, 565, 802, 27, 56, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[23131, 593, 112, 1, 61, "Section"],
-Cell[23246, 596, 606, 15, 31, "Text"],
+Cell[23480, 599, 112, 1, 61, "Section"],
+Cell[23595, 602, 606, 15, 31, "Text"],
 Cell[CellGroupData[{
-Cell[23877, 615, 1151, 29, 90, "Input"],
-Cell[25031, 646, 1517, 42, 45, "Output"]
+Cell[24226, 621, 1151, 29, 90, "Input"],
+Cell[25380, 652, 1517, 42, 45, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[26597, 694, 217, 3, 61, "Section"],
-Cell[26817, 699, 704, 17, 28, "Text"],
+Cell[26946, 700, 217, 3, 61, "Section"],
+Cell[27166, 705, 704, 17, 28, "Text"],
 Cell[CellGroupData[{
-Cell[27546, 720, 2459, 63, 130, "Input"],
-Cell[30008, 785, 504, 12, 42, "Output"],
-Cell[30515, 799, 557, 13, 42, "Output"],
-Cell[31075, 814, 558, 13, 42, "Output"]
+Cell[27895, 726, 2459, 63, 130, "Input"],
+Cell[30357, 791, 504, 12, 42, "Output"],
+Cell[30864, 805, 557, 13, 42, "Output"],
+Cell[31424, 820, 558, 13, 42, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[31670, 832, 131, 1, 45, "Subsection"],
-Cell[31804, 835, 183, 2, 28, "Text"],
-Cell[31990, 839, 434, 9, 29, "Input"],
-Cell[32427, 850, 142, 1, 28, "Text"],
+Cell[32019, 838, 131, 1, 45, "Subsection"],
+Cell[32153, 841, 183, 2, 28, "Text"],
+Cell[32339, 845, 434, 9, 29, "Input"],
+Cell[32776, 856, 142, 1, 28, "Text"],
 Cell[CellGroupData[{
-Cell[32594, 855, 449, 8, 70, "Input"],
-Cell[33046, 865, 123, 2, 28, "Output"],
-Cell[33172, 869, 143, 3, 42, "Output"],
-Cell[33318, 874, 123, 2, 28, "Output"]
+Cell[32943, 861, 449, 8, 70, "Input"],
+Cell[33395, 871, 123, 2, 28, "Output"],
+Cell[33521, 875, 143, 3, 42, "Output"],
+Cell[33667, 880, 123, 2, 28, "Output"]
 }, Open  ]],
-Cell[33456, 879, 475, 12, 28, "Text"],
+Cell[33805, 885, 475, 12, 28, "Text"],
 Cell[CellGroupData[{
-Cell[33956, 895, 3796, 101, 210, "Input"],
-Cell[37755, 998, 519, 11, 55, "Output"],
-Cell[38277, 1011, 531, 12, 67, "Output"],
-Cell[38811, 1025, 531, 12, 67, "Output"],
-Cell[39345, 1039, 2702, 69, 97, "Output"]
+Cell[34305, 901, 3796, 101, 210, "Input"],
+Cell[38104, 1004, 519, 11, 55, "Output"],
+Cell[38626, 1017, 531, 12, 67, "Output"],
+Cell[39160, 1031, 531, 12, 67, "Output"],
+Cell[39694, 1045, 2702, 69, 97, "Output"]
 }, Open  ]],
-Cell[42062, 1111, 235, 5, 28, "Text"],
+Cell[42411, 1117, 235, 5, 28, "Text"],
 Cell[CellGroupData[{
-Cell[42322, 1120, 2234, 54, 130, "Input"],
-Cell[44559, 1176, 1960, 48, 97, "Output"],
-Cell[46522, 1226, 812, 17, 61, "Output"],
-Cell[47337, 1245, 989, 26, 85, "Output"]
+Cell[42671, 1126, 2234, 54, 130, "Input"],
+Cell[44908, 1182, 1960, 48, 97, "Output"],
+Cell[46871, 1232, 812, 17, 61, "Output"],
+Cell[47686, 1251, 989, 26, 85, "Output"]
 }, Open  ]],
-Cell[48341, 1274, 291, 5, 28, "Text"],
+Cell[48690, 1280, 291, 5, 28, "Text"],
 Cell[CellGroupData[{
-Cell[48657, 1283, 135, 2, 29, "Input"],
-Cell[48795, 1287, 543, 17, 42, "Output"]
+Cell[49006, 1289, 135, 2, 29, "Input"],
+Cell[49144, 1293, 543, 17, 42, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[49375, 1309, 1350, 34, 70, "Input"],
-Cell[50728, 1345, 37262, 653, 215, "Output"]
+Cell[49724, 1315, 1350, 34, 70, "Input"],
+Cell[51077, 1351, 37262, 653, 215, "Output"]
 }, Open  ]],
-Cell[88005, 2001, 223, 4, 28, "Text"],
+Cell[88354, 2007, 223, 4, 28, "Text"],
 Cell[CellGroupData[{
-Cell[88253, 2009, 623, 19, 29, "Input"],
-Cell[88879, 2030, 1298, 30, 58, "Output"]
+Cell[88602, 2015, 623, 19, 29, "Input"],
+Cell[89228, 2036, 1298, 30, 58, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]

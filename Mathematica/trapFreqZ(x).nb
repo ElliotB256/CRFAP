@@ -1,0 +1,127 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      3802,        117]
+NotebookOptionsPosition[      3416,        100]
+NotebookOutlinePosition[      3757,        115]
+CellTagsIndexPosition[      3714,        112]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "\nIndividual particles perform a wide motion side-to-side within the trap \
+due to the weak radial confinement. This will cause these particles to \
+experience a variation in ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Omega]", "\[Perpendicular]"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ", the trap frequency perpendicular to the shell surface. Is this sufficient \
+to cause dephasing of the centre of mass motion of the cloud oscillating in \
+the vertical direction?"
+}], "Text",
+ CellChangeTimes->{{3.712001790973138*^9, 3.712001948495324*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"U", ":=", " ", 
+   RowBox[{"\[HBar]", " ", 
+    RowBox[{"Sqrt", "[", 
+     RowBox[{
+      SuperscriptBox["\[CapitalOmega]", "2"], "+", 
+      SuperscriptBox["\[Delta]", "2"]}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"trapFreqZ", "=", 
+  RowBox[{"{", 
+   RowBox[{"\[Omega]z", " ", "\[Rule]"}], " ", "}"}]}]}], "Input",
+ CellChangeTimes->{{3.712001709343481*^9, 3.712001780762932*^9}, {
+  3.7120019637436314`*^9, 3.712001994119243*^9}}],
+
+Cell[TextData[{
+ "Consider an atom at a position that is a small distance \[Delta]x from the \
+bottom of the spheroid. The quantisation axis subtends an angle \[Theta] with \
+respect to the vertical axis, where \[Theta] is approximately given by arcsin \
+(\[Delta]x / 2 ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["Z", "0"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "), where ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Delta]", "(", 
+    SubscriptBox["Z", "0"], ")"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "=0."
+}], "Text",
+ CellChangeTimes->{{3.7120020384921455`*^9, 3.7120020719988184`*^9}, {
+  3.712002199432925*^9, 3.7120022153772483`*^9}, {3.7120022991009455`*^9, 
+  3.712002341543808*^9}, {3.712002384286667*^9, 3.712002477873564*^9}, {
+  3.712002552998074*^9, 3.71200256716336*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Z0Rule", "=", 
+   RowBox[{"{", 
+    RowBox[{"Z0", "\[Rule]", " ", 
+     RowBox[{"\[HBar]", " ", 
+      RowBox[{"\[Omega]z", " ", "/", " ", 
+       RowBox[{"(", 
+        RowBox[{"2", " ", "gF", " ", "uB"}], ")"}]}]}]}], "}"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.7120025856797323`*^9, 3.712002616771368*^9}}],
+
+Cell[TextData[{
+ "For a temperature 1uK and trap frequency of 10 Hz the expression ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["k", "B"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "T = m ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Omega]", "x"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "^2 \[Delta]x^2 gives \[Delta]x of order 100 microns!"
+}], "Text",
+ CellChangeTimes->{{3.7120026458689547`*^9, 3.712002673418511*^9}, {
+  3.7120027116516294`*^9, 3.7120027876802206`*^9}, {3.712002832352687*^9, 
+  3.712002834268879*^9}, {3.7120028836568174`*^9, 3.7120028852209735`*^9}}]
+},
+WindowSize->{939, 641},
+WindowMargins->{{25, Automatic}, {Automatic, 30}},
+FrontEndVersion->"10.2 for Microsoft Windows (64-bit) (July 7, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 584, 12, 87, "Text"],
+Cell[1145, 34, 485, 13, 54, "Input"],
+Cell[1633, 49, 820, 20, 49, "Text"],
+Cell[2456, 71, 350, 10, 31, "Input"],
+Cell[2809, 83, 603, 15, 30, "Text"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
