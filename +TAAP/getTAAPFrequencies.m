@@ -20,6 +20,7 @@ import Constants.*
 
 ip = inputParser();
 ip.addParameter('Species', 87);
+ip.addParameter('mFTilde', []);
 ip.addParameter('TimeAverageSteps', 20);
 ip.addParameter('Anisotropy', 1); % B_TOP y = anisotropy * B_TOP x
 ip.parse(varargin{:});
@@ -36,6 +37,10 @@ switch ip.Results.Species
         mass = 87; %amu
     otherwise
         error('Unknown species');
+end
+
+if ~isempty(ip.Results.mFTilde)
+   mFtilde = ip.Results.mFTilde; 
 end
 
 % Get displacement of quadrupole centre in microns
@@ -76,4 +81,3 @@ trapFz = Util.getTrapFreq(ps+trapMinZ, Util.timeAverage(@(t) trap(zs,zs,ps+trapM
 result = struct('fx', trapFx(2), 'fy', trapFy(2), 'fz', trapFz(2), 'sag', trapMinZ);
 
 end
-
