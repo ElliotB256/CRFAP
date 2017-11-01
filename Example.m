@@ -71,6 +71,30 @@ sampler.Sample();
 clf; plot(sampler.B, sampler.E, '.-');
 xlabel('Zeeman splitting (MHz)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
 
+%% Mixtures of species
+% You can use the code to also calculate potentials for different species:
+
+RF = [ 3 4.5 ]; % MHz
+amp = [ 0.5 0.5 ]; % Gauss
+ap87 = AP.Calculator().CircularPolarised(RF, amp).DontUseParallel().OfSpecies('Species', 87, 'F', 1);
+ap85 = AP.Calculator().CircularPolarised(RF, amp).DontUseParallel().OfSpecies('Species', 85, 'F', 2);
+
+sampler87 = AP.Sampler.LineSampler(ap87);
+sampler87.StartB = 2:0.2:6;
+sampler87.MeshIterations = 5;
+sampler87.Verbose = 1; sampler87.QuadGrad = 100;
+sampler87.Sample();
+
+sampler85 = AP.Sampler.LineSampler(ap85);
+sampler85.StartB = 2:0.2:6;
+sampler85.MeshIterations = 5;
+sampler85.Verbose = 1; sampler85.QuadGrad = 100;
+sampler85.Sample();
+
+plot(sampler85.Z, sampler85.E, '.', 'Color', [  0.0000    0.5156    0.7813 ]); hold on;
+plot(sampler87.Z, sampler87.E, '.', 'Color', [  0.3203    0.1758    0.3359 ]); hold off;
+xlabel('Z (\mum)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
+
 %% MRF: Arbitrary polarisation
 % In this more complicated example, we use a multiple RF field to
 % independently manipulate F=1 and F=2 atoms. We specify an elliptical RF
