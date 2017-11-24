@@ -63,6 +63,10 @@ y = x;
 pot = Util.timeAverage(@(t) trap(x,y,z,t), ip.Results.TimeAverageSteps);
 
 [~,ip] = min(pot);
+
+if (ip == 1 || ip == length(z))
+    error('Cannot find trap minimum in vertical direction; reached end of range');
+end
 trapMinZ = z(ip);
 
 clear ip pot;
