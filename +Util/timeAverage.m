@@ -8,7 +8,11 @@ if N < 1
     error('N must be a positive integer');
 end
 
-for t=0:1/N:1
+nt = 0:1/N:1;
+% remove final point - otherwise we sample that point twice!
+nt(end) = [];
+
+for t=nt
     ip = potential(t);
     if ~exist('tap', 'var')
         tap = zeros(size(ip));
@@ -19,4 +23,3 @@ end
 tap = tap/(N+1);
 
 end
-

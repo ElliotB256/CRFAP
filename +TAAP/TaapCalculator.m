@@ -23,6 +23,7 @@ gf = geomean(f, 1);
 
 figure(1); clf
 plot(controlVoltages,[results.fx],'-', 'LineWidth', 2, 'Color', [0.8 0.2 0.2]); hold on
+plot(controlVoltages,[results.fy],'--', 'LineWidth', 2, 'Color', [0.2 0.2 0.2]);
 plot(controlVoltages,[results.fz],'-', 'LineWidth', 2, 'Color', [0.2 0.2 0.8]);
 plot(controlVoltages, (abs(real(gf)) > 0).*gf, '--', 'Color', [0.4 0.4 0.4], 'LineWidth', 2); hold off
 
@@ -38,6 +39,7 @@ set(gcf, 'Color', 'w'); box on;
 
 figure(2); clf
 plot(ControlVoltage2TOP(controlVoltages),[results.fx],'-', 'LineWidth', 2, 'Color', [0.8 0.2 0.2]); hold on
+plot(ControlVoltage2TOP(controlVoltages),[results.fy],'--', 'LineWidth', 2, 'Color', [0.2 0.2 0.2]); hold on
 plot(ControlVoltage2TOP(controlVoltages),[results.fz],'-', 'LineWidth', 2, 'Color', [0.2 0.2 0.8]);
 plot(ControlVoltage2TOP(controlVoltages), (abs(real(gf)) > 0).*gf, '--', 'Color', [0.4 0.4 0.4], 'LineWidth', 2); hold off
 
