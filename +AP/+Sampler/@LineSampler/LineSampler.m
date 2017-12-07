@@ -42,6 +42,9 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
         %B Get the field coordinates of this z-axis sampler (MHz).
         B;
         
+        %POTENTIALENERGIES Eigenenergy including gravitational sag
+        PotentialEnergies;
+        
     end
     
     properties
@@ -138,6 +141,11 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
         function Es = get.Eigenenergies(instance)
             %EIGENENERGIES Get the energies of this z-axis sampler at field points.
             Es = instance.E;
+        end
+        
+        function Esag = get.PotentialEnergies(instance)
+           %POTENTIALENERGIES Get eigenenergies plus gravitational sag
+            Esag = instance.Eigenenergies + Util.gpe(instance.Z, instance.APCalculator.Atom.Mass);
         end
         
         function Es = Eigenstates(instance)

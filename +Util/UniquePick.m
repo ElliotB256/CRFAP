@@ -16,6 +16,6 @@ end
 b(~mask) = [];
 
 % Perform unique sweep over resulting b
-b = Util.Unique(b, thresh);
+b = uniquetol(b, thresh)';
 
 end
