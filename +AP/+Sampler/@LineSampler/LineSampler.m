@@ -53,10 +53,10 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
         Verbose = 1;
         
         %THETA Constant theta that describes this line.
-        Theta = 0;
+        Theta;
         
         %GAMMA Constant gamma that describes this line.
-        Gamma = 0;
+        Gamma;
         
     end
     
@@ -72,7 +72,7 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
             end
             
             if nargin < 2
-                theta = 0;
+                theta = pi;
             end
             
             instance = instance@AP.Sampler.QuadrupoleSampler(calculator);

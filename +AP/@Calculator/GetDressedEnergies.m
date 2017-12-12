@@ -12,7 +12,7 @@ function [ eigE, eigV ] = GetDressedEnergies( context, omega0, theta, gamma )
 
 % Verify inputs. Check that theta and phi are defined.
 if nargin < 3
-    theta = zeros(size(omega0));
+    theta = pi*ones(size(omega0));
 end
 
 if nargin < 4

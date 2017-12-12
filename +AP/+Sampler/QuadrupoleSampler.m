@@ -58,26 +58,14 @@ classdef (Abstract) QuadrupoleSampler < AP.Sampler.AbstractSampler & matlab.mixi
             % get uBgF in MHz/Gauss
             gFuB = abs(instance.APCalculator.Atom.gFuB);
             
-            % rotate unit vector along z axis into a given direction.
-            % Note: checked matrix has same sign as mathematica with
-            % RotationMatrix[-\theta, ey];
-            r1 = roty(rad2deg(theta));
-            % Note: checked matrix has same sign as mathematica with
-            % RotationMatrix[-\gamma, ex];
-            r2 = rotx(rad2deg(gamma));
-            
-            rotMat = r2 * r1;
-            
-            % Rotate the z-axis vector to get local quantisation axis.
-            lQA = rotMat * [ 0; 0; 1 ];
             
             % The quantisation axis fixes the ratio x:y:z. The magnitude of
             % the zeeman splitting determines the position along this ray.
             mag = zeemanSplit/(((instance.QuadGrad))*gFuB)*1e4; % microns
-            a = mag * cos(gamma);
-            z = -a .* cos(theta) / 2;
-            x = sign(sin(theta).*cos(gamma)) * (a.^2 - 4 .* z .^2).^0.5;
-            y = sign(sin(gamma)).*(mag.^2 - x.^2 - 4 * z.^2).^0.5;
+            
+            z = mag .* cos(theta) / 2;
+            x = mag .* sin(theta) .* cos(gamma);
+            y = mag .* sin(theta) .* sin(gamma);
             
             coords = struct('x', x, 'y', y, 'z', z);
             

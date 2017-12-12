@@ -1,8 +1,8 @@
 function Sample(instance)
 %SAMPLE Calculate eigenenergies at each B.
 
-theta = instance.Theta;
-gamma = instance.Gamma;
+theta = instance.GetThetas;
+gamma = instance.GetGammas;
 B = repmat(instance.RF, length(theta), 1);
 
 if (instance.Verbose)

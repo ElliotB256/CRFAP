@@ -144,9 +144,9 @@ disp(ap);
 
 sampler = AP.Sampler.QuadrupolePlaneSampler(ap);
 sampler.StartB = 2:0.2:4;
-sampler.MeshIterations = 6;
-sampler.ThetaRange = [ 0 pi*0.95 ];
-sampler.RayNumber = 20;
+sampler.MeshIterations = 7;
+sampler.ThetaRange = [ 0.1 pi ];
+sampler.RayNumber = 15;
 sampler.Verbose = 1; sampler.QuadGrad = 100;
 sampler.Sample();
 
@@ -163,34 +163,40 @@ set(t, 'EdgeColor', 'k', 'EdgeAlpha', 0.1)
 hold on; plot3(sampler.X, sampler.Z, ones(size(sampler.X)), '.k'); hold off;
 
 
-%% Use of the SurfaceSampler
+%% Use of the QuadrupoleSurfaceSampler
+% Calculate the coupling strength around the resonant spheroid.
+% 
+% Because the coupling strength equals the difference between two adjacent
+% dressed energy levels in the same manifold, we can quite
+% straightforwardly measure it from the calculate eigenenergies.
 
 RF = 3; % MHz
 amp = 0.5 / 0.7; % Gauss
 ap = AP.Calculator().LinearPolarised(RF, amp).DontUseParallel();
 ap.Atom.F = 1;
-disp(ap);
+ap.BX = amp; ap.BY = 0; ap.BZ = 0;
 
-ap.BZ = 0;
-ap.PZ = 0;
 sampler = AP.Sampler.QuadrupoleSurfaceSampler(ap);
 sampler.QuadGrad = 100;
 sampler.Verbose = 1;
-sampler.Alpha = linspace(0, pi/2, 20);
-sampler.Beta = linspace(0, pi/2, 20);
+sampler.Theta = linspace(0, pi, 20);
+sampler.Gamma = linspace(0, 2*pi, 20);
 sampler.Sample();
-% 
-% a = sampler.GetAlphas()/pi;
-% b = sampler.GetBetas()/pi;
-% E = sampler.Eigenenergies;
-% tris = delaunay(b,a);
-% trisurf(tris, b, a, E(1,:)'); shading interp;
-% view(0, 90);
-% xlabel('Vertical Angle /$\pi$ ($^r$)', 'Interpreter', 'Latex');
-% ylabel('Radial Angle /$\pi$ ($^r$)', 'Interpreter', 'Latex');
 
-x = sampler.X;
-y = sampler.Y;
-z = sampler.Z;
-tris = delaunay(x,y,z);
-trisurf(tris, x, y, z, E(1,:)'); shading interp;
+E = sampler.Eigenenergies;
+CS = E(2,:) - E(1,:);
+
+clf; set(gcf, 'Color', 'w');
+th = sampler.GetThetas();
+ga = sampler.GetGammas();
+
+% grid data, so that we can contour it
+[gaG,thG] = meshgrid(sampler.Gamma, sampler.Theta);
+csG = griddata(ga,th,CS,gaG,thG);
+
+tris = delaunay(ga, th);
+trisurf(tris, ga, th, zeros(size(CS)), CS); shading interp
+hold on; contour(gaG, thG, csG, 'k'); hold off;
+view(0,90); axis tight;
+xlim([ 0 2*pi]); set(gca, 'XTick', [ 0 pi 2*pi ], 'XTickLabel', { '0', '\pi', '2 \pi' });
+ylim([ 0 1*pi]); set(gca, 'YTick', [ 0 pi ], 'YTickLabel', { '0', '\pi' });

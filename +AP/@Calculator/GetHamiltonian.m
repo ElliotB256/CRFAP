@@ -38,40 +38,42 @@ gFuB = context.Atom.gFuB;
 omega0 = abs(omega0)*sign(gFuB);
 F = context.Atom.F;
 
-switch F
-   
-    case 1
-        
-        if context.IsCircularPolarised()
-            gFuBB = gFuB * BX;
-            if (bottomOfShell)
-                H = @(t) AP.Hamiltonian.F1CircPolBottomOfShell(t, omega0, RF, gFuBB, phase); 
-                return;
-%             else
-%                 H = @(t) AP.Hamiltonian.F1CircPol(t, omega0, RF, gFuBB, theta, phase); 
+H = @(t) AP.Hamiltonian.General( t, F, omega0, RF, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
+
+% switch F
+%    
+%     case 1
+%         
+%         if context.IsCircularPolarised()
+%             gFuBB = gFuB * BX;
+%             if (bottomOfShell)
+%                 H = @(t) AP.Hamiltonian.F1CircPolBottomOfShell(t, omega0, RF, gFuBB, phase); 
 %                 return;
-            end
-            
-        elseif context.IsLinearPolarised()
-            gFuBB = gFuB * BX;
-            if (bottomOfShell)
-                H = @(t) AP.Hamiltonian.F1LinPolBottomOfShell(t, omega0, RF, gFuBB, phase );
-                return;
-            else
-                H = @(t) AP.Hamiltonian.F1LinPol( t, omega0, RF, theta, gamma, gFuBB, phase );
-                return;
-            end
-        end
-        
-        H = @(t) AP.Hamiltonian.F1General( t, omega0, RF, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
-    
-    otherwise    
-        if (bottomOfShell)
-            H = @(t) AP.Hamiltonian.BottomOfShell( t, F, omega0, RF, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
-        else
-            H = @(t) AP.Hamiltonian.General( t, F, omega0, RF, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
-        end
-end
+% %             else
+% %                 H = @(t) AP.Hamiltonian.F1CircPol(t, omega0, RF, gFuBB, theta, phase); 
+% %                 return;
+%             end
+%             
+%         elseif context.IsLinearPolarised()
+%             gFuBB = gFuB * BX;
+%             if (bottomOfShell)
+%                 H = @(t) AP.Hamiltonian.F1LinPolBottomOfShell(t, omega0, RF, gFuBB, phase );
+%                 return;
+%             else
+%                 H = @(t) AP.Hamiltonian.F1LinPol( t, omega0, RF, theta, gamma, gFuBB, phase );
+%                 return;
+%             end
+%         end
+%         
+%         H = @(t) AP.Hamiltonian.F1General( t, omega0, RF, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
+%     
+%     otherwise    
+%         if (bottomOfShell)
+%             H = @(t) AP.Hamiltonian.BottomOfShell( t, F, omega0, RF, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
+%         else
+%             H = @(t) AP.Hamiltonian.General( t, F, omega0, RF, theta, gamma, gFuB*BX, gFuB*BY, gFuB*BZ, PY, PZ, phase );
+%         end
+% end
 
 end
 
