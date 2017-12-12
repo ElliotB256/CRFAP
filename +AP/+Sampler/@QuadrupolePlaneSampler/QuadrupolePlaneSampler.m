@@ -83,27 +83,6 @@ classdef QuadrupolePlaneSampler < AP.Sampler.QuadrupoleSampler
             coords = struct('x', [s.x], 'y', [s.y], 'z', [s.z]);
         end
         
-        function xs = X(instance)
-            %X Get the x-axis coordinates of this plane sampler (microns).
-            %   Requires a quadrupole gradient to be specified.
-            coords = instance.GetCoords();
-            xs = coords.x;
-        end
-        
-        function ys = Y(instance)
-            %Y Get the y-axis coordinates of this plane sampler (microns).
-            %   Requires a quadrupole gradient to be specified.
-            coords = instance.GetCoords();
-            ys = coords.y;
-        end
-        
-        function zs = Z(instance)
-            %Z Get the z-axis coordinates of this plane sampler (microns).
-            %   Requires a quadrupole gradient to be specified.
-            coords = instance.GetCoords();
-            zs = coords.z;
-        end
-        
         function Es = E(instance)
             %E Get the energies of this plane sampler at field points.
             

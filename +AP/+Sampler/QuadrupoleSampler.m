@@ -11,6 +11,19 @@ classdef (Abstract) QuadrupoleSampler < AP.Sampler.AbstractSampler & matlab.mixi
         
     end
     
+    properties (Dependent)
+       
+        %X Get the y-axis coordinates of this line sampler (microns).
+        X;
+        
+        %Y Get the y-axis coordinates of this line sampler (microns).
+        Y;
+        
+        %Z Get the y-axis coordinates of this line sampler (microns).
+        Z;
+        
+    end
+    
     properties
        
         %QUADGRAD Quad gradient, B_Z = -2 * B' z. B' is in Gauss/cm.
@@ -68,6 +81,27 @@ classdef (Abstract) QuadrupoleSampler < AP.Sampler.AbstractSampler & matlab.mixi
             
             coords = struct('x', x, 'y', y, 'z', z);
             
+        end
+        
+        function xs = get.X(instance)
+            %X Get the x-axis coordinates of this line sampler (microns).
+            %   Requires a quadrupole gradient to be specified.
+            coords = instance.GetCoords();
+            xs = coords.x;
+        end
+        
+        function ys = get.Y(instance)
+            %Y Get the y-axis coordinates of this line sampler (microns).
+            %   Requires a quadrupole gradient to be specified.
+            coords = instance.GetCoords();
+            ys = coords.y;
+        end
+        
+        function zs = get.Z(instance)
+            %Z Get the z-axis coordinates of this z-axis sampler (microns).
+            %   Requires a quadrupole gradient to be specified.
+            coords = instance.GetCoords();
+            zs = coords.z;
         end
     end
     
