@@ -67,7 +67,7 @@ classdef (Abstract) QuadrupoleSampler < AP.Sampler.AbstractSampler & matlab.mixi
             x = mag .* sin(theta) .* cos(gamma);
             y = mag .* sin(theta) .* sin(gamma);
             
-            coords = struct('x', x, 'y', y, 'z', z);
+            coords = struct('x', x(:)', 'y', y(:)', 'z', z(:)');
             
         end
         
