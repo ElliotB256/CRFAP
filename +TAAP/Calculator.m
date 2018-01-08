@@ -18,7 +18,7 @@ classdef Calculator < handle
         %QUADGRAD Quadrupole field gradient (G/cm)
         QuadGrad
         
-        %U Potential energy in the TAAP
+        %U Potential energy in the TAAP, MHz
         U
         
         %ANISOTROPY Anisotropy of the TOP field, By=Anisotropy*Bx
