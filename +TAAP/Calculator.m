@@ -25,7 +25,7 @@ classdef Calculator < handle
         Anisotropy = 1;
         
         %TIMEAVERAGESTEPS Number of evaluations for time averaging
-        TimeAverageSteps = 10;
+        TimeAverageSteps = 20;
         
     end
     

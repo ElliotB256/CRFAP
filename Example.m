@@ -200,3 +200,41 @@ hold on; contour(gaG, thG, csG, 'k'); hold off;
 view(0,90); axis tight;
 xlim([ 0 2*pi]); set(gca, 'XTick', [ 0 pi 2*pi ], 'XTickLabel', { '0', '\pi', '2 \pi' });
 ylim([ 0 1*pi]); set(gca, 'YTick', [ 0 pi ], 'YTickLabel', { '0', '\pi' });
+
+%% Use of the TAAP Calculator
+% Use the TAAP Calculator to determine the potential of a slice through the
+% potential.
+tc = TAAP.Calculator(1.4, 0.3, 1, 100);
+
+% create a grid
+xv = linspace(-400, 400, 200); zv = linspace(-200, 200, 200);
+[x,z] = ndgrid(xv, zv);
+
+C = tc.Calculate(x(:), zeros(size(x(:))), z(:));
+% calculate potential energy in micro kelvin
+E = (C) * 1e6 * Constants.h / Constants.kB * 1e6;
+U = reshape(E,size(x,2), size(x,1))';
+surf(xv,zv,U); shading interp
+set(gca,'YDir', 'normal');
+set(gcf, 'Color', 'w');
+view([ 45 45 ])
+
+%%
+% Calculate trap frequencies
+
+RF = 1.4; BRF = 0.5; QuadGrad = 84;
+B = linspace(0.0, 2, 100);
+f = arrayfun(@(x) TAAP.getTAAPFrequencies(RF, x, BRF, QuadGrad), B, 'UniformOutput', 0);
+f = [f{:}];
+
+clf; set(gcf, 'Color', 'w');
+plot(B, [f.fx]); hold on; plot(B, [f.fz]); hold off;
+xlabel('B_T (G)'); ylabel('f (Hz)');
+
+% For sanity - check it agrees with shell trap frequency. Expression from
+% Merloti 2D NJP 2014. Note I am ignoring the epsilon factor, so this will
+% be slightly an overestimate.
+alpha = 0.7 * QuadGrad; % MHz/cm
+alpha = alpha * 1e6 * 1e2; % Hz/m
+Rabi = BRF * 0.7 * 1e6 * 2 * pi; % rad/s
+f_z = 2 * alpha * (Constants.hbar / (87 * Constants.amu * Rabi)).^0.5

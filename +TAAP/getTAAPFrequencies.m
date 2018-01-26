@@ -49,7 +49,7 @@ clear ip pot;
 
 % Time average along x,y,z axis at the minimum spot.
 % Take a small size around the trap center.
-probeLength = 2; %um
+probeLength = 1; %um
 probeResolution = 100;
 ps = linspace(-probeLength, probeLength, probeResolution);
 zs = zeros(size(ps));
