@@ -57,6 +57,8 @@ for i=1:instance.MeshIterations
     
 end
 
+instance.UnsortedEigenenergies = eigE;
+
 % Sort eigenvalues using similarity between eigenvectors.
 if (instance.Sort)
    

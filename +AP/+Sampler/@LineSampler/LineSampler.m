@@ -23,6 +23,13 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
         
     end
     
+    properties (SetAccess=protected, GetAccess=public)
+        
+        %UNSORTEDEIGENENERGIES Get the unsorted eigenenergies
+        UnsortedEigenenergies;
+        
+    end
+    
     properties (Dependent)
         %EIGENVECTORS Rank 1,2 are eigenvectors, size(EV,3) == length(B)
         Eigenvectors
