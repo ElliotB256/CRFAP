@@ -1,25 +1,6 @@
 function Sample(instance)
 %SAMPLE Calculate eigenenergies at each B.
 
-% x = sampler.InitialSamplePoints(:,1);
-% y = sampler.InitialSamplePoints(:,2);
-% z = sampler.InitialSamplePoints(:,3);
-% 
-% % Initial sample points may not be evenly spaced. The variable, lambda, is
-% % equivalent to displacement along the line.
-% cx = max(x) - min(x);
-% cy = max(y) - min(y);
-% cz = max(z) - min(z);
-% if cx > cy && cx > cz
-%     l = x;
-% elseif cy > cz
-%     l = y;
-% else
-%     l = z;
-% end
-% lambda = (l - l(1))./(l(end)-l(1));
-% lambdaTol = min(diff(lambda));
-
 lambda = instance.InitialLambda;
 lambdaTol = min(diff(lambda));
 
