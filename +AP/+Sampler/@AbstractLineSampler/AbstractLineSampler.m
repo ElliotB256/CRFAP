@@ -66,7 +66,8 @@ classdef (Abstract) AbstractLineSampler < AP.Sampler.QuadrupoleSampler
         
         function coords = GetCoords(instance)
             %GETCOORDS Returns the coordinates at each field point.
-            coords = instance.TransformThetaGamma2XYZ(instance.mB, instance.Theta, instance.Gamma);
+            [B,theta,gamma] = lambdaToBTG(instance, instance.mLambda);
+            coords = instance.TransformThetaGamma2XYZ(B, theta, gamma);
         end
         
         function Es = E(instance)
@@ -118,10 +119,12 @@ classdef (Abstract) AbstractLineSampler < AP.Sampler.QuadrupoleSampler
     
     methods (Abstract)
        
-        %lAMBDA2BTG Convert lambda to B, Theta, Gamma coordinates
+        %lAMBDA2BTG Convert lambda to B, Theta, Gamma coordinates.
+        %  B is Zeeman splitting in MHz
         [B,theta,gamma] = lambdaToBTG(instance, lambda);
         
-        
+        %ISHORIZONTAL Is the line horizontal? 
+        h = IsHorizontal(instance)
         
     end
     

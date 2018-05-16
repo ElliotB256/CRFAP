@@ -53,8 +53,6 @@ classdef LineSampler < AP.Sampler.AbstractLineSampler
             instance.Gamma = gamma;
         end
         
-        %Sample(instance);
-        
         function coords = GetCoords(instance)
             %GETCOORDS Returns the coordinates at each field point.
             coords = instance.TransformThetaGamma2XYZ(instance.B, instance.Theta, instance.Gamma);
@@ -98,6 +96,12 @@ classdef LineSampler < AP.Sampler.AbstractLineSampler
             theta = instance.Theta;
             gamma = instance.Gamma;
         end
+        
+        function h = IsHorizontal(instance)
+            %ISHORIZONTAL Is the line horizontal? 
+            h = instance.Theta == pi/2;
+        end
+        
         
     end
     

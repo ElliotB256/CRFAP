@@ -1,4 +1,4 @@
-classdef (Abstract) LineSamplerXYZ < AP.Sampler.AbstractLineSampler
+classdef LineSamplerXYZ < AP.Sampler.AbstractLineSampler
     %LINESAMPLERXYZ Samples the adiabatic potential along a line.
     %   Calculates eigenenergies and vectors of the dressed potential along
     %   a line between InitialSamplePoints(1) and (end). Employs meshing to
@@ -59,14 +59,14 @@ classdef (Abstract) LineSamplerXYZ < AP.Sampler.AbstractLineSampler
                 l = z;
             end
             lambda = (l - l(1))./(l(end)-l(1));
-            instance.InitialLambda = lambda;
+            instance.InitialLambda = lambda';
         end
         
         function instance = withLinearSpan(instance, startP, endP, N)
-           %WITHLINEARSPAN Sample N points initially from startP to endP.
-           %  The N points are linearly spaced along the line between the
-           %  points startP and endP.
-           
+            %WITHLINEARSPAN Sample N points initially from startP to endP.
+            %  The N points are linearly spaced along the line between the
+            %  points startP and endP.
+            
             if ~all(size(startP) == [ 1 3 ])
                 error('startP must be a row of [ x y z ].');
             end
@@ -97,10 +97,18 @@ classdef (Abstract) LineSamplerXYZ < AP.Sampler.AbstractLineSampler
             y = y0 + dy*lambda;
             z = z0 + dz*lambda;
             
-            B = (sampler.QuadGrad * 1e-4) .* (x.^2 + y.^2 + 4 * z.^2).^0.5;
+            B = abs(instance.APCalculator.Atom.gFuB)*(instance.QuadGrad * 1e-4) .* (x.^2 + y.^2 + 4 * z.^2).^0.5;
             gamma = acos(x ./ (x.^2 + y.^2).^0.5);
-            theta = acos(((x.^2 + y.^2) ./ (x.^2 + y.^2 + 4 * z.^2)).^0.5);
+            theta = acos(2.*z ./ (x.^2 + y.^2 + 4 * z.^2).^0.5);
             
+            gamma(isnan(gamma)) = 0; % z-axis
+            theta(isnan(theta)) = 0; % origin
+            
+        end
+        
+        function h = IsHorizontal(instance)
+            %ISHORIZONTAL Returns true if line is horizontal
+            h = instance.InitialSamplePoints(1,3) == instance.InitialSamplePoints(end,3);
         end
         
     end
