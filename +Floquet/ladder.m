@@ -12,4 +12,3 @@ offsets = kron(offsets, ones(size(F,1), 1));
 lad = repmat(F, n, 1) + repmat(offsets, 1, size(F, 2)); 
 
 end
-

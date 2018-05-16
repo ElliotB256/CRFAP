@@ -21,7 +21,7 @@ import Constants.*
 ip = inputParser();
 ip.addParameter('Species', 87);
 ip.addParameter('mFTilde', []);
-ip.addParameter('TimeAverageSteps', 20);
+ip.addParameter('TimeAverageSteps', 40);
 ip.addParameter('Anisotropy', 1); % B_TOP y = anisotropy * B_TOP x
 ip.parse(varargin{:});
 

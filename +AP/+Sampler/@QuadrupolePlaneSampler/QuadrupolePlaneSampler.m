@@ -40,6 +40,12 @@ classdef QuadrupolePlaneSampler < AP.Sampler.QuadrupoleSampler
         RayNumber; % must be integer > 0
     end
     
+    properties (Dependent)
+       
+        E;
+        
+    end
+    
     methods
         
         function instance = QuadrupolePlaneSampler(calculator, thetaRange, rayNumber, gamma)
@@ -83,7 +89,7 @@ classdef QuadrupolePlaneSampler < AP.Sampler.QuadrupoleSampler
             coords = struct('x', [s.x], 'y', [s.y], 'z', [s.z]);
         end
         
-        function Es = E(instance)
+        function Es = get.E(instance)
             %E Get the energies of this plane sampler at field points.
             
             if (instance.Dirty)
