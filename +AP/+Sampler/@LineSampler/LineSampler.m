@@ -1,4 +1,4 @@
-classdef LineSampler < AP.Sampler.QuadrupoleSampler
+classdef LineSampler < AP.Sampler.AbstractLineSampler
     %LINESAMPLER Samples the adiabatic potential along a line.
     %   Calculates eigenenergies and vectors of the dressed potential along
     %   an axis of constant \theta, \gamma. Employs meshing to refine the
@@ -10,36 +10,11 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
     %   A quadrupole gradient can be specified, in which case the meshing
     %   will also account for gravitational sag.
     
-    properties (SetAccess=protected, GetAccess=protected)
-        
-        %MB List of field points zeeman splittings, MHz.
-        mB = [];
-        
-        %ME List of field point eigenenergies, MHz, size(E,1)==atom.F
-        mE = [];
-        
-        %MEV Eigenvectors. Rank 1,2 are eigenvectors, size(EV,3)==length(B)
-        mEV = [];
-        
-    end
-    
-    properties (SetAccess=protected, GetAccess=public)
-        
-        %UNSORTEDEIGENENERGIES Get the unsorted eigenenergies
-        UnsortedEigenenergies;
-        
-    end
-    
     properties (Dependent)
-        %EIGENVECTORS Rank 1,2 are eigenvectors, size(EV,3) == length(B)
-        Eigenvectors
-        
-        %ENERGIES Get the energies of this z-axis sampler at field points.
-        Eigenenergies;
         
         %B Get the field coordinates of this z-axis sampler (MHz).
         B;
-        
+       
         %POTENTIALENERGIES Eigenenergy including gravitational sag
         PotentialEnergies;
         
@@ -49,15 +24,6 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
         
         %STARTB List of field point coordinates, Zeeman splitting in MHz.
         StartB = [];
-        
-        %MESHITERATIONS Number of iterations to mesh calculation.
-        MeshIterations = 3;
-        
-        %SORT Sort the eigenenergies by eigenvector similarity.
-        Sort = 1;
-        
-        %VERBOSE Should the line sampler print debug information?
-        Verbose = 1;
         
         %THETA Constant theta that describes this line.
         Theta;
@@ -82,16 +48,14 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
                 theta = pi;
             end
             
-            instance = instance@AP.Sampler.QuadrupoleSampler(calculator);
+            instance = instance@AP.Sampler.AbstractLineSampler(calculator);
             instance.Theta = theta;
             instance.Gamma = gamma;
         end
         
-        Sample(instance);
-        
         function coords = GetCoords(instance)
             %GETCOORDS Returns the coordinates at each field point.
-            coords = instance.TransformThetaGamma2XYZ(instance.mB, instance.Theta, instance.Gamma);
+            coords = instance.TransformThetaGamma2XYZ(instance.B, instance.Theta, instance.Gamma);
         end
         
         function Bs = get.B(instance)
@@ -102,64 +66,21 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
                 instance.dirtyError()
             end
             
-            Bs = instance.mB;
+            % Convert lambdas to B 
+            [Bs,~,~] = instance.lambdaToBTG(instance.mLambda);
         end
         
-        function Es = E(instance)
-            %E Get the energies of this z-axis sampler at field points.
-            
-            if (instance.Dirty)
-                instance.dirtyError()
-            end
-            
-            Es = instance.mE;
-        end
-        
-        function Es = get.Eigenenergies(instance)
-            %EIGENENERGIES Get the energies of this z-axis sampler at field points.
-            Es = instance.E;
+        function set.StartB(instance, val)
+            instance.StartB = val;
+            instance.Dirty = 1;
+            instance.InitialLambda = (val - min(val))./(max(val)-min(val));
         end
         
         function Esag = get.PotentialEnergies(instance)
            %POTENTIALENERGIES Get eigenenergies plus gravitational sag
             Esag = instance.Eigenenergies + Util.gpe(instance.Z, instance.APCalculator.Atom.Mass);
         end
-        
-        function Es = Eigenstates(instance)
-            %EIGENSTATES Get eigenstates of the dressed rf calculation.
-            
-            if (instance.Dirty)
-                instance.dirtyError()
-            end
-            
-            Es = instance.mE;
-        end
-        
-        function vectors = get.Eigenvectors(instance)
-            %EIGENVECTORS Get eigenvectors from this linesampler.
-            
-            if (instance.Dirty)
-                instance.dirtyError()
-            end
-            
-            vectors = instance.mEV;
-        end
-        
-        function set.StartB(instance, val)
-            instance.StartB = val;
-            instance.Dirty = 1;
-        end
-        
-        function set.MeshIterations(instance, val)
-            instance.MeshIterations = val;
-            instance.Dirty = 1;
-        end
-        
-        function set.Sort(instance, val)
-            instance.Sort = val;
-            instance.Dirty = 1;
-        end
-        
+
         function set.Theta(instance, val)
             instance.Theta = val;
             instance.Dirty = 1;
@@ -169,6 +90,18 @@ classdef LineSampler < AP.Sampler.QuadrupoleSampler
             instance.Gamma = val;
             instance.Dirty = 1;
         end
+        
+        function [B,theta,gamma] = lambdaToBTG(instance, lambda)
+            B = min(instance.StartB) + (max(instance.StartB)-min(instance.StartB))*lambda;
+            theta = instance.Theta;
+            gamma = instance.Gamma;
+        end
+        
+        function h = IsHorizontal(instance)
+            %ISHORIZONTAL Is the line horizontal? 
+            h = instance.Theta == pi/2;
+        end
+        
         
     end
     

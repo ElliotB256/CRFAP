@@ -1,57 +1,58 @@
 function Sample(instance)
 %SAMPLE Calculate eigenenergies at each B.
 
-B = instance.StartB;
+lambda = instance.InitialLambda;
+lambdaTol = min(diff(lambda));
+
+[B,theta,gamma] = instance.lambdaToBTG(lambda);
 
 if (instance.Verbose)
     fprintf('Calculating initial energies at %d field points.\n', length(B))
 end
 % Calculate first set of eigenvalues at initial points
-[eigE,eigV] = instance.APCalculator.GetDressedEnergies(B, instance.Theta, instance.Gamma);
-
-% Assume: B is uniformly spaced.
-deltaB = instance.StartB(2)-instance.StartB(1);
+[eigE,eigV] = instance.APCalculator.GetDressedEnergies(B, theta, gamma);
 
 for i=1:instance.MeshIterations
-    deltaB = deltaB / 2;
     
-    cB = Util.Refine(B, eigE(1,:));
+    cl = Util.Refine(lambda, eigE(1,:));
     
-    if instance.QuadGrad > 0.0001 && instance.Theta ~= pi/2
+    if instance.QuadGrad > 0.0001 && ~instance.IsHorizontal
         % if Quadrupole gradient is specified then also mesh according to gravity.
         % convert Zeeman splitting into microns, then calculate gpe.
-        % gp = MRF.gpe(B, instance.QuadGrad, 'gF', abs(instance.APCalculator.Atom.gFuB), 'mass', instance.APCalculator.Atom.Mass);
         
         % Get z of each point and apply GPE
-        coords = instance.TransformThetaGamma2XYZ(B, instance.Theta, instance.Gamma);            
+        [B,theta,gamma] = instance.lambdaToBTG(lambda);
+        coords = instance.TransformThetaGamma2XYZ(B, theta, gamma);
         gp = Util.gpe(coords.z, instance.APCalculator.Atom.Mass);
         % Modify eigen energies to account for energy shift
         modEig = eigE + repmat(gp, instance.APCalculator.HilbertSpaceSize, 1);
         
         % Collect unique values suggested from eigenvalues
-        gcB = [];
+        gcl = [];
         for j=1:size(eigE, 1)
-            gcB = [gcB Util.Refine(B, modEig(j,:))];
+            gcl = [gcl Util.Refine(lambda, modEig(j,:))];
         end
-        gcB = uniquetol(gcB, deltaB/20);
+        gcl = uniquetol(gcl, lambdaTol/20);
         
         % Remove duplicate elements
-        cB = Util.UniquePick( B, [ cB gcB ]);
+        cl = Util.UniquePick( lambda, [ cl gcl ]);
     end
     
     % Calculate energies of these new points and add to the list.
-    Bs2 = cB(:)';
+    lambda2 = cl(:)';
     if (instance.Verbose)
-        fprintf('Iteration %d of %d: Calculating meshed energies at %d field points.\n', i, instance.MeshIterations, length(Bs2))
+        fprintf('Iteration %d of %d: Calculating meshed energies at %d field points.\n', i, instance.MeshIterations, length(lambda2))
     end
-    [eigE2,eigV2] = instance.APCalculator.GetDressedEnergies(Bs2, instance.Theta, instance.Gamma);
+    
+    [B,theta,gamma] = instance.lambdaToBTG(lambda2);
+    [eigE2,eigV2] = instance.APCalculator.GetDressedEnergies(B, theta, gamma);
     eigE = [eigE eigE2];
     eigV = cat(3, eigV, eigV2);
-    B = [B Bs2];
+    lambda = [lambda lambda2];
     
     % sort results by B
-    [~,j] = sort(B);
-    B = B(j);
+    [~,j] = sort(lambda);
+    lambda = lambda(j);
     eigE = eigE(:,j);
     eigV = eigV(:,:,j);
     
@@ -61,11 +62,11 @@ instance.UnsortedEigenenergies = eigE;
 
 % Sort eigenvalues using similarity between eigenvectors.
 if (instance.Sort)
-   
+    
     if (instance.Verbose)
         fprintf('Sorting eigenvectors at %d field points.\n', length(B))
     end
-
+    
     eigE2 = zeros(size(eigE));
     eigE2(:,1) = eigE(:,1);
     eigV2 = zeros(size(eigV));
@@ -75,21 +76,21 @@ if (instance.Sort)
     % Sweep across the spatial coordinate. At each point, associate each
     % eigenvector from the previous coordinate with the eigenvector that
     % has the most overlap.
-    % 
+    %
     % Note that we also have to look at the negative of the eigenstates, as
     % the sign can change and it is still really the same eigenstate.
-    % 
+    %
     % Output of sorting will be stored in eigE2.
     
-    for i=2:length(B)
+    for i=2:length(lambda)
         for j=1:size(eigV, 1)
             % determine the eigenstate which is most similar to the previous.
-
+            
             prevState = squeeze(eigV(:,currIndices(j),i-1));
             candidates = eigV(:,:,i);
             difference = @(a,b) sum(conj(a).*b, 1);
             scores = [ difference(repmat(prevState, 1, size(eigV,1)), candidates) difference(repmat(-prevState, 1, size(eigV,1)), candidates)];
-%             scores = difference(repmat(prevState, 1, size(eigV,1)), candidates);
+            %             scores = difference(repmat(prevState, 1, size(eigV,1)), candidates);
             [~,next] = max((scores));
             if next > size(eigV,1)
                 next = next-size(eigV,1);
@@ -120,7 +121,7 @@ if (instance.Sort)
 end
 
 %Store results in sampler object.
-instance.mB = B;
+instance.mLambda = lambda;
 instance.mE = eigE;
 instance.mEV = eigV;
 instance.Dirty = 0;

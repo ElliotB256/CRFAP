@@ -55,6 +55,27 @@ sampler.Sample();
 plot(sampler.Z, sampler.E, '.-');
 xlabel('Z (\mum)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
 
+%% Use of the LineSamplerXYZ
+% In this example we use a LineSampler to calculate dressed eigenenergies
+% along the z-axis, rather than specify the points to calculate manually.
+% This allows us to take advantage of support for meshing and sorting the
+% eigenenergies.
+
+RF = 3; % MHz
+amp = 0.5 / 0.7; % Gauss
+ap = AP.Calculator().CircularPolarised(RF, amp).DontUseParallel();
+ap.Atom.F = 1;
+disp(ap);
+
+sampler = AP.Sampler.LineSamplerXYZ(ap);
+sampler.MeshIterations = 5;
+sampler.Verbose = 1; sampler.QuadGrad = 100;
+sampler.withLinearSpan( [ 0 0 -100 ], [ 0 0 -300 ], 10);
+sampler.Sample();
+
+plot(sampler.Z, sampler.E, '.-');
+xlabel('Z (\mum)'); ylabel('Eigenenergy (MHz)'); set(gcf, 'Color', 'w');
+
 %% MRF: Simple example
 % An example of how to implement multiple RF fields.
 RF  = [ 3.6 3.8 4.0 ]; % MHz
@@ -238,3 +259,4 @@ alpha = 0.7 * QuadGrad; % MHz/cm
 alpha = alpha * 1e6 * 1e2; % Hz/m
 Rabi = BRF * 0.7 * 1e6 * 2 * pi; % rad/s
 f_z = 2 * alpha * (Constants.hbar / (87 * Constants.amu * Rabi)).^0.5
+
