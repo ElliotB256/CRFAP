@@ -18,15 +18,15 @@ classdef (Abstract) AbstractLineSampler < AP.Sampler.QuadrupoleSampler
         %MEV Eigenvectors. Rank 1,2 are eigenvectors, size(EV,3)==length(B)
         mEV = [];
         
-        %INITIALLAMBDA Initial lambda (positions) along line.
-        InitialLambda = [];
-        
     end
     
     properties (SetAccess=protected, GetAccess=public)
         
         %UNSORTEDEIGENENERGIES Get the unsorted eigenenergies
         UnsortedEigenenergies;
+        
+        %INITIALLAMBDA Initial lambda (positions) along line.
+        InitialLambda = [];
         
     end
     
@@ -37,6 +37,11 @@ classdef (Abstract) AbstractLineSampler < AP.Sampler.QuadrupoleSampler
         
         %ENERGIES Get the energies of this z-axis sampler at field points.
         Eigenenergies;
+        
+        Lambda
+        
+        %POTENTIALENERGIES Eigenenergy including gravitational sag
+        PotentialEnergies;
        
     end
     
@@ -80,6 +85,11 @@ classdef (Abstract) AbstractLineSampler < AP.Sampler.QuadrupoleSampler
             Es = instance.mE;
         end
         
+        function Esag = get.PotentialEnergies(instance)
+           %POTENTIALENERGIES Get eigenenergies plus gravitational sag
+            Esag = instance.Eigenenergies + Util.gpe(instance.Z, instance.APCalculator.Atom.Mass);
+        end
+        
         function Es = get.Eigenenergies(instance)
             %EIGENENERGIES Get the energies of this z-axis sampler at field points.
             Es = instance.E;
@@ -113,6 +123,10 @@ classdef (Abstract) AbstractLineSampler < AP.Sampler.QuadrupoleSampler
         function set.Sort(instance, val)
             instance.Sort = val;
             instance.Dirty = 1;
+        end
+        
+        function l = get.Lambda(instance)
+            l = instance.mLambda;
         end
         
     end

@@ -14,9 +14,6 @@ classdef LineSampler < AP.Sampler.AbstractLineSampler
         
         %B Get the field coordinates of this z-axis sampler (MHz).
         B;
-       
-        %POTENTIALENERGIES Eigenenergy including gravitational sag
-        PotentialEnergies;
         
     end
     
@@ -74,11 +71,6 @@ classdef LineSampler < AP.Sampler.AbstractLineSampler
             instance.StartB = val;
             instance.Dirty = 1;
             instance.InitialLambda = (val - min(val))./(max(val)-min(val));
-        end
-        
-        function Esag = get.PotentialEnergies(instance)
-           %POTENTIALENERGIES Get eigenenergies plus gravitational sag
-            Esag = instance.Eigenenergies + Util.gpe(instance.Z, instance.APCalculator.Atom.Mass);
         end
 
         function set.Theta(instance, val)

@@ -9,9 +9,6 @@ classdef LineSamplerXYZ < AP.Sampler.AbstractLineSampler
     
     properties (Dependent)
         
-        %POTENTIALENERGIES Eigenenergy including gravitational sag
-        PotentialEnergies;
-        
     end
     
     properties
@@ -98,7 +95,8 @@ classdef LineSamplerXYZ < AP.Sampler.AbstractLineSampler
             z = z0 + dz*lambda;
             
             B = abs(instance.APCalculator.Atom.gFuB)*(instance.QuadGrad * 1e-4) .* (x.^2 + y.^2 + 4 * z.^2).^0.5;
-            gamma = acos(x ./ (x.^2 + y.^2).^0.5);
+            %gamma = acos(x ./ (x.^2 + y.^2).^0.5);
+            gamma = atan2(y, x);
             theta = acos(2.*z ./ (x.^2 + y.^2 + 4 * z.^2).^0.5);
             
             gamma(isnan(gamma)) = 0; % z-axis
