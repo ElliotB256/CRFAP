@@ -4,6 +4,13 @@ classdef (Abstract) QuadrupoleSampler < AP.Sampler.AbstractSampler & matlab.mixi
     %   x,y,z to rotation angles theta, gamma for the local quantisation
     %   axis.
     
+    properties (SetAccess=protected, GetAccess=protected)
+       
+        %FILEDIRTY Represents the transient property 'Dirty' for save/load.
+        FileDirty;
+        
+    end
+    
     properties (Transient,SetAccess=protected)
         
         %DIRTY The instance is dirty if properties are changed/before calc.
@@ -91,6 +98,25 @@ classdef (Abstract) QuadrupoleSampler < AP.Sampler.AbstractSampler & matlab.mixi
             coords = instance.GetCoords();
             zs = coords.z;
         end
+        
+    end
+    
+    methods (Static)
+       
+        function b = loadobj(a)
+            for i=1:length(a)
+                b(i) = a(i);
+                b(i).Dirty = a(i).FileDirty; 
+            end
+        end
+        
+        function b = saveobj(a)
+            for i=1:length(a)
+                b(i) = a(i);
+                b(i).FileDirty = a(i).Dirty;
+            end
+        end
+        
     end
     
 end
